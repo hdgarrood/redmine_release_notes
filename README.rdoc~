@@ -4,8 +4,7 @@ This is a plugin for release notes.
 
 = install
 
-<ul>
-<li>Download or clone the repository</li>
-<li>Copy to vendor/plugins/redmine_release_notes</li>
-<li>rake db:migrate_plugins RAILS_ENV="production" (assuming you don't want a different environment. If you're not sure, you probably don't)</li>
-<li>rake release_notes:create_custom_fields - this creates the custom fields that this plugin requires to work.</li>
+* Download or clone the repository
+* Copy to vendor/plugins/redmine_release_notes
+* rake db:migrate_plugins RAILS_ENV="production" (assuming you don't want a different environment. If you're not sure, you probably don't)
+* rake release_notes:create_custom_fields - this creates the custom fields that this plugin requires to work.

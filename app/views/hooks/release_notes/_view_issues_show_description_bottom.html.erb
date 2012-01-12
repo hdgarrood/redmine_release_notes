@@ -1,0 +1,20 @@
+<% if @project.enabled_module_names.include? "release_notes" %>
+
+<% @relnotes = issue.release_note %>
+
+<hr />
+
+<div class="contextual">
+  <% if @relnotes %>
+  <%= link_to l(:button_edit), {:controller => 'release_notes', :action => 'edit', :id => @relnotes} %>
+  <% else %>
+  <%= link_to l(:button_add), {:controller => 'release_notes', :action => 'new', :issue_id => issue.id} %>
+  <% end %>
+</div>
+
+<p><strong>Release notes</strong></p>
+<% if @relnotes %>
+<p><%= @relnotes.text.gsub(/\r\n/, "<br />") %></p>
+<% end %>
+
+<% end %>

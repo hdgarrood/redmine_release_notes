@@ -1,0 +1,36 @@
+<h2>Release notes</h2>
+
+<% if @versions.empty? %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
+<div id="roadmap">
+<% @versions.each do |version| %>
+  <% count_release_notes_required = Issue.release_notes_required(version.id).count %>
+  <% count_release_notes_completed = Issue.release_notes_completed(version.id).count %>
+  <% count_release_notes_to_be_done = Issue.release_notes_to_be_done(version.id).count %>
+  <h3 class="version"><%= tag 'a', :name => version.name %><%= link_to_version version %></h3>
+  <%= render :partial => 'release_notes/overview', :locals => {:version => version, :count_release_notes_required => count_release_notes_required, :count_release_notes_completed => count_release_notes_completed, :count_release_notes_to_be_done => count_release_notes_to_be_done, :release_notes_required_cf_id => @release_notes_required_cf_id} %>
+    <%= render(:partial => "wiki/content", :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
+<% end %>
+</div>
+<% end %>
+
+<% content_for :sidebar do %>
+<% form_tag({}, :method => :get) do %>
+<h3>Release notes</h3>
+<label for="completed"><%= check_box_tag "completed", 1, params[:completed] %> Show generated versions</label>
+<% if @project.descendants.active.any? %>
+	<%= hidden_field_tag 'with_subprojects', 0 %>
+  <br /><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label>
+<% end %>
+<%= hidden_field_tag 'project_id', @project.identifier %>
+<p><%= submit_tag l(:button_apply), :class => 'button-small', :name => nil %></p>
+<% end %>
+
+<h3><%= l(:label_version_plural) %></h3>
+<% @versions.each do |version| %>
+<%= link_to format_version_name(version), "##{version.name}" %><br />
+<% end %>
+<% end %>
+
+<% html_title "Release notes" %>

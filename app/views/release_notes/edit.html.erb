@@ -1,0 +1,22 @@
+<h2>Edit release notes</h2>
+
+<p>Editing release notes for <%= link_to_issue @issue %></p>
+<% unless @issue.description.nil? or @issue.description.empty? %>
+<h4>Description</h4>
+<p><%= @issue.description %></p>
+<% end %>
+
+<h4>Release notes</h4>
+<% form_for @release_note do |f| %>
+  <%= f.text_area :text, :size => "100x12" %><br />
+  <%= f.hidden_field :issue_id, :value => @issue.id %>
+  <%= check_box_tag "mark_complete", 1, false %>
+  Mark this issue's release notes as completed?<br />
+  <%= f.submit %>
+<% end %>
+
+<%= button_to "Cancel", "/redmine/issues/show/#{@issue.id}" %>
+
+
+
+<% html_title "Creating release notes" %>

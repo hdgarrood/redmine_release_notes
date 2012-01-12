@@ -8,5 +8,6 @@ This is a plugin for release notes.
 
 * Download or clone the repository
 * Copy to vendor/plugins/redmine_release_notes
-* rake db:migrate_plugins RAILS_ENV="production" (assuming you don't want a different environment. If you're not sure, you probably don't)
+* @rake db:migrate_plugins RAILS_ENV="production"@ (assuming you don't want a different environment. If you're not sure, you probably don't)
+* Restart redmine
 * rake release_notes:create_custom_fields - this creates the custom fields that this plugin requires to work.

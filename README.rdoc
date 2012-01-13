@@ -2,12 +2,12 @@
 
 This is a plugin for release notes.
 
-<b>It's Not Ready Yet!!! No guarantees - this will probably not work, and may mess things up. Only tested in Redmine 1.2.1 so far.</b>
+<b>It's Not Ready Yet!!! This plugin will not always work, and (if you're unlucky) could mess things up. Only tested in Redmine 1.2.1 so far.</b>
 
 = install
 
 * Download or clone the repository
 * Copy to vendor/plugins/redmine_release_notes
-* <code>rake db:migrate_plugins RAILS_ENV="production"</code> (assuming you don't want a different environment. If you're not sure, you probably don't)
+* Do the migrations: <code>rake db:migrate_plugins RAILS_ENV="production"</code>
 * Restart redmine
-* <code>rake release_notes:create_custom_fields</code> - this creates the custom fields that this plugin requires to work.
+* Create custom fields: <code>rake release_notes:create_custom_fields</code>

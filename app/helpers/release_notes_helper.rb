@@ -15,6 +15,7 @@ module ReleaseNotesHelper
 	    if release_notes_required != 'Yes - done'
 		    next
 	    end
+	  end
   end
   
   def comma_format_list(list=nil)

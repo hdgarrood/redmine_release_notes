@@ -21,7 +21,18 @@ class ReleaseNotesController < ApplicationController
 	  release_notes_generated_cf_id = CustomField.find_by_name('Release notes generated').id
 	
 	  # want to reject versions with release notes completed, as opposed to closed versions
-    @versions.reject! {|version| version.custom_values.first(:conditions => { :custom_field_id => release_notes_generated_cf_id }).value == "1" } unless params[:completed]
+	  if !params[:completed]
+      @versions.reject! do |version|
+        cv = version.custom_values.first(:conditions => { :custom_field_id => release_notes_generated_cf_id })
+        if cv
+          # rejects if version is generated
+          cv.value == "1"
+        else
+          # doesn't reject
+          false
+        end
+      end
+    end
       
     @issues_by_version = {}
     @versions.each do |version|

@@ -6,8 +6,9 @@ This is a plugin for release notes.
 
 = Install
 
-Do read the wiki before installing, to avoid getting into a mess: https://github.com/hdgarrood/redmine_release_notes/wiki
+Do {read the wiki}[https://github.com/hdgarrood/redmine_release_notes/wiki] before installing, because otherwise you might get into a bit of a mess.
 
+Steps to install:
 
 * Download or clone the repository
 * Copy to vendor/plugins/redmine_release_notes

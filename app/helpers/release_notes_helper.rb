@@ -2,29 +2,53 @@ module ReleaseNotesHelper
   
   def generate_release_notes(version_id)
     output_str = ""
-	  null_release_notes = []
-	  no_raised_by_data = []
-	  count_release_notes_to_be_done = Issue.release_notes_to_be_done(version_id).count
-	
+    null_release_notes = []
+    count_release_notes_to_be_done = Issue.release_notes_to_be_done(version_id).count
+  
     version = Version.find(version_id)
-	
-	  release_notes_required_field_id = CustomField.find_by_name("Release notes required").id
-	
-	  version.fixed_issues.each do |issue|
-	    release_notes_required = issue.custom_values.find_by_custom_field_id(release_notes_required_field_id).value
-	    if release_notes_required != 'Yes - done'
-		    next
-	    end
-	  end
+  
+    release_notes_required_field_id = CustomField.find_by_name("Release notes required").id
+  
+    version.fixed_issues.each do |issue|
+      release_notes_required = issue.custom_values.find_by_custom_field_id(release_notes_required_field_id).value
+      if release_notes_required != 'Yes - done'
+        next
+      end
+      
+      if issue.release_note
+        output_str << issue.to_s + "\n" + issue.release_note.text + "\n\n"
+      else
+        null_release_notes << issue.id
+      end
+    end
+    
+    if count_release_notes_to_be_done > 0 or null_release_notes != []
+      flash[:warning] = ""
+      if count_release_notes_to_be_done > 0
+        flash[:warning] << "There are #{count_release_notes_to_be_done} issues which still need release notes (#{link_to "show", :action => "index", :controller => "issues", :project_id => @project.identifier, :set_filter => "1", :v => {"fixed_version_id"=>[version_id], "cf_#{release_notes_required_field_id}"=>["Yes - to be done"]}, :op => {"fixed_version_id"=>"=", "cf_#{release_notes_required_field_id}"=>"="}, :f =>["fixed_version_id", "cf_#{release_notes_required_field_id}"]})\n"
+      end
+      if null_release_notes != []
+        flash[:warning] << "There were some issues, with \"Release notes required\" = \"Yes - done\" but with no release notes (<a href=# onclick=\"alert(&quot;Issues with no release notes: #{comma_format_list(null_release_notes)}&quot;)\">show</a>)"
+      end
+    end
+    
+    return output_str
   end
   
-  def comma_format_list(list=nil)
-	  str = ""
+  def generate_release_notes_header(version_id)
+    version = Version.find(version_id)
+    str = ""
+    
+  end
+  
+  def comma_format_list(list)
+    str = ""
       list.each do |item|
-	    str << "#{item}, "
+      str << "#{item}, "
       end
-	  2.times do str.chop! end
+    2.times do str.chop! end
       str << "."
-	  return str
+    return str
   end
 end
+

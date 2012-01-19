@@ -2,11 +2,11 @@
 
 <div style="width:100%;">
 <%= "<h2>Release notes for version #{@version.name}</h2>" %>
-<p>This textarea selects everything inside it when it gains focus, so you can just right-click to bring up the context menu in one go.</p>
 <%= button_to "Mark this version as generated", :action => 'mark_version_as_generated', :id => @version.id %>
 
-<textarea style="width:99.5%; resize:none;" rows="<%= generate_release_notes(@version.id).count("\n") + 9 %>" readonly onFocus="this.select()">
+<% str_generated = generate_release_notes(@version.id) %>
+<textarea style="width:99.5%; resize:none;" rows="<%= str_generated.count("\n") + 9 %>">
 <%= generate_release_notes_header(@version.id) %>
-<%= generate_release_notes(@version.id) %>
+<%= str_generated %>
 </textarea>
 </div>

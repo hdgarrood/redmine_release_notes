@@ -23,12 +23,12 @@ module ReleaseNotesHelper
     end
     
     if count_release_notes_to_be_done > 0 or null_release_notes != []
-      flash[:warning] = ""
+      flash.now[:warning] = ""
       if count_release_notes_to_be_done > 0
-        flash[:warning] << "There are #{count_release_notes_to_be_done} issues which still need release notes (#{link_to "show", :action => "index", :controller => "issues", :project_id => @project.identifier, :set_filter => "1", :v => {"fixed_version_id"=>[version_id], "cf_#{release_notes_required_field_id}"=>["Yes - to be done"]}, :op => {"fixed_version_id"=>"=", "cf_#{release_notes_required_field_id}"=>"="}, :f =>["fixed_version_id", "cf_#{release_notes_required_field_id}"]})\n"
+        flash.now[:warning] << "There #{count_release_notes_to_be_done == 1 ? "is 1 issue which still needs" : "are " + count_release_notes_to_be_done.to_s + "issues which still need"} release notes (#{link_to "show", :action => "index", :controller => "issues", :project_id => @project.identifier, :set_filter => "1", :v => {"fixed_version_id"=>[version_id], "cf_#{release_notes_required_field_id}"=>["Yes - to be done"]}, :op => {"fixed_version_id"=>"=", "cf_#{release_notes_required_field_id}"=>"="}, :f =>["fixed_version_id", "cf_#{release_notes_required_field_id}"]})<br />"
       end
       if null_release_notes != []
-        flash[:warning] << "There were some issues, with \"Release notes required\" = \"Yes - done\" but with no release notes (<a href=# onclick=\"alert(&quot;Issues with no release notes: #{comma_format_list(null_release_notes)}&quot;)\">show</a>)"
+        flash.now[:warning] << "There were some issues, with \"Release notes required\" = \"Yes - done\" but with no release notes (<a href=# onclick=\"alert(&quot;Issues with no release notes: #{comma_format_list(null_release_notes)}&quot;)\">show</a>)"
       end
     end
     

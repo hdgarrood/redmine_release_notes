@@ -38,7 +38,10 @@ module ReleaseNotesHelper
   def generate_release_notes_header(version_id)
     version = Version.find(version_id)
     str = ""
-    
+    str << "Release notes for version #{version.name}"
+    str
+    rescue ActiveRecord::RecordNotFound
+      render_404
   end
   
   def comma_format_list(list)

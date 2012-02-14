@@ -12,9 +12,9 @@ Dispatcher.to_prepare :redmine_release_notes do
 end
 
 Redmine::Plugin.register :redmine_release_notes do
-  name 'Redmine Release Notes plugin'
-  author 'Harry'
-  description 'This is a plugin for Redmine'
+  name 'Redmine release notes plugin'
+  author 'Harry Garrood'
+  description 'A plugin for managing release notes.'
   version '0.0.5'
   
   project_module :release_notes do

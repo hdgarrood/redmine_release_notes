@@ -15,7 +15,7 @@ Redmine::Plugin.register :redmine_release_notes do
   name 'Redmine Release Notes plugin'
   author 'Harry'
   description 'This is a plugin for Redmine'
-  version '0.0.1'
+  version '0.0.5'
   
   project_module :release_notes do
     permission :release_notes, { :release_notes => [:index, :new, :generate, :mark_version_as_generated] }, :public => true

@@ -6,7 +6,8 @@
 
 <div class="contextual">
   <% if @relnotes %>
-  <%= link_to l(:button_edit), {:controller => 'release_notes', :action => 'edit', :id => @relnotes} %>
+  <%= link_to l(:button_edit), {:controller => 'release_notes', :action => 'edit', :id => @relnotes} %> |
+  <%= link_to l(:button_delete), {:controller => 'release_notes', :action => 'delete', :id => @relnotes} %>
   <% else %>
   <%= link_to l(:button_add), {:controller => 'release_notes', :action => 'new', :issue_id => issue.id} %>
   <% end %>

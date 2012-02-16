@@ -105,6 +105,13 @@ class ReleaseNotesController < ApplicationController
   	  render_404
   end
   
+  def delete
+    release_note = ReleaseNote.find(params[:id])
+	issue_id = release_note.issue_id
+    release_note.destroy
+	redirect_to :action => 'show', :controller => 'issues', :id => issue_id
+  end
+  
   def generate
     @project = @version.project
   end

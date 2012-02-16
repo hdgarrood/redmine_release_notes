@@ -47,10 +47,10 @@ The plugin also adds a project module.
 * Show a list of versions with release notes completion per version. This is based on the Roadmap page, and can be accessed by clicking on the Release notes tab on the project menu.
 * Generate release notes per version. This can be done from the above page.
 
-### Planned featurs
+### Planned features
 
 * Generated release notes in different formats:
-** HTML
-** Textile
-** Markdown
-** And more... (maybe)
+  * HTML
+  * Textile
+  * Markdown
+  * And more... (maybe)

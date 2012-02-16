@@ -38,7 +38,7 @@ module ReleaseNotesHelper
   def generate_release_notes_header(version_id)
     version = Version.find(version_id)
     str = ""
-    str << "Release notes for version #{version.name}"
+    str << "Release notes for version #{version.name}\n"
     str
     rescue ActiveRecord::RecordNotFound
       render_404

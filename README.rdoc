@@ -2,8 +2,6 @@
 
 This is a plugin for release notes.
 
-<b>Warning: This isn't quite ready for production use. Only tested in Redmine 1.2.1 so far.</b>
-
 = Install
 
 Do {read the wiki}[https://github.com/hdgarrood/redmine_release_notes/wiki/release-notes-for-redmine] before installing, because otherwise you might get into a bit of a mess.

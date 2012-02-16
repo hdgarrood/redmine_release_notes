@@ -1,7 +1,24 @@
+# Redmine release notes
+
 This plugin is designed for projects where:
 
 1. The redmine instance is not public, but developers need to be able to produce release notes for the users
 2. The roadmap is insufficient - more detailed information than an issue's subject is required.
+
+## Features
+
+* Create/edit/update/delete release notes per issue. This is done from the issue's "show" page (ie, what you go to after entering its ID in the search box). A new section should appear below the issue's description, showing the release notes, and giving links to add/edit/delete
+* Show a list of versions with release notes completion per version. This is based on the Roadmap page, and can be accessed by clicking on the Release notes tab on the project menu.
+* Generate release notes per version. This can be done from the above page.
+
+### Planned features
+
+* Generated release notes in different formats:
+  * HTML
+  * Textile
+  * Markdown
+  * And more... (maybe)
+
 
 ## Getting started
 
@@ -40,17 +57,3 @@ The plugin also adds a project module.
 * enable the module
 * enable the release notes custom fields for the project
 * enable the release notes custom fields for the appropriate trackers
-
-## Features
-
-* Create/edit/update/delete release notes per issue. This is done from the issue's "show" page (ie, what you go to after entering its ID in the search box). A new section should appear below the issue's description, showing the release notes, and giving links to add/edit/delete
-* Show a list of versions with release notes completion per version. This is based on the Roadmap page, and can be accessed by clicking on the Release notes tab on the project menu.
-* Generate release notes per version. This can be done from the above page.
-
-### Planned features
-
-* Generated release notes in different formats:
-  * HTML
-  * Textile
-  * Markdown
-  * And more... (maybe)

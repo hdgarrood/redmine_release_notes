@@ -16,6 +16,7 @@ Redmine::Plugin.register :redmine_release_notes do
   author 'Harry Garrood'
   description 'A plugin for managing release notes.'
   version '0.0.5'
+  author_url 'https://github.com/hdgarrood'
   
   project_module :release_notes do
     permission :release_notes, { :release_notes => [:index, :new, :generate, :mark_version_as_generated] }, :public => true

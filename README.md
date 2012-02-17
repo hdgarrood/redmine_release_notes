@@ -18,7 +18,7 @@ This plugin is designed for projects where:
   * Textile
   * Markdown
   * And more... (maybe)
-
+* Localization
 
 ## Getting started
 

@@ -20,7 +20,7 @@
 <h3>Release notes</h3>
 <label for="completed"><%= check_box_tag "completed", 1, params[:completed] %> Show generated versions</label>
 <% if @project.descendants.active.any? %>
-	<%= hidden_field_tag 'with_subprojects', 0 %>
+    <%= hidden_field_tag 'with_subprojects', 0 %>
   <br /><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label>
 <% end %>
 <%= hidden_field_tag 'project_id', @project.identifier %>

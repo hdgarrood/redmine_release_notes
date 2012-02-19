@@ -8,7 +8,7 @@ class ReleaseNotesController < ApplicationController
   
   def index
     # Pretty much copied from VersionsController#index
-	  @project = Project.find(params[:project_id])
+      @project = Project.find(params[:project_id])
 
     @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
     project_ids = @with_subprojects ? @project.self_and_descendants.collect(&:id) : [@project.id]
@@ -17,11 +17,11 @@ class ReleaseNotesController < ApplicationController
     @versions += @project.rolled_up_versions.visible if @with_subprojects
     @versions = @versions.uniq.sort
       
-	  # Find the custom field id for release notes generated
-	  release_notes_generated_cf_id = CustomField.find_by_name('Release notes generated').id
-	
-	  # want to reject versions with release notes completed, as opposed to closed versions
-	  if !params[:completed]
+      # Find the custom field id for release notes generated
+      release_notes_generated_cf_id = CustomField.find_by_name('Release notes generated').id
+    
+      # want to reject versions with release notes completed, as opposed to closed versions
+      if !params[:completed]
       @versions.reject! do |version|
         cv = version.custom_values.first(:conditions => { :custom_field_id => release_notes_generated_cf_id })
         if cv
@@ -44,72 +44,72 @@ class ReleaseNotesController < ApplicationController
     end
     
     @versions.reject! {|version| !project_ids.include?(version.project_id) && @issues_by_version[version].blank?}
-	
-	  @release_notes_required_cf_id = CustomField.find_by_name("Release notes required").id
+    
+      @release_notes_required_cf_id = CustomField.find_by_name("Release notes required").id
   end
   
   def new
     @issue = Issue.find(params[:issue_id])
-	  @project = @issue.project
-	
-	  @release_note = ReleaseNote.new
-	  @issue.release_note = @release_note
+      @project = @issue.project
+    
+      @release_note = ReleaseNote.new
+      @issue.release_note = @release_note
     render :action => 'edit'
-	  rescue ActiveRecord::RecordNotFound
-	    render_404
+      rescue ActiveRecord::RecordNotFound
+        render_404
   end
   
   def edit
     @release_note = ReleaseNote.find(params[:id])
-	  @issue = @release_note.issue
-	  @project = @issue.project
-	  rescue ActiveRecord::RecordNotFound
-  	  render_404
+      @issue = @release_note.issue
+      @project = @issue.project
+      rescue ActiveRecord::RecordNotFound
+        render_404
   end
   
   def create
     @release_note = ReleaseNote.create(:text => params[:release_note][:text])
     @issue = Issue.find(params[:release_note][:issue_id])
-	  @issue.release_note = @release_note
-	
+    @issue.release_note = @release_note
+    
     if @issue.save
-	    if params[:mark_complete] == '1'
-	      update_custom_field
-	    end
-	  redirect_to :controller => 'issues', :action => 'show', :id => @issue.id
-	  else
-	    render :action => 'edit', :id => params[:release_note][:id]
-	    flash.now[:error] = "Failed to save. Does the issue still exist?"
+        if params[:mark_complete] == '1'
+          update_custom_field
+        end
+      redirect_to :controller => 'issues', :action => 'show', :id => @issue.id
+      else
+        render :action => 'edit', :id => params[:release_note][:id]
+        flash.now[:error] = "Failed to save. Does the issue still exist?"
     end
-	  rescue ActiveRecord::RecordNotFound
-	    render_404
+      rescue ActiveRecord::RecordNotFound
+        render_404
   end
   
   def update
-    release_note = ReleaseNote.find(params[:id])
-    release_note.text = params[:release_note][:text]
-    if release_note.save
+    @release_note = ReleaseNote.find(params[:id])
+    @release_note.text = params[:release_note][:text]
+    if @release_note.save
       flash[:notice] = "Successfully saved."
     else
       flash[:error] = "Failed to save."
       redirect_to :action => "edit", :id => params[:id]
     end
     
-	  if params[:mark_complete] == '1'
-	    update_custom_field
-	  end
-	  
-	  redirect_to :controller => 'issues', :action => 'show', :id => release_note.issue.id
-	  
+      if params[:mark_complete] == '1'
+        update_custom_field
+      end
+      
+      redirect_to :controller => 'issues', :action => 'show', :id => @release_note.issue.id and return
+      
     rescue ActiveRecord::RecordNotFound
-  	  render_404
+        render_404
   end
   
   def delete
     release_note = ReleaseNote.find(params[:id])
-	issue_id = release_note.issue_id
+    issue_id = release_note.issue_id
     release_note.destroy
-	redirect_to :action => 'show', :controller => 'issues', :id => issue_id
+    redirect_to :action => 'show', :controller => 'issues', :id => issue_id
   end
   
   def generate
@@ -120,14 +120,14 @@ class ReleaseNotesController < ApplicationController
     @project = @version.project
     generated_field_id = CustomField.find_by_name("Release notes generated")
     custom_value = @version.custom_values.find_by_custom_field_id(generated_field_id)
-  	custom_value.value = 1
+      custom_value.value = 1
     if custom_value.save
-  	  flash.now[:notice] = "Version updated."
-	  else
-	    flash.now[:error] = "Failed to save version."
-	  end
-	  rescue ActiveRecord::RecordNotFound
-	    flash.now[:error] = "Couldn't find the custom field for versions - release notes generated"
+        flash.now[:notice] = "Version updated."
+      else
+        flash.now[:error] = "Failed to save version."
+      end
+      rescue ActiveRecord::RecordNotFound
+        flash.now[:error] = "Couldn't find the custom field for versions - release notes generated"
   end
   
  private  
@@ -139,23 +139,29 @@ class ReleaseNotesController < ApplicationController
   
   # Set the value of the release notes custom issue field to 'Yes - done' if the user wanted to
   def update_custom_field
-	  release_notes_required_field_id = CustomField.find_by_name("Release notes required").id
-	  custom_values = @release_note.issue.custom_values.find_by_custom_field_id(release_notes_required_field_id)
-    if custom_values.value != 'Yes - done'
-	    custom_values.value = 'Yes - done'
-      if custom_values.save
-    	  journal = @release_note.issue.init_journal(User.current)
-	      journal.details << JournalDetail.new(:property => 'cf',
-	                                          :prop_key => release_notes_required_field_id,
-										                        :old_value => 'Yes - to be done',
-                  										      :value => 'Yes - done')
-          if journal.save == false
-      		  flash[:warning] = "Failed to save Release notes required field update in issue history."
-	      	end  
-	      else
-	        flash[:warning] = "Failed to save value for field: Release notes required."
-	      end
-	  end
+    release_notes_required_field_id = CustomField.find_by_name("Release notes required").id
+    custom_value = @release_note.issue.custom_values.find_by_custom_field_id(release_notes_required_field_id)
+
+    if !custom_value
+      flash[:error] = "Failed to find the custom field value for this issue. Have you set this project up for release notes properly?"
+      return
+    end
+    
+    if custom_value.value != 'Yes - done'
+      custom_value.value = 'Yes - done'
+      if custom_value.save
+        journal = @release_note.issue.init_journal(User.current)
+        journal.details << JournalDetail.new(:property => 'cf',
+                                             :prop_key => release_notes_required_field_id,
+                                             :old_value => 'Yes - to be done',
+                                             :value => 'Yes - done')
+        if journal.save == false
+          flash[:error] = "Failed to save Release notes required field update in issue history."
+        end  
+      else
+        flash[:error] = "Failed to save value for field: Release notes required."
+      end
+    end
   end
   
 end

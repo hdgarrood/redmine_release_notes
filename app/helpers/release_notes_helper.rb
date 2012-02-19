@@ -10,7 +10,13 @@ module ReleaseNotesHelper
     release_notes_required_field_id = CustomField.find_by_name("Release notes required").id
   
     version.fixed_issues.each do |issue|
-      release_notes_required = issue.custom_values.find_by_custom_field_id(release_notes_required_field_id).value
+
+      release_notes_required_field = issue.custom_values.find_by_custom_field_id(release_notes_required_field_id)
+      if !release_notes_required_field
+        next
+      end
+
+      release_notes_required = release_notes_required_field.value
       if release_notes_required != 'Yes - done'
         next
       end

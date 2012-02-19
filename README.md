@@ -18,7 +18,7 @@ This plugin is designed for projects where:
   * Textile
   * Markdown
   * And more... (maybe)
-
+* Localization
 
 ## Getting started
 
@@ -41,6 +41,7 @@ The plugin detects completion of release notes by looking at the value of a cust
 * Yes - to be done
 * Yes - done
 
+Of course, this means that you can't rename this field once you've created it.
 If you don't have a custom field like this, you can simply do:
 
 <code>rake create_release_notes_custom_fields [RAILS_ENV="production|development..."]</code>
@@ -49,9 +50,9 @@ and the plugin will do it for you. If you do, alter it so that it can take these
 
 The plugin also assumes that a boolean custom field for versions exists, called "Release notes generated", which should indicate whether the release notes have been finished and generated. When set to true, the version will no longer appear in the release notes index unless the "Show generated versions" is checked. That's all it does.
 
-The rake task will also do this for you.
+The rake task will also do this for you. Again, don't rename this field.
 
-The plugin also adds a project module.
+The plugin also adds a project module, so that it can be enabled per project.
 
 ### To use the plugin for a project:
 * enable the module

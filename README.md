@@ -9,7 +9,7 @@ This plugin is designed for projects where:
 
 * Create/edit/update/delete release notes per issue. This is done from the issue's "show" page (ie, what you go to after entering its ID in the search box). A new section should appear below the issue's description, showing the release notes, and giving links to add/edit/delete
 * Show a list of versions with release notes completion per version. This is based on the Roadmap page, and can be accessed by clicking on the Release notes tab on the project menu.
-* Generate release notes per version. This can be  from the above page.
+* Generate release notes per version. This can be done from the above page.
 
 ### Planned features
 

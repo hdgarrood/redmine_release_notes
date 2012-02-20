@@ -59,4 +59,6 @@ The plugin also adds a project module, so that it can be enabled per project.
 * enable the release notes custom fields for the project
 * enable the release notes custom fields for the appropriate trackers
 
+**Each of these steps is essential to the plugin working correctly!**
+
 Have a look at the [usage guide](https://github.com/hdgarrood/redmine_release_notes/wiki/Usage-Guide) for more info.

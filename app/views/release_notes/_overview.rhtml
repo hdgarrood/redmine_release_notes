@@ -43,7 +43,10 @@
           
           &#160;|&#160;
           <%= link_to "Generate release notes", { :controller => 'release_notes', :action => 'generate', :id => version.id } %>
-        <% end %>
+        <% else %>
+	  &#160;|&#160;
+	  <%= link_to "Mark this version as generated", { :controller => 'release_notes', :action => 'mark_version_as_generated', :id => version.id } %>
+	<% end %>
     </p>
 <% else %>
     <p><em><%= l(:label_roadmap_no_issues) %></em></p>

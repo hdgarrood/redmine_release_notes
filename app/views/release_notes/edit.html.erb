@@ -10,8 +10,8 @@
 <% form_for @release_note do |f| %>
   <%= f.text_area :text, :size => "100x12" %><br />
   <%= f.hidden_field :issue_id, :value => @issue.id %>
-  <%= check_box_tag "mark_complete", 1, false %>
-  Mark this issue's release notes as completed?<br />
+  <%= check_box_tag :mark_complete, 1, false %>
+  <%= label(:mark, :complete, "Mark this issue's release notes as completed?") %><br />
   <%= f.submit %>
 <% end %>
 

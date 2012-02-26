@@ -13,11 +13,11 @@ This plugin is designed for projects where:
 
 ### Planned features
 
-* Generated release notes in different formats:
-  * HTML
-  * Textile
-  * Markdown
-  * And more... (maybe)
+* Custom formats for creating release notes
+ * E.g. you could put in something like:
+     <h1><<ISSUE SUBJECT>></h1><br>
+     <p><<ISSUE RELEASE NOTES>></p>
+   and have it generate HTML for you.
 * Localization
 
 ## Getting started

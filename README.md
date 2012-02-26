@@ -15,7 +15,7 @@ This plugin is designed for projects where:
 
 * Custom formats for creating release notes
  * E.g. you could put in something like:
-     <pre>\<h1\>\<\<ISSUE SUBJECT\>\>\</h1\>\<br\>
+     <pre>\<h3\>\<\<ISSUE SUBJECT\>\>\</h3\>\<br\>
      \<p\>\<\<ISSUE RELEASE NOTES\>\>\</p\></pre>
    and have it generate HTML for you.
 * Localization

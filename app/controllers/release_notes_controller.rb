@@ -61,10 +61,10 @@ class ReleaseNotesController < ApplicationController
   
   def edit
     @release_note = ReleaseNote.find(params[:id])
-      @issue = @release_note.issue
-      @project = @issue.project
-      rescue ActiveRecord::RecordNotFound
-        render_404
+    @issue = @release_note.issue
+    @project = @issue.project
+    rescue ActiveRecord::RecordNotFound
+      render_404
   end
   
   def create
@@ -73,16 +73,16 @@ class ReleaseNotesController < ApplicationController
     @issue.release_note = @release_note
     
     if @issue.save
-        if params[:mark_complete] == '1'
-          update_custom_field
-        end
+      if params[:mark_complete] == '1'
+        update_custom_field
+      end
       redirect_to :controller => 'issues', :action => 'show', :id => @issue.id
-      else
-        render :action => 'edit', :id => params[:release_note][:id]
-        flash.now[:error] = "Failed to save. Does the issue still exist?"
+    else
+      render :action => 'edit', :id => params[:release_note][:id]
+      flash.now[:error] = "Failed to save. Does the issue still exist?"
     end
-      rescue ActiveRecord::RecordNotFound
-        render_404
+    rescue ActiveRecord::RecordNotFound
+      render_404
   end
   
   def update
@@ -91,18 +91,25 @@ class ReleaseNotesController < ApplicationController
     if @release_note.save
       flash[:notice] = "Successfully saved."
     else
-      flash[:error] = "Failed to save."
+      error_str = ""
+      @release_note.errors.each do |attr,msg|
+        error_str << "#{attr} - #{msg}, "
+      end
+      error_str.chop!.chop!
+      flash[:error] = "Failed to save. " + error_str
       redirect_to :action => "edit", :id => params[:id]
+      return
     end
     
-      if params[:mark_complete] == '1'
-        update_custom_field
-      end
+    if params[:mark_complete] == '1'
+      update_custom_field
+    end
       
-      redirect_to :controller => 'issues', :action => 'show', :id => @release_note.issue.id and return
+      redirect_to :controller => 'issues', :action => 'show', :id => @release_note.issue.id
+    return
       
     rescue ActiveRecord::RecordNotFound
-        render_404
+      render_404
   end
   
   def delete

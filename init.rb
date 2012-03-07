@@ -7,7 +7,7 @@ Dispatcher.to_prepare :redmine_release_notes do
   require_dependency 'issue'
   
   unless Issue.included_modules.include?(RedmineReleaseNotes::IssuePatch)
-      Issue.send(:include, RedmineReleaseNotes::IssuePatch)
+    Issue.send(:include, RedmineReleaseNotes::IssuePatch)
   end
 end
 

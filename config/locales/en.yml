@@ -1,3 +1,13 @@
 # English strings go here for Rails i18n
 en:
-  my_label: "My label"
+  release_note: "Release note"
+  release_notes_required: "Release notes required"
+  release_notes_generated: "Release notes generated"
+  failed_find_custom_value: "Failed to find the custom field value for this issue. Have you set this project up for release notes properly?"
+  failed_find_custom_field: "Failed to find the custom field: %{field}"
+  failed_update_issue_history: "Failed to save %{field} field update in issue history."
+  failed_save_field_value: "Failed to save value for field: %{field}."
+  release_note_done: "Yes - done"
+  release_note_to_be_done: "Yes - to be done"
+  release_note_not_applicable: "No - not applicable"
+  

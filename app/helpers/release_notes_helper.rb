@@ -33,10 +33,15 @@ module ReleaseNotesHelper
     if (count_release_notes_to_be_done > 0) || (null_release_notes != [])
       flash.now[:warning] = ""
       if count_release_notes_to_be_done > 0
-        flash.now[:warning] << "There #{count_release_notes_to_be_done == 1 ? "is 1 issue which still needs" : "are " + count_release_notes_to_be_done.to_s + "issues which still need"} release notes (#{link_to "show", :action => "index", :controller => "issues", :project_id => @project.identifier, :set_filter => "1", :v => {"fixed_version_id"=>[version_id], "cf_#{release_notes_required_field_id}"=>["Yes - to be done"]}, :op => {"fixed_version_id"=>"=", "cf_#{release_notes_required_field_id}"=>"="}, :f =>["fixed_version_id", "cf_#{release_notes_required_field_id}"]})<br />"
+        flash.now[:warning] << l('some_issues_not_finished.' + (count_release_notes_to_be_done == 1 ? 'one' : 'other'),
+                                    :count => count_release_notes_to_be_done)
+        flash.now[:warning] << " " + get_release_notes_to_be_done_link
       end
       if null_release_notes != []
-        flash.now[:warning] << l(:some_issues_no_release_notes_html, :list => comma_format_list(null_release_notes))
+        flash.now[:warning] << l(:some_issues_no_release_notes_html,
+                                :list => comma_format_list(null_release_notes),
+                                :field => CONFIG['issue_required_field'],
+                                :value => CONFIG['field_value_done'])
       end
     end
     
@@ -60,6 +65,22 @@ module ReleaseNotesHelper
     2.times do str.chop! end
       str << "."
     return str
+  end
+  
+  def get_release_notes_to_be_done_link
+    str = link_to "show",
+                :action => "index",
+                :controller => "issues",
+                :project_id => @project.identifier,
+                :set_filter => "1",
+                :v => {"fixed_version_id"=>[version_id],
+                       "cf_#{release_notes_required_field_id}"=>[CONFIG['field_value_to_be_done']]},
+                :op => {"fixed_version_id"=>"=",
+                        "cf_#{release_notes_required_field_id}"=>"="},
+                :f =>["fixed_version_id",
+                      "cf_#{release_notes_required_field_id}"]
+                
+    return "(" + str + ")<br>"
   end
 end
 

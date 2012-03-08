@@ -18,7 +18,7 @@ class ReleaseNotesController < ApplicationController
     @versions = @versions.uniq.sort
       
     # Find the custom field id for release notes generated
-    release_notes_generated_cf_id = CustomField.find_by_name(l(:release_notes_generated)).id
+    release_notes_generated_cf_id = CustomField.find_by_name(ReleaseNotesHelper::CONFIG['version_generated_field']).id
     
     # want to reject versions with release notes completed, as opposed to closed versions
     if !params[:completed]
@@ -45,7 +45,7 @@ class ReleaseNotesController < ApplicationController
     
     @versions.reject! {|version| !project_ids.include?(version.project_id) && @issues_by_version[version].blank?}
     
-    @release_notes_required_cf_id = CustomField.find_by_name(l(:release_notes_required)).id
+    @release_notes_required_cf_id = CustomField.find_by_name(ReleaseNotesHelper::CONFIG['issue_required_field']).id
   end
   
   def new
@@ -124,7 +124,7 @@ class ReleaseNotesController < ApplicationController
   
   def mark_version_as_generated
     @project = @version.project
-    generated_field_id = CustomField.find_by_name(l(:release_notes_generated))
+    generated_field_id = CustomField.find_by_name(ReleaseNotesHelper::CONFIG['version_generated_field'])
     custom_value = @version.custom_values.find_by_custom_field_id(generated_field_id)
     custom_value.value = 1
     if custom_value.save
@@ -134,7 +134,7 @@ class ReleaseNotesController < ApplicationController
       flash.now[:error] = error_str
     end
   rescue ActiveRecord::RecordNotFound
-    flash.now[:error] = l(:failed_find_custom_field, :field => l(:release_notes_generated))
+    flash.now[:error] = l(:failed_find_custom_field, :field => ReleaseNotesHelper::CONFIG['version_generated_field'])
   end
   
  private  
@@ -146,7 +146,7 @@ class ReleaseNotesController < ApplicationController
   
   # Set the value of the release notes custom issue field to 'Yes - done' if the user wanted to
   def update_custom_field
-    release_notes_required_field_id = CustomField.find_by_name(l(:release_notes_required)).id
+    release_notes_required_field_id = CustomField.find_by_name(ReleaseNotesHelper::CONFIG['issue_required_field']).id
     custom_value = @release_note.issue.custom_values.find_by_custom_field_id(release_notes_required_field_id)
 
     if !custom_value
@@ -154,19 +154,19 @@ class ReleaseNotesController < ApplicationController
       return
     end
     
-    if custom_value.value != l(:release_note_done)
-      custom_value.value = l(:release_note_done)
+    if custom_value.value != ReleaseNotesHelper::CONFIG['field_value_done']
+      custom_value.value = ReleaseNotesHelper::CONFIG['field_value_done']
       if custom_value.save
         journal = @release_note.issue.init_journal(User.current)
         journal.details << JournalDetail.new(:property => 'cf',
                                              :prop_key => release_notes_required_field_id,
-                                             :old_value => l(:release_note_to_be_done),
-                                             :value => l(:release_note_done))
+                                             :old_value => ReleaseNotesHelper::CONFIG['field_value_to_be_done'],
+                                             :value => ReleaseNotesHelper::CONFIG['field_value_done'])
         if journal.save == false
-          flash[:error] = l(:failed_update_issue_history, l(:release_notes_required).downcase)
+          flash[:error] = l(:failed_update_issue_history, ReleaseNotesHelper::CONFIG['issue_required_field'].downcase)
         end  
       else
-        flash[:error] = l(:failed_save_field_value, l(:release_notes_required).downcase)
+        flash[:error] = l(:failed_save_field_value, ReleaseNotesHelper::CONFIG['issue_required_field'].downcase)
       end
     end
   end

@@ -11,3 +11,4 @@ en:
   release_note_to_be_done: "Yes - to be done"
   release_note_not_applicable: "No - not applicable"
   
+  some_issues_no_release_notes_html: "There were some issues, with \"Release notes required\" = \"Yes - done\" but with no release notes (<a href=# onclick=\"alert(&quot;Issues with no release notes: %{list}&quot;)\">show</a>)"

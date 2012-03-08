@@ -7,7 +7,7 @@ module ReleaseNotesHelper
   
     version = Version.find(version_id)
   
-    release_notes_required_field_id = CustomField.find_by_name("Release notes required").id
+    release_notes_required_field_id = CustomField.find_by_name(l(:release_notes_required)).id
   
     version.fixed_issues.each do |issue|
 
@@ -17,7 +17,7 @@ module ReleaseNotesHelper
       end
 
       release_notes_required = release_notes_required_field.value
-      if release_notes_required != 'Yes - done'
+      if release_notes_required != l(:release_note_to_be_done)
         next
       end
       
@@ -34,7 +34,8 @@ module ReleaseNotesHelper
         flash.now[:warning] << "There #{count_release_notes_to_be_done == 1 ? "is 1 issue which still needs" : "are " + count_release_notes_to_be_done.to_s + "issues which still need"} release notes (#{link_to "show", :action => "index", :controller => "issues", :project_id => @project.identifier, :set_filter => "1", :v => {"fixed_version_id"=>[version_id], "cf_#{release_notes_required_field_id}"=>["Yes - to be done"]}, :op => {"fixed_version_id"=>"=", "cf_#{release_notes_required_field_id}"=>"="}, :f =>["fixed_version_id", "cf_#{release_notes_required_field_id}"]})<br />"
       end
       if null_release_notes != []
-        flash.now[:warning] << "There were some issues, with \"Release notes required\" = \"Yes - done\" but with no release notes (<a href=# onclick=\"alert(&quot;Issues with no release notes: #{comma_format_list(null_release_notes)}&quot;)\">show</a>)"
+        logger.info "null release notes = #{null_release_notes.to_s}"
+        flash.now[:warning] << l(:some_issues_no_release_notes_html, :list => comma_format_list(null_release_notes))
       end
     end
     

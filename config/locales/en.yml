@@ -1,4 +1,3 @@
-# English strings go here for Rails i18n
 en:
   release_note: "Release note"
   release_notes_required: "Release notes required"

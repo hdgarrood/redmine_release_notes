@@ -10,4 +10,12 @@ en:
   release_note_to_be_done: "Yes - to be done"
   release_note_not_applicable: "No - not applicable"
   
-  some_issues_no_release_notes_html: "There were some issues, with \"Release notes required\" = \"Yes - done\" but with no release notes (<a href=# onclick=\"alert(&quot;Issues with no release notes: %{list}&quot;)\">show</a>)"
+  some_issues_no_release_notes_html: "There were some issues, with \"%{field}\" = \"%{value}\" but with no release notes (<a href=# onclick=\"alert(&quot;Issues with no release notes: %{list}&quot;)\">show</a>)"
+  
+  some_issues_not_finished:
+    one: "There are %{count} issues which still need release notes"
+    other: "There is 1 issue which still needs release notes"
+
+  x_issues_in_total: "%{count} issues in total"
+  issues_requiring_release_notes: "%{count} requiring release notes"
+  

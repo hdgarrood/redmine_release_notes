@@ -3,6 +3,7 @@ en:
   release_note_plural: "Release notes"
   
   generate_release_notes: "Generate release notes"
+  generate_title: "Release notes for version %{version}"
   mark_version_as_generated: "Mark this version as generated"
   edit_release_notes: "Editing release notes for"
   mark_release_notes_complete: "Mark this issue's release notes as completed?"

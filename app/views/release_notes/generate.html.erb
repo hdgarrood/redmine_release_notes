@@ -4,7 +4,7 @@
 <h2><%= l(:generate_title, :version => @version.name) %></h2>
 <%= button_to l(:mark_version_as_generated), :action => 'mark_version_as_generated', :id => @version.id %>
 
-<% str_generated = generate_release_notes_header(@version.id) + "\n" + generate_release_notes(@version.id) %>
+<% str_generated = generate_release_notes_header(@version.id, @formats[@format]) + "\n" + generate_release_notes(@version.id, @formats[@format]) %>
 
 <textarea style="width:99.5%; resize:none;" rows="<%= str_generated.count("\n") + 3 %>">
 <%= str_generated %>

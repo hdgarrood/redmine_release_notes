@@ -1,0 +1,30 @@
+# You don't need to restart Redmine after modifying this file.
+
+# Set the default format in config.yml
+
+# New formats should be added in the same style as the ones already here.
+# They should appear in Redmine automatically.
+# Variables are:
+
+#   header:
+#       name
+#       date
+#   each_issue:
+#       subject
+#       release_notes
+
+# If you want more, you'll have to modify release_notes_helper.rb
+# You might even consider forking hdgarrood/redmine_release_notes
+# on github.
+
+HTML:
+    header: "<h2>Release notes for version %{name}</h2>"
+    start: "<ul>"
+    each_issue: "<li><b>%{subject}</b>: %{release_notes}</li>"
+    end: "</ul>"
+    
+Textile:
+   header: "h2. Release notes for version %{name}"
+   start: ""
+   each_issue: "* *%{subject}*: %{release_notes}"
+   end: ""

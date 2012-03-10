@@ -14,6 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_release_notes.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'yaml'
+
 class ReleaseNotesController < ApplicationController
   unloadable
   
@@ -140,6 +142,8 @@ class ReleaseNotesController < ApplicationController
   
   def generate
     @project = @version.project
+    @format = params[:release_notes_format] or ReleaseNotesHelper::CONFIG['default_generation_format']
+    @formats = YAML.load_file("#{RAILS_ROOT}/vendor/plugins/redmine_release_notes/config/formats.yml")
   end
   
   def mark_version_as_generated

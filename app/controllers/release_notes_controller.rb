@@ -127,11 +127,15 @@ class ReleaseNotesController < ApplicationController
   end
   
   def destroy
-    release_note = ReleaseNote.find(params[:id])
-    issue_id = release_note.issue_id
-    release_note.destroy
-    redirect_to :action => 'show', :controller => 'issues', :id => issue_id
-    flash[:notice] = l(:notice_successful_delete)
+    if request.delete?
+      release_note = ReleaseNote.find(params[:id])
+      issue_id = release_note.issue_id
+      release_note.destroy
+      redirect_to :action => 'show', :controller => 'issues', :id => issue_id
+      flash[:notice] = l(:notice_successful_delete)
+    else
+      render_403
+    end
   end
   
   def generate

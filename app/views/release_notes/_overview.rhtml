@@ -32,37 +32,52 @@
         
         &#160;|&#160;
          <%= link_to_if count_release_notes_required > 0,
-            l(:issues_requiring_release_notes, :count => count_release_notes_required),
+            l(:x_requiring_release_notes, :count => count_release_notes_required),
             :action => "index",
             :controller => "issues",
             :project_id => @project.identifier,
             :set_filter => "1",
             :v => {"fixed_version_id"=>[version.id],
                 "cf_#{release_notes_required_cf_id}"=>[ReleaseNotesHelper::CONFIG['field_value_not_required']]},
-            :op => {"fixed_version_id"=>"=",
-                "cf_#{release_notes_required_cf_id}"=>"!"},
+            :op => {"fixed_version_id"=>"=", "cf_#{release_notes_required_cf_id}"=>"!"},
             :f =>["fixed_version_id", "cf_#{release_notes_required_cf_id}"] %>
         
         <% if (count_release_notes_completed > 0) && (count_release_notes_completed != count_release_notes_required) %>
           &#160;|&#160;
-          <%= link_to "#{count_release_notes_completed} done", :action => "index", :controller => "issues", :project_id => @project.identifier, :set_filter => "1", :v => {"fixed_version_id"=>[version.id], "cf_#{release_notes_required_cf_id}"=>["Yes - done"]}, :op => {"fixed_version_id"=>"=", "cf_#{release_notes_required_cf_id}"=>"="}, :f =>["fixed_version_id", "cf_#{release_notes_required_cf_id}"] %>
+          <%= link_to l(:x_done),
+				:action => "index",
+				:controller => "issues",
+				:project_id => @project.identifier,
+				:set_filter => "1",
+				:v => {"fixed_version_id"=>[version.id],
+					"cf_#{release_notes_required_cf_id}"=>[ReleaseNotesHelper::CONFIG['field_value_done']]},
+				:op => {"fixed_version_id"=>"=", "cf_#{release_notes_required_cf_id}"=>"="},
+				:f =>["fixed_version_id", "cf_#{release_notes_required_cf_id}"] %>
         <% else %>
           &#160;|&#160;
-          <%= (count_release_notes_completed == count_release_notes_required) ? 'All done!' : 'Not started' %>
+          <%= (count_release_notes_completed == count_release_notes_required) ? l(:all_done) : l(:not_started) %>
         <% end %>
         
         
         <% if count_release_notes_completed != 0 %>
           <% if count_release_notes_to_be_done > 0 %>
             &#160;|&#160;
-            <%= link_to "#{count_release_notes_to_be_done} to go", :action => "index", :controller => "issues", :project_id => @project.identifier, :set_filter => "1", :v => {"fixed_version_id"=>[version.id], "cf_#{release_notes_required_cf_id}"=>["Yes - to be done"]}, :op => {"fixed_version_id"=>"=", "cf_#{release_notes_required_cf_id}"=>"="}, :f =>["fixed_version_id", "cf_#{release_notes_required_cf_id}"] %>
+            <%= link_to l(:x_to_go, :count => count_release_notes_to_be_done),
+				:action => "index",
+				:controller => "issues",
+				:project_id => @project.identifier,
+				:set_filter => "1",
+				:v => {"fixed_version_id"=>[version.id],
+					"cf_#{release_notes_required_cf_id}"=>["Yes - to be done"]},
+				:op => {"fixed_version_id"=>"=", "cf_#{release_notes_required_cf_id}"=>"="},
+				:f =>["fixed_version_id", "cf_#{release_notes_required_cf_id}"] %>
           <% end %>
           
           &#160;|&#160;
-          <%= link_to "Generate release notes", { :controller => 'release_notes', :action => 'generate', :id => version.id } %>
+          <%= link_to l(:generate_release_notes), { :controller => 'release_notes', :action => 'generate', :id => version.id } %>
         <% else %>
 	  &#160;|&#160;
-	  <%= link_to "Mark this version as generated", { :controller => 'release_notes', :action => 'mark_version_as_generated', :id => version.id } %>
+	  <%= link_to l(:mark_version_as_generated), { :controller => 'release_notes', :action => 'mark_version_as_generated', :id => version.id } %>
 	<% end %>
     </p>
 <% else %>

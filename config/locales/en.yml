@@ -17,5 +17,11 @@ en:
     other: "There is 1 issue which still needs release notes"
 
   x_issues_in_total: "%{count} issues in total"
-  issues_requiring_release_notes: "%{count} requiring release notes"
+  x_requiring_release_notes: "%{count} requiring release notes"
+  x_done: "%{count} done"
+  x_to_go: "%{count} to go"
+  all_done: "All done!"
+  not_started: "Not started"
   
+  generate_release_notes: "Generate release notes"
+  mark_version_as_generated: "Mark this version as generated"

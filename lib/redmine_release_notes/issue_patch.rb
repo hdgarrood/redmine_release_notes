@@ -15,16 +15,35 @@ module RedmineReleaseNotes
         validates_associated :release_note
         
         named_scope :release_notes_required, lambda { |version_id|
-          { :joins => :custom_values, :conditions => ['custom_values.value <> ? and custom_values.custom_field_id = ? and fixed_version_id = ?', 'No - not applicable', CustomField.find_by_name("Release notes required").id.to_s, version_id.to_s] }
+          {
+            :joins => :custom_values,
+            :conditions => ['custom_values.value <> ? and custom_values.custom_field_id = ? and fixed_version_id = ?',
+              'No - not applicable',
+              CustomField.find_by_name("Release notes required").id.to_s,
+              version_id.to_s]
           }
+        }
           
         named_scope :release_notes_completed, lambda { |version_id|
-          { :joins => :custom_values, :conditions => ['custom_values.value = ? and custom_values.custom_field_id = ? and fixed_version_id = ?', 'Yes - done', CustomField.find_by_name("Release notes required").id.to_s, version_id.to_s] }
+          {
+            :joins => :custom_values,
+            :conditions => ['custom_values.value = ? and custom_values.custom_field_id = ? and fixed_version_id = ?',
+              'Yes - done',
+              CustomField.find_by_name("Release notes required").id.to_s,
+              version_id.to_s]
           }
+        }
           
         named_scope :release_notes_to_be_done, lambda { |version_id|
-          { :joins => :custom_values, :conditions => ['custom_values.value = ? and custom_values.custom_field_id = ? and fixed_version_id = ?', 'Yes - to be done', CustomField.find_by_name("Release notes required").id.to_s, version_id.to_s] }
+          {
+            :joins => :custom_values,
+            :conditions => ['custom_values.value = ? and custom_values.custom_field_id = ? and fixed_version_id = ?',
+            'Yes - to be done',
+            CustomField.find_by_name("Release notes required").id.to_s,
+            version_id.to_s]
           }
+        }
+        
       end #base.class_eval
     end #self.included(base)
     

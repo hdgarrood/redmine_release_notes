@@ -1,5 +1,6 @@
-<% html_title "#{l(:button_edit)} #{l(:release_note).downcase.pluralize}" %>
-<h2><%= "#{l(:button_edit)} #{l(:release_note).downcase.pluralize}" %></h2>
+<% title_str = "#{l(:button_edit)} #{l(:release_note_plural).downcase}" %>
+<% html_title title_str %>
+<h2><%= title_str %></h2>
 
 <p><%= l(:edit_release_notes) %> <%= link_to_issue @issue %></p>
 <% if @issue.description and !@issue.description.empty? %>
@@ -7,7 +8,7 @@
   <p><%= @issue.description %></p>
 <% end %>
 
-<h4><%= l(:release_note).pluralize %></h4>
+<h4><%= l(:release_note_plural) %></h4>
 <% form_for @release_note do |f| %>
   <%= f.text_area :text, :size => "100x12" %><br />
   <%= f.hidden_field :issue_id, :value => @issue.id %>

@@ -1,5 +1,5 @@
-<% if @project.enabled_module_names.include? "release_notes" %>
-<% c = CustomField.find_by_name("Release notes required") %>
+<% if @project.module_enabled? :release_notes %>
+<% c = CustomField.find_by_name(ReleaseNotesHelper::CONFIG['issue_required_field']) %>
 <% if issue.tracker.custom_fields.include?(c) %>
 
 <% @relnotes = issue.release_note %>

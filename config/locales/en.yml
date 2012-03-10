@@ -1,5 +1,6 @@
 en:
   release_note: "Release note"
+  release_note_plural: "Release notes"
   
   generate_release_notes: "Generate release notes"
   mark_version_as_generated: "Mark this version as generated"

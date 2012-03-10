@@ -38,6 +38,6 @@ Redmine::Plugin.register :redmine_release_notes do
     permission :release_notes, { :release_notes => [:index, :new, :generate, :mark_version_as_generated] }, :public => true
   end
   
-  menu :project_menu, :release_notes, { :controller => 'release_notes', :action => 'index' }, :caption => 'Release notes', :param => :project_id
+  menu :project_menu, :release_notes, { :controller => 'release_notes', :action => 'index' }, :caption => :release_note_plural, :param => :project_id
   
 end

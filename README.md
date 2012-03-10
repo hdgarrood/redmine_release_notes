@@ -1,4 +1,4 @@
-h3. Release notes for Redmine
+### Release notes for Redmine
 
 This is a plugin which will allow you to store, manage, and generate lists
 of release notes for Redmine projects.

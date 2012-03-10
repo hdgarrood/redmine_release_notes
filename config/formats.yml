@@ -34,3 +34,10 @@ Markdown:
     start: ""
     each_issue: "+ **%{subject}**: %{release_notes}"
     end: ""
+
+Plain:
+    header: "Release notes for version %{name}\n=============================="
+    start: ""
+    each_issue: "> %{subject}\n    %{release_notes}"
+    end: ""
+    

@@ -44,7 +44,7 @@
         
         <% if (count_release_notes_completed > 0) && (count_release_notes_completed != count_release_notes_required) %>
           &#160;|&#160;
-          <%= link_to l(:x_done),
+          <%= link_to l(:x_done, :count => count_release_notes_completed),
 				:action => "index",
 				:controller => "issues",
 				:project_id => @project.identifier,
@@ -68,7 +68,7 @@
 				:project_id => @project.identifier,
 				:set_filter => "1",
 				:v => {"fixed_version_id"=>[version.id],
-					"cf_#{release_notes_required_cf_id}"=>["Yes - to be done"]},
+					"cf_#{release_notes_required_cf_id}" => [ReleaseNotesHelper::CONFIG['field_value_to_be_done']]},
 				:op => {"fixed_version_id"=>"=", "cf_#{release_notes_required_cf_id}"=>"="},
 				:f =>["fixed_version_id", "cf_#{release_notes_required_cf_id}"] %>
           <% end %>

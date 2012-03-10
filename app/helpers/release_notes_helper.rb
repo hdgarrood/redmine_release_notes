@@ -35,7 +35,20 @@ module ReleaseNotesHelper
       if count_release_notes_to_be_done > 0
         flash.now[:warning] << l('some_issues_not_finished.' + (count_release_notes_to_be_done == 1 ? 'one' : 'other'),
                                     :count => count_release_notes_to_be_done)
-        flash.now[:warning] << " " + get_release_notes_to_be_done_link
+                                    
+        link_str = link_to "show",
+                :action => "index",
+                :controller => "issues",
+                :project_id => @project.identifier,
+                :set_filter => "1",
+                :v => {"fixed_version_id"=>[version_id],
+                       "cf_#{release_notes_required_field_id}"=>[CONFIG['field_value_to_be_done']]},
+                :op => {"fixed_version_id"=>"=",
+                        "cf_#{release_notes_required_field_id}"=>"="},
+                :f =>["fixed_version_id",
+                      "cf_#{release_notes_required_field_id}"]
+                      
+        flash.now[:warning] << " (#{link_str})<br>"
       end
       if null_release_notes != []
         flash.now[:warning] << l(:some_issues_no_release_notes_html,
@@ -66,21 +79,6 @@ module ReleaseNotesHelper
       str << "."
     return str
   end
-  
-  def get_release_notes_to_be_done_link
-    str = link_to "show",
-                :action => "index",
-                :controller => "issues",
-                :project_id => @project.identifier,
-                :set_filter => "1",
-                :v => {"fixed_version_id"=>[version_id],
-                       "cf_#{release_notes_required_field_id}"=>[CONFIG['field_value_to_be_done']]},
-                :op => {"fixed_version_id"=>"=",
-                        "cf_#{release_notes_required_field_id}"=>"="},
-                :f =>["fixed_version_id",
-                      "cf_#{release_notes_required_field_id}"]
-                
-    return "(" + str + ")<br>"
-  end
+
 end
 

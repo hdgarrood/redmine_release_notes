@@ -3,7 +3,7 @@ h3. Release notes for Redmine
 This is a plugin which will allow you to store, manage, and generate lists
 of release notes for Redmine projects.
 
-There is more information on the "wiki":[[Home]].
+There is more information on the "wiki":https://github.com/hdgarrood/redmine_release_notes/wiki.
 
 Copyright © 2012  Harry Garrood
 

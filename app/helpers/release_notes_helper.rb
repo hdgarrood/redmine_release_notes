@@ -88,6 +88,18 @@ module ReleaseNotesHelper
     rescue ActiveRecord::RecordNotFound
       render_404
   end
+  
+  def render_other_formats(formats)
+    str = "<p>"
+    str << l(:label_export_to)
+    str << " "
+    formats.keys.each do |format|
+      str << link_to(format, {:action => "generate", :controller => "release_notes", :release_notes_format => format})
+      str << " | "
+    end
+    3.times { str.chop! }
+    return str
+  end
 
   # Utility code below here. Might be better off somewhere else but meh.
   

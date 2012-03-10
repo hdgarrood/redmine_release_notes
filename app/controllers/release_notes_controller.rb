@@ -142,7 +142,10 @@ class ReleaseNotesController < ApplicationController
   
   def generate
     @project = @version.project
-    @format = params[:release_notes_format] or ReleaseNotesHelper::CONFIG['default_generation_format']
+    @format = params[:release_notes_format]
+    if @format.nil? or @format.empty?
+      @format = ReleaseNotesHelper::CONFIG['default_generation_format']
+    end
     @formats = YAML.load_file("#{RAILS_ROOT}/vendor/plugins/redmine_release_notes/config/formats.yml")
   end
   

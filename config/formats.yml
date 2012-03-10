@@ -3,7 +3,7 @@
 # Set the default format in config.yml
 
 # New formats should be added in the same style as the ones already here.
-# They should appear in Redmine automatically.
+# They will appear in Redmine automatically.
 # Variables are:
 
 #   header:
@@ -24,7 +24,13 @@ HTML:
     end: "</ul>"
     
 Textile:
-   header: "h2. Release notes for version %{name}"
-   start: ""
-   each_issue: "* *%{subject}*: %{release_notes}"
-   end: ""
+    header: "h2. Release notes for version %{name}"
+    start: ""
+    each_issue: "* *%{subject}*: %{release_notes}"
+    end: ""
+    
+Markdown:
+    header: "## Release notes for version %{name}"
+    start: ""
+    each_issue: "+ **%{subject}**: %{release_notes}"
+    end: ""

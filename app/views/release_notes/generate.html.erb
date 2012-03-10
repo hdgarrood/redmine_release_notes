@@ -2,11 +2,13 @@
 
 <div style="width:100%;">
 <h2><%= l(:generate_title, :version => @version.name) %></h2>
-<%= button_to l(:mark_version_as_generated), :action => 'mark_version_as_generated', :id => @version.id %>
+<p><%= link_to( l(:mark_version_as_generated), {:action => 'mark_version_as_generated', :id => @version.id}, :method => :post) %> </p>
 
-<% str_generated = generate_release_notes_header(@version.id, @formats[@format]) + "\n" + generate_release_notes(@version.id, @formats[@format]) %>
+<%= render_other_formats(@formats) %>
+  
+<% str_generated = html_escape(generate_release_notes_header(@version.id, @formats[@format]) + "\n" + generate_release_notes(@version.id, @formats[@format])) %>
 
-<textarea style="width:99.5%; resize:none;" rows="<%= str_generated.count("\n") + 3 %>">
-<%= str_generated %>
-</textarea>
+<div style="width: 80%; margin: 10px auto 10px auto; border: thin solid #222266;" id="relnotes">
+<pre style="padding:3em;"><%= str_generated %></pre>
+</div>
 </div>

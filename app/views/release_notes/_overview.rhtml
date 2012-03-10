@@ -38,8 +38,8 @@
             :project_id => @project.identifier,
             :set_filter => "1",
             :v => {"fixed_version_id"=>[version.id],
-                "cf_#{release_notes_required_cf_id}"=>[ReleaseNotesHelper::CONFIG['field_value_not_required']]},
-            :op => {"fixed_version_id"=>"=", "cf_#{release_notes_required_cf_id}"=>"!"},
+                "cf_#{release_notes_required_cf_id}"=>[ReleaseNotesHelper::CONFIG['field_value_to_be_done'], ReleaseNotesHelper::CONFIG['field_value_done']]},
+            :op => {"fixed_version_id"=>"=", "cf_#{release_notes_required_cf_id}"=>"="},
             :f =>["fixed_version_id", "cf_#{release_notes_required_cf_id}"] %>
         
         <% if (count_release_notes_completed > 0) && (count_release_notes_completed != count_release_notes_required) %>

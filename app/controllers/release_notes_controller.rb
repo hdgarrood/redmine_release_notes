@@ -126,7 +126,7 @@ class ReleaseNotesController < ApplicationController
     render_404
   end
   
-  def delete
+  def destroy
     release_note = ReleaseNote.find(params[:id])
     issue_id = release_note.issue_id
     release_note.destroy

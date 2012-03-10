@@ -15,5 +15,5 @@
 # along with redmine_release_notes.  If not, see <http://www.gnu.org/licenses/>.
 
 ActionController::Routing::Routes.draw do |map|
-  map.resources :release_notes, :collection => {:update => :put}
+  map.resources :release_notes
 end

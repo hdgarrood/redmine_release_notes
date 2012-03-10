@@ -2,7 +2,13 @@
 # Adds a relationship - an issue has one release note
 # Adds methods for counting required and completed release notes for a version
 
+require 'yaml'
+
 module RedmineReleaseNotes
+
+  # Yes, I know this also happens in ReleaseNotesHelper. I am very sorry for this awful practice.
+  RELEASE_NOTES_CONFIG = YAML.load_file("#{RAILS_ROOT}/vendor/plugins/redmine_release_notes/config/config.yml")
+
   module IssuePatch
     def self.included(base) # :nodoc:
       base.extend(ClassMethods)
@@ -18,8 +24,8 @@ module RedmineReleaseNotes
           {
             :joins => :custom_values,
             :conditions => ['custom_values.value <> ? and custom_values.custom_field_id = ? and fixed_version_id = ?',
-              'No - not applicable',
-              CustomField.find_by_name("Release notes required").id.to_s,
+              RELEASE_NOTES_CONFIG['field_value_not_required'],
+              CustomField.find_by_name(RELEASE_NOTES_CONFIG['issue_required_field']).id.to_s,
               version_id.to_s]
           }
         }
@@ -28,8 +34,8 @@ module RedmineReleaseNotes
           {
             :joins => :custom_values,
             :conditions => ['custom_values.value = ? and custom_values.custom_field_id = ? and fixed_version_id = ?',
-              'Yes - done',
-              CustomField.find_by_name("Release notes required").id.to_s,
+              RELEASE_NOTES_CONFIG['field_value_done'],
+              CustomField.find_by_name(RELEASE_NOTES_CONFIG['issue_required_field']).id.to_s,
               version_id.to_s]
           }
         }
@@ -38,9 +44,9 @@ module RedmineReleaseNotes
           {
             :joins => :custom_values,
             :conditions => ['custom_values.value = ? and custom_values.custom_field_id = ? and fixed_version_id = ?',
-            'Yes - to be done',
-            CustomField.find_by_name("Release notes required").id.to_s,
-            version_id.to_s]
+              RELEASE_NOTES_CONFIG['field_value_to_be_done'],
+              CustomField.find_by_name(RELEASE_NOTES_CONFIG['issue_required_field']).id.to_s,
+              version_id.to_s]
           }
         }
         

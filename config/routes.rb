@@ -16,4 +16,8 @@
 
 ActionController::Routing::Routes.draw do |map|
   map.resources :release_notes
+  map.with_options :controller => "release_notes" do |release_notes|
+    release_notes.connect "/release_notes/generate", action => "generate"
+    release_notes.connect "/release_notes/mark_version_as_generated", :action => "mark_version_as_generated"
+  end
 end

@@ -4,11 +4,11 @@
 # or whatever you changed it to.
 # See the wiki on github for more details.
 
-issue_required_field: "Release notes required"
+issue_required_field: "Release notes"
 
-field_value_done: "Yes - done"
-field_value_to_be_done: "Yes - to be done"
-field_value_not_required: "No - not applicable"
+field_value_done: "Done"
+field_value_to_be_done: "Todo"
+field_value_not_required: "No"
 
 version_generated_field: "Release notes generated"
 

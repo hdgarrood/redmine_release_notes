@@ -64,6 +64,8 @@ class ReleaseNotesController < ApplicationController
     @versions.reject! {|version| !project_ids.include?(version.project_id) && @issues_by_version[version].blank?}
     
     @release_notes_required_cf_id = CustomField.find_by_name(ReleaseNotesHelper::CONFIG['issue_required_field']).id
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
   
   def show

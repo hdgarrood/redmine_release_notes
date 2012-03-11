@@ -66,6 +66,13 @@ class ReleaseNotesController < ApplicationController
     @release_notes_required_cf_id = CustomField.find_by_name(ReleaseNotesHelper::CONFIG['issue_required_field']).id
   end
   
+  def show
+    release_note = ReleaseNote.find(params[:id])
+    redirect_to :controller => "issues", :action => "show", :id => release_note.issue_id
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+  
   def new
     @issue = Issue.find(params[:issue_id])
     @project = @issue.project

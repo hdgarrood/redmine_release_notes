@@ -15,7 +15,7 @@
   <% end %>
 </div>
 
-<p><strong>Release notes</strong></p>
+<p><strong><%= l(:Release_notes) %></strong></p>
 <% if @relnotes %>
 <p><%= @relnotes.text.gsub(/\r\n/, "<br />") %></p>
 <% end %>

@@ -17,8 +17,8 @@
 
 <% content_for :sidebar do %>
 <% form_tag({}, :method => :get) do %>
-<h3>Release notes</h3>
-<label for="completed"><%= check_box_tag "completed", 1, params[:completed] %> Show generated versions</label>
+<h3><%= l(:Release_notes) %></h3>
+<label for="completed"><%= check_box_tag "completed", 1, params[:completed] %> <%= l(:show_generated_versions) %></label>
 <% if @project.descendants.active.any? %>
     <%= hidden_field_tag 'with_subprojects', 0 %>
   <br /><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label>

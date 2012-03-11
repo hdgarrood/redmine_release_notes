@@ -1,4 +1,4 @@
-<% title_str = "#{l(:button_edit)} #{l(:release_note_plural).downcase}" %>
+<% title_str = "#{l(:button_edit)} #{l(:release_notes)}" %>
 <% html_title title_str %>
 <h2><%= title_str %></h2>
 
@@ -8,13 +8,13 @@
   <p><%= @issue.description %></p>
 <% end %>
 
-<h4><%= l(:release_note_plural) %></h4>
+<h4><%= l(:Release_notes) %></h4>
 <% form_for @release_note do |f| %>
   <%= f.text_area :text, :size => "100x12" %><br />
   <%= f.hidden_field :issue_id, :value => @issue.id %>
   <%= check_box_tag :mark_complete, 1, false %>
   <%= label(:mark, :complete, l(:mark_release_notes_complete)) %><br />
-  <%= f.submit %>
+  <%= f.submit l(:button_save) %>
 <% end %>
 
 <%= button_to(l(:button_cancel), {:controller => "issues", :action => "show", :id => @issue.id}, :method => :get) %>

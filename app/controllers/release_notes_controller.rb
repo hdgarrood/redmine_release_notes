@@ -97,7 +97,7 @@ class ReleaseNotesController < ApplicationController
       end
       redirect_to :controller => 'issues', :action => 'show', :id => @issue.id
     else
-      error_str = format_release_note_errors(@issue, l(:label_issue).downcase)
+      error_str = format_release_note_errors(@issue, l(:label_issue))
       flash.now[:error] = error_str
       render :action => 'edit', :id => params[:release_note][:id]
     end

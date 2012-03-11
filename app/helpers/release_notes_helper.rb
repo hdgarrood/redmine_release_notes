@@ -55,7 +55,7 @@ module ReleaseNotesHelper
         flash.now[:warning] << l('some_issues_not_finished.' + (count_release_notes_to_be_done == 1 ? 'one' : 'other'),
                                     :count => count_release_notes_to_be_done)
                                     
-        link_str = link_to "show",
+        link_str = link_to l(:button_show),
                 :action => "index",
                 :controller => "issues",
                 :project_id => @project.identifier,

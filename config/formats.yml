@@ -6,12 +6,12 @@
 # They will appear in Redmine automatically.
 # Variables are:
 
-#   header:
-#       name
-#       date
-#   each_issue:
-#       subject
-#       release_notes
+  # header:
+      # name
+      # date
+  # each_issue:
+      # subject
+      # release_notes
 
 # If you want more, you'll have to modify release_notes_helper.rb
 # You might even consider forking hdgarrood/redmine_release_notes

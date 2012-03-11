@@ -203,7 +203,7 @@ class ReleaseNotesController < ApplicationController
                                              :old_value => ReleaseNotesHelper::CONFIG['field_value_to_be_done'],
                                              :value => ReleaseNotesHelper::CONFIG['field_value_done'])
         if journal.save == false
-          flash[:error] = format_release_notes_errors(journal, l(:label_history))
+          flash[:error] = format_release_note_errors(journal, l(:label_history))
         end  
       else
         flash[:error] = format_release_note_errors(custom_value, l(:label_custom_field))

@@ -1,0 +1,27 @@
+en:
+  release_note: "Versionshinweis"
+  release_note_plural: "Versionshinweise"
+  
+  generate_release_notes: "Erzeugen Versionshinweise"
+  generate_title: "Versionshinweise für Version %{version}"
+  mark_version_as_generated: "Kennzeichnen dieses Version als erzeugt"
+  edit_release_notes: "Bearbeiten Versionshinweise für"
+  mark_release_notes_complete: "Kennzeichnen diese Versionshinweise als beendet?"
+  
+  release_notes_destroy_confirmation: "Sind Sie sicher, dass Sie diese Versionshinweise löschen wollen?"
+  failed_find_custom_value: "Kann nicht das benutzerdefinerten Feld finden. Haben Sie richtig dieses Project für Versionshinweise aufgebaut?"
+  failed_find_custom_field: "Kann nicht das benutzerdefinerten Feld finden: %{field}"
+  failed_update_issue_history: "Kann nicht %{field} in der Ticketgeschichte fortschreiben."
+  failed_save_field_value: "Kann nicht speichern: %{field}"
+
+  x_issues_in_total: "%{count} Ticketen insgesamt"
+  x_requiring_release_notes: "%{count} brauchend Versionshinweise"
+  x_done: "%{count} beendet"
+  x_to_go: "%{count} noch wartend"
+  all_done: "Alles gemacht!"
+  not_started: "Nicht begonnen"
+
+  some_issues_no_release_notes_html: "Es gab einigen Ticketen, mit \"%{field}\" = \"%{value}\" aber keine Versionshinweise (<a href=# onclick=\"alert(&quot;Ticketen ohne Versionshinweise: %{list}&quot;)\">Zeigen</a>)"
+  some_issues_not_finished:
+    one: "Es gibt ein Ticket, der noch Versionshinweise braucht."
+    other: "Es gibt %{count} Ticketen, die noch Versionshinweise brauchen."

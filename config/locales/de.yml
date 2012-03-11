@@ -3,13 +3,13 @@ de:
   release_note_plural: "Versionshinweise"
   
   generate_release_notes: "Erzeugen Versionshinweise"
-  generate_title: "Versionshinweise für Version %{version}"
+  generate_title: "Versionshinweise fÃ¼r Version %{version}"
   mark_version_as_generated: "Kennzeichnen dieses Version als erzeugt"
-  edit_release_notes: "Bearbeiten Versionshinweise für"
+  edit_release_notes: "Bearbeiten Versionshinweise fÃ¼r"
   mark_release_notes_complete: "Kennzeichnen diese Versionshinweise als beendet?"
   
-  release_notes_destroy_confirmation: "Sind Sie sicher, dass Sie diese Versionshinweise löschen wollen?"
-  failed_find_custom_value: "Kann nicht das benutzerdefinerten Feld finden. Haben Sie richtig dieses Project für Versionshinweise aufgebaut?"
+  release_notes_destroy_confirmation: "Sind Sie sicher, dass Sie diese Versionshinweise lÃ¼schen wollen?"
+  failed_find_custom_value: "Kann nicht das benutzerdefinerten Feld finden. Haben Sie richtig dieses Project fÃ¼r Versionshinweise aufgebaut?"
   failed_find_custom_field: "Kann nicht das benutzerdefinerten Feld finden: %{field}"
   failed_update_issue_history: "Kann nicht %{field} in der Ticketgeschichte fortschreiben."
   failed_save_field_value: "Kann nicht speichern: %{field}"

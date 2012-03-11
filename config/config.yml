@@ -1,4 +1,9 @@
 # You need to restart Redmine after modifying this file.
+# These have to match with your Redmine setup, ie there must
+# be a custom field for issues named "Release notes required"
+# or whatever you changed it to.
+# See the wiki on github for more details.
+
 issue_required_field: "Release notes required"
 
 field_value_done: "Yes - done"

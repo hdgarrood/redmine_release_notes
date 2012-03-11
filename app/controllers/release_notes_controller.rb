@@ -203,10 +203,10 @@ class ReleaseNotesController < ApplicationController
                                              :old_value => ReleaseNotesHelper::CONFIG['field_value_to_be_done'],
                                              :value => ReleaseNotesHelper::CONFIG['field_value_done'])
         if journal.save == false
-          flash[:error] = l(:failed_update_issue_history, ReleaseNotesHelper::CONFIG['issue_required_field'].downcase)
+          flash[:error] = l(:failed_update_issue_history, field => ReleaseNotesHelper::CONFIG['issue_required_field'])
         end  
       else
-        flash[:error] = l(:failed_save_field_value, ReleaseNotesHelper::CONFIG['issue_required_field'].downcase)
+        flash[:error] = l(:failed_save_field_value, field => ReleaseNotesHelper::CONFIG['issue_required_field'])
       end
     end
   end

@@ -29,3 +29,5 @@ en:
   some_issues_not_finished:
     one: "There is 1 issue which still needs release notes"
     other: "There are %{count} issues which still need release notes"
+    
+  select_all: "Select all"

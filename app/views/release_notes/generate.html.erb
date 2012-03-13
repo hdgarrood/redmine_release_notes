@@ -1,8 +1,33 @@
+<script type="text/javascript">
+	function fnSelect(objId) {
+		fnDeSelect();
+		if (document.selection) {
+            var range = document.body.createTextRange();
+            range.moveToElementText(document.getElementById(objId));
+            range.select();
+		}
+		else if (window.getSelection) {
+            var range = document.createRange();
+            range.selectNode(document.getElementById(objId));
+            window.getSelection().addRange(range);
+		}
+	}
+		
+	function fnDeSelect() {
+		if (document.selection) document.selection.empty(); 
+		else if (window.getSelection)
+                window.getSelection().removeAllRanges();
+	}
+</script>
+
 <% html_title l(:generate_title, :version => @version.name) %>
 
 <div style="width:100%;">
 <h2><%= l(:generate_title, :version => @version.name) %></h2>
-<p><%= link_to( l(:mark_version_as_generated), {:action => 'mark_version_as_generated', :id => @version.id}, :method => :post) %> </p>
+<p>
+<%= link_to( l(:mark_version_as_generated), {:action => 'mark_version_as_generated', :id => @version.id}, :method => :post) %> | 
+<a href="javascript:fnSelect('relnotes')"><%= l(:select_all) %></a>
+</p>
 
 <%= render_other_formats(@formats) %>
   

@@ -77,7 +77,9 @@
           <%= link_to l(:generate_release_notes), { :controller => 'release_notes', :action => 'generate', :id => version.id } %>
         <% else %>
 	  &#160;|&#160;
-	  <%= link_to l(:mark_version_as_generated), { :controller => 'release_notes', :action => 'mark_version_as_generated', :id => version.id } %>
+	  <%= link_to l(:mark_version_as_generated),
+              { :controller => 'release_notes', :action => 'mark_version_as_generated', :id => version.id },
+              :method => :post %>
 	<% end %>
     </p>
 <% else %>

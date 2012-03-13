@@ -9,6 +9,6 @@
 <% str_generated = html_escape(generate_release_notes_header(@version.id, @formats[@format]) + "\n" + generate_release_notes(@version.id, @formats[@format])) %>
 
 <div style="width: 80%; margin: 10px auto 10px auto; border: thin solid #222266;" id="relnotes">
-<pre style="padding:3em;"><%= str_generated %></pre>
+<pre style="padding:3em; word-wrap:break-word;"><%= str_generated %></pre>
 </div>
 </div>

@@ -40,7 +40,10 @@ module ReleaseNotesHelper
       end
       
       if issue.release_note
-        values = {"subject" => issue.subject, "release_notes" => issue.release_note.text}
+        values = {"subject" => issue.subject,
+                  "release_notes" => issue.release_note.text,
+                  "tracker" => issue.tracker.name,
+                  "id" => issue.id }
         output_str << make_substitutions(format['each_issue'], values) + "\n"
       else
         null_release_notes << issue.id
@@ -82,7 +85,9 @@ module ReleaseNotesHelper
   
   def generate_release_notes_header(version_id, format)
     version = Version.find(version_id)
-    values = { "name" => version.name, "date" => format_date(version.effective_date) }
+    values = { "name" => version.name,
+                "date" => format_date(version.effective_date),
+                "id" => version.id }
     str = make_substitutions(format['header'], values) 
     return str
     rescue ActiveRecord::RecordNotFound

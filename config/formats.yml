@@ -18,9 +18,9 @@
 # on github.
 
 HTML:
-    header: "<h2>Release notes for version %{name}</h2>"
+    header: "<h2>Release notes for version %{name} (id = %{id})</h2>"
     start: "<ul>"
-    each_issue: "<li><b>%{subject}</b>: %{release_notes}</li>"
+    each_issue: "<li>%{tracker} #%{id} - <b>%{subject}</b>: %{release_notes}</li>"
     end: "</ul>"
     
 Textile:

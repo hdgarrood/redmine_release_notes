@@ -162,7 +162,7 @@ class ReleaseNotesController < ApplicationController
     if request.post?
       @project = @version.project
       generated_field_id = CustomField.find_by_name(ReleaseNotesHelper::CONFIG['version_generated_field'])
-      custom_value = @version.custom_values.find_by_custom_field_id(generated_field_id)
+      custom_value = @version.custom_values.find_or_initialize_by_custom_field_id(generated_field_id)
       custom_value.value = 1
       if custom_value.save
         flash.now[:notice] = l(:notice_successful_update)

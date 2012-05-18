@@ -1,9 +1,16 @@
-### Release notes for Redmine
+# Release notes for Redmine
 
 This is a plugin which will allow you to store, manage, and generate lists
 of release notes for Redmine projects.
 
 There is more information on the [wiki](https://github.com/hdgarrood/redmine_release_notes/wiki).
+
+## Compatibility
+
+This has been tested with versions of Redmine from 1.2 to 1.4, and
+ought to work with all of them. However, it will not currently work
+with version 2.0 (rails 3). If there's enough interest, I'll do the
+work.
 
 Copyright (C) 2012  Harry Garrood
 

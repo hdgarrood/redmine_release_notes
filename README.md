@@ -12,6 +12,8 @@ ought to work with all of them. However, it will not currently work
 with version 2.0 (rails 3). If there's enough interest, I'll do the
 work.
 
+## Licence
+
 Copyright (C) 2012  Harry Garrood
 
 This program is free software: you can redistribute it and/or modify

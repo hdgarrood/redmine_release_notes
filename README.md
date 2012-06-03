@@ -7,10 +7,10 @@ There is more information on the [wiki](https://github.com/hdgarrood/redmine_rel
 
 ## Compatibility
 
-This has been tested with versions of Redmine from 1.2 to 1.4, and
-ought to work with all of them. However, it will not currently work
-with version 2.0 (rails 3). If there's enough interest, I'll do the
-work.
+If you are on redmine 1.x, you should get version 1.1.1 which can be
+found under
+[tags](https://github.com/hdgarrood/redmine_release_notes/tags). The
+current master code will only work with redmine 2.x.
 
 ## Licence
 

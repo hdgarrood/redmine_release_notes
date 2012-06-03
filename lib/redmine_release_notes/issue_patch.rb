@@ -23,11 +23,10 @@ require 'yaml'
 module RedmineReleaseNotes
 
   # Yes, I know this also happens in ReleaseNotesHelper. I am very sorry for this awful practice.
-  RELEASE_NOTES_CONFIG = YAML.load_file("#{RAILS_ROOT}/vendor/plugins/redmine_release_notes/config/config.yml")
+  RELEASE_NOTES_CONFIG = YAML.load_file("#{Rails.root}/plugins/redmine_release_notes/config/config.yml")
 
   module IssuePatch
     def self.included(base) # :nodoc:
-      base.extend(ClassMethods)
       base.send(:include, InstanceMethods)
 
       # Same as typing in the class
@@ -36,7 +35,7 @@ module RedmineReleaseNotes
         has_one :release_note, :dependent => :destroy
         validates_associated :release_note
         
-        named_scope :release_notes_required, lambda { |version_id|
+        scope :release_notes_required, lambda { |version_id|
           {
             :joins => :custom_values,
             :conditions => ['custom_values.value <> ? and custom_values.custom_field_id = ? and fixed_version_id = ?',
@@ -46,7 +45,7 @@ module RedmineReleaseNotes
           }
         }
           
-        named_scope :release_notes_completed, lambda { |version_id|
+        scope :release_notes_completed, lambda { |version_id|
           {
             :joins => :custom_values,
             :conditions => ['custom_values.value = ? and custom_values.custom_field_id = ? and fixed_version_id = ?',
@@ -56,7 +55,7 @@ module RedmineReleaseNotes
           }
         }
           
-        named_scope :release_notes_to_be_done, lambda { |version_id|
+        scope :release_notes_to_be_done, lambda { |version_id|
           {
             :joins => :custom_values,
             :conditions => ['custom_values.value = ? and custom_values.custom_field_id = ? and fixed_version_id = ?',

@@ -80,7 +80,7 @@ class ReleaseNotesController < ApplicationController
     @project = @issue.project
     
     @release_note = ReleaseNote.new
-    @issue.release_note = @release_note
+    @release_note.issue_id = @issue
     render :action => 'edit'
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -155,7 +155,7 @@ class ReleaseNotesController < ApplicationController
     if @format.nil? or @format.empty?
       @format = ReleaseNotesHelper::CONFIG['default_generation_format']
     end
-    @formats = YAML.load_file("#{RAILS_ROOT}/vendor/plugins/redmine_release_notes/config/formats.yml")
+    @formats = YAML.load_file("#{Rails.root}/plugins/redmine_release_notes/config/formats.yml")
   end
   
   def mark_version_as_generated

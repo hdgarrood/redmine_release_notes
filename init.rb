@@ -18,10 +18,9 @@ require 'redmine'
 require 'redmine_release_notes/hooks'
 
 # Patches to the Redmine core.
-require 'dispatcher'
-Dispatcher.to_prepare :redmine_release_notes do
-  require_dependency 'issue'
-  
+require_dependency 'issue'
+
+ActionDispatch::Callbacks.to_prepare do
   unless Issue.included_modules.include?(RedmineReleaseNotes::IssuePatch)
     Issue.send(:include, RedmineReleaseNotes::IssuePatch)
   end
@@ -31,7 +30,7 @@ Redmine::Plugin.register :redmine_release_notes do
   name 'Redmine release notes plugin'
   author 'Harry Garrood'
   description 'A plugin for managing release notes.'
-  version '1.1.1'
+  version '1.2.0'
   author_url 'https://github.com/hdgarrood'
   
   project_module :release_notes do

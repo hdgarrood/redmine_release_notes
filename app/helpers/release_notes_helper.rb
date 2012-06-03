@@ -16,7 +16,7 @@
 
 module ReleaseNotesHelper
 
-  CONFIG = YAML.load_file("#{RAILS_ROOT}/vendor/plugins/redmine_release_notes/config/config.yml")
+  CONFIG = YAML.load_file("#{Rails.root}/plugins/redmine_release_notes/config/config.yml")
  
   def generate_release_notes(version_id, format)
     output_str = ""
@@ -103,7 +103,7 @@ module ReleaseNotesHelper
       str << " | "
     end
     3.times { str.chop! }
-    return str
+    return str.html_safe
   end
 
   # Utility code below here. Might be better off somewhere else but meh.

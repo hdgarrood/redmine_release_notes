@@ -14,10 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_release_notes.  If not, see <http://www.gnu.org/licenses/>.
 
-ActionController::Routing::Routes.draw do |map|
-  map.resources :release_notes
-  map.with_options :controller => "release_notes" do |release_notes|
-    release_notes.connect "/release_notes/generate/:id", :action => "generate"
-    release_notes.connect "/release_notes/mark_version_as_generated/:id", :action => "mark_version_as_generated"
-  end
+RedmineApp::Application.routes.draw do
+  resources :release_notes
+  get "/release_notes/generate/:id", :to => "release_notes#generate"
+  post "/release_notes/mark_version_as_generated/:id", :to => "release_notes#mark_version_as_generated"
 end

@@ -29,3 +29,5 @@ de:
   some_issues_not_finished:
     one: "Ein Ticket benötigt noch Versionshinweise."
     other: "%{count} Tickets benötigen noch Versionshinweise."
+    
+  select_all: "Alle auswählen"

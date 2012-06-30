@@ -81,6 +81,7 @@ class ReleaseNotesController < ApplicationController
     
     @release_note = ReleaseNote.new
     @release_note.issue_id = @issue
+    @release_notes_completed = false
     render :action => 'edit'
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -90,6 +91,9 @@ class ReleaseNotesController < ApplicationController
     @release_note = ReleaseNote.find(params[:id])
     @issue = @release_note.issue
     @project = @issue.project
+    release_notes_cf_id = CustomField.find_by_name(ReleaseNotesHelper::CONFIG['issue_required_field']).id
+    release_notes_completed_value = @issue.custom_values.find_by_custom_field_id(release_notes_cf_id).value
+    @release_notes_completed = (release_notes_completed_value == ReleaseNotesHelper::CONFIG['field_value_done'])
   rescue ActiveRecord::RecordNotFound
     render_404
   end

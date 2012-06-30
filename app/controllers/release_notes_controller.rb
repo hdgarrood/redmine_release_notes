@@ -151,11 +151,11 @@ class ReleaseNotesController < ApplicationController
   
   def generate
     @project = @version.project
+    @formats = YAML.load_file("#{Rails.root}/plugins/redmine_release_notes/config/formats.yml")
     @format = params[:release_notes_format]
-    if @format.nil? or @format.empty?
+    if @formats[@format].nil? or @formats[@format].empty?
       @format = ReleaseNotesHelper::CONFIG['default_generation_format']
     end
-    @formats = YAML.load_file("#{Rails.root}/plugins/redmine_release_notes/config/formats.yml")
 
     if params[:raw]
       content = view_context.generate_release_notes_header(@version.id, @formats[@format])

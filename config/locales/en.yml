@@ -31,3 +31,4 @@ en:
     other: "There are %{count} issues which still need release notes"
     
   select_all: "Select all"
+  raw: "Raw"

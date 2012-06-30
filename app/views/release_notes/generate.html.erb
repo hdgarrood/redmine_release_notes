@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <script type="text/javascript">
 	function fnSelect(objId) {
 		fnDeSelect();
@@ -26,7 +27,8 @@
 <h2><%= l(:generate_title, :version => @version.name) %></h2>
 <p>
 <%= link_to( l(:mark_version_as_generated), {:action => 'mark_version_as_generated', :id => @version.id}, :method => :post) %> | 
-<a href="javascript:fnSelect('relnotes')"><%= l(:select_all) %></a>
+<a href="javascript:fnSelect('relnotes')"><%= l(:select_all) %></a> | 
+<%= link_to( l(:raw), {:action => 'generate', :release_notes_format => params[:release_notes_format], :raw => "true"}) %>
 </p>
 
 <%= render_other_formats(@formats) %>

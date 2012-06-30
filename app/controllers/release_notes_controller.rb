@@ -156,6 +156,14 @@ class ReleaseNotesController < ApplicationController
       @format = ReleaseNotesHelper::CONFIG['default_generation_format']
     end
     @formats = YAML.load_file("#{Rails.root}/plugins/redmine_release_notes/config/formats.yml")
+
+    if params[:raw]
+      content = view_context.generate_release_notes_header(@version.id, @formats[@format])
+      content << "\n"
+      content << view_context.generate_release_notes(@version.id, @formats[@format])
+      render :text => content,
+             :content_type => 'text/plain'
+    end
   end
   
   def mark_version_as_generated

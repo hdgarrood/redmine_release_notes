@@ -8,7 +8,7 @@ de:
   generate_title: "Versionshinweise für Version %{version}"
   mark_version_as_generated: "Kennzeichne diese Version als erzeugt"
   edit_release_notes: "Bearbeite Versionshinweise für"
-  mark_release_notes_complete: "Sollen die Versionshinweise dieses Tickets als vollständig gekennzeichnet werden?"
+  mark_release_notes_complete: "Sind die Versionshinweise dieses Tickets vollständig?"
   
   release_notes_destroy_confirmation: "Sind Sie sicher, dass Sie diese Versionshinweise löschen wollen?"
   failed_find_custom_value: "Das benutzerdefinerte Feld für dieses Ticket wurde nicht gefunden! Haben Sie die Versionshinweise für dieses Projekt korrekt installiert?"

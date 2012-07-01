@@ -8,7 +8,7 @@ en:
   generate_title: "Release notes for version %{version}"
   mark_version_as_generated: "Mark this version as generated"
   edit_release_notes: "Editing release notes for"
-  mark_release_notes_complete: "Mark this issue's release notes as completed?"
+  mark_release_notes_complete: "Release notes complete for this issue?"
   
   release_notes_destroy_confirmation: "Are you sure you want to delete these release notes?"
   failed_find_custom_value: "Failed to find the custom field value for this issue. Have you set this project up for release notes properly?"

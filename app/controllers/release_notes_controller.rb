@@ -130,9 +130,7 @@ class ReleaseNotesController < ApplicationController
       return
     end
     
-    if params[:mark_complete] == '1'
-      update_custom_field
-    end
+    update_custom_field(params[:mark_complete])
     
     redirect_to :controller => 'issues', :action => 'show', :id => @release_note.issue.id
     return
@@ -196,8 +194,14 @@ class ReleaseNotesController < ApplicationController
     render_404
   end
   
-  # Set the value of the release notes custom issue field to 'Yes - done' if the user wanted to
-  def update_custom_field
+  # changes the value of the custom field for issues if necessary
+  def update_custom_field(completed)
+    if completed == '1'
+      to_value = ReleaseNotesHelper::CONFIG['field_value_done']
+    else
+      to_value = ReleaseNotesHelper::CONFIG['field_value_to_be_done']
+    end
+
     release_notes_required_field_id = CustomField.find_by_name(ReleaseNotesHelper::CONFIG['issue_required_field']).id
     custom_value = @release_note.issue.custom_values.find_by_custom_field_id(release_notes_required_field_id)
 
@@ -206,14 +210,15 @@ class ReleaseNotesController < ApplicationController
       return
     end
     
-    if custom_value.value != ReleaseNotesHelper::CONFIG['field_value_done']
-      custom_value.value = ReleaseNotesHelper::CONFIG['field_value_done']
+    if custom_value.value != to_value
+      old_value = custom_value.value
+      custom_value.value = to_value
       if custom_value.save
         journal = @release_note.issue.init_journal(User.current)
         journal.details << JournalDetail.new(:property => 'cf',
                                              :prop_key => release_notes_required_field_id,
-                                             :old_value => ReleaseNotesHelper::CONFIG['field_value_to_be_done'],
-                                             :value => ReleaseNotesHelper::CONFIG['field_value_done'])
+                                             :old_value => old_value,
+                                             :value => to_value)
         if journal.save == false
           flash[:error] = format_release_note_errors(journal, l(:label_history))
         end  

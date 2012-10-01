@@ -1,4 +1,4 @@
-# Copyright � 2012  Harry Garrood
+# Copyright (C) 2012  Harry Garrood
 # This file is a part of redmine_release_notes.
 
 # redmine_release_notes is free software: you can redistribute it and/or modify
@@ -105,9 +105,7 @@ class ReleaseNotesController < ApplicationController
 
     if @issue.save
       flash[:notice] = l(:notice_successful_create)
-      if params[:mark_complete] == '1'
-        update_custom_field
-      end
+      update_custom_field(params[:mark_complete])
       redirect_to :controller => 'issues', :action => 'show', :id => @issue.id
     else
       error_str = format_release_note_errors(@issue, l(:label_issue))

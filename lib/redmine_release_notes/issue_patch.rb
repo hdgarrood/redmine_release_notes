@@ -26,9 +26,7 @@ module RedmineReleaseNotes
   RELEASE_NOTES_CONFIG = YAML.load_file("#{Rails.root}/plugins/redmine_release_notes/config/config.yml")
 
   module IssuePatch
-    def self.included(base) # :nodoc:
-      base.send(:include, InstanceMethods)
-
+    def self.included(base)
       # Same as typing in the class
       base.class_eval do
         unloadable # Send unloadable so it will not be unloaded in development
@@ -65,14 +63,7 @@ module RedmineReleaseNotes
           }
         }
         
-      end #base.class_eval
-    end #self.included(base)
-    
-      module ClassMethods
       end
-    
-      module InstanceMethods
-      end
-      
-  end #IssuePatch
-end #RedmineReleaseNotes
+    end
+  end
+end

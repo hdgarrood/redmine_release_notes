@@ -34,9 +34,16 @@ Redmine::Plugin.register :redmine_release_notes do
   author_url 'https://github.com/hdgarrood'
   
   project_module :release_notes do
-    permission :release_notes, { :release_notes => [:index, :new, :generate, :mark_version_as_generated] }, :public => true
+    permission :release_notes,
+      {
+        :release_notes => [:index, :new, :generate, :mark_version_as_generated]
+      },
+      :public => true
   end
   
-  menu :project_menu, :release_notes, { :controller => 'release_notes', :action => 'index' }, :caption => :Release_notes, :param => :project_id
-  
+  menu :project_menu,
+    :release_notes,
+    {:controller => 'release_notes', :action => 'index'},
+    :caption => :Release_notes,
+    :param => :project_id
 end

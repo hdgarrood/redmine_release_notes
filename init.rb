@@ -47,3 +47,13 @@ Redmine::Plugin.register :redmine_release_notes do
     :caption => :Release_notes,
     :param => :project_id
 end
+
+# load the configuration or die
+config_path = File.expand_path("config/config.yml", File.dirname(__FILE__))
+if File.exist?(config_path)
+  RELEASE_NOTES_CONFIG = YAML.load_file(
+    File.expand_path("config/config.yml", File.dirname(__FILE__))
+  )
+else
+  fail 'redmine_release_notes: you need to create config/config.yml'
+end

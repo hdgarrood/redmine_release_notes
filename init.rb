@@ -32,6 +32,15 @@ Redmine::Plugin.register :redmine_release_notes do
   description 'A plugin for managing release notes.'
   version '1.2.0'
   author_url 'https://github.com/hdgarrood'
+
+  settings :default => {
+      :issue_required_field_id => '',
+      :field_value_done => 'Done',
+      :field_value_todo => 'Todo',
+      :field_value_not_required => 'No',
+      :version_generated_field_id => '',
+      :default_generation_format => 'HTML'
+    }, :partial => 'settings/settings'
   
   project_module :release_notes do
     permission :release_notes,

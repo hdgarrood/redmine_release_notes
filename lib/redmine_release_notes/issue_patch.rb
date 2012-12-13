@@ -32,7 +32,7 @@ module RedmineReleaseNotes
         unloadable # Send unloadable so it will not be unloaded in development
         has_one :release_note, :dependent => :destroy
         validates_associated :release_note
-        
+ 
         scope :release_notes_required, lambda { |version_id|
           {
             :joins => :custom_values,
@@ -42,7 +42,7 @@ module RedmineReleaseNotes
               version_id.to_s]
           }
         }
-          
+ 
         scope :release_notes_completed, lambda { |version_id|
           {
             :joins => :custom_values,
@@ -52,7 +52,7 @@ module RedmineReleaseNotes
               version_id.to_s]
           }
         }
-          
+ 
         scope :release_notes_to_be_done, lambda { |version_id|
           {
             :joins => :custom_values,

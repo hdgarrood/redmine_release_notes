@@ -1,4 +1,4 @@
-# Copyright © 2012  Harry Garrood
+# Copyright ï¿½ 2012  Harry Garrood
 # This file is a part of redmine_release_notes.
 
 # redmine_release_notes is free software: you can redistribute it and/or modify
@@ -43,6 +43,7 @@ module ReleaseNotesHelper
         values = {"subject" => issue.subject,
                   "release_notes" => issue.release_note.text,
                   "tracker" => issue.tracker.name,
+                  "project" => issue.project.name,
                   "id" => issue.id }
         output_str << make_substitutions(format['each_issue'], values) + "\n"
       else
@@ -87,6 +88,7 @@ module ReleaseNotesHelper
     version = Version.find(version_id)
     values = { "name" => version.name,
                 "date" => format_date(version.effective_date),
+                "description" => version.description,
                 "id" => version.id }
     str = make_substitutions(format['header'], values) 
     return str

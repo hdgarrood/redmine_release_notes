@@ -1,4 +1,4 @@
-# Copyright � 2012  Harry Garrood
+# Copyright © 2012  Harry Garrood
 # This file is a part of redmine_release_notes.
 
 # redmine_release_notes is free software: you can redistribute it and/or modify

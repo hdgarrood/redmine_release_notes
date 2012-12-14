@@ -16,7 +16,9 @@
 
 module ReleaseNotesHelper
 
-  CONFIG = YAML.load_file("#{Rails.root}/plugins/redmine_release_notes/config/config.yml")
+  def self.config
+    ::RELEASE_NOTES_CONFIG
+  end
  
   def generate_release_notes(version_id, format)
     output_str = ""

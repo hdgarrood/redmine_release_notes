@@ -80,7 +80,7 @@ class ReleaseNotesController < ApplicationController
     @project = @issue.project
     
     @release_note = ReleaseNote.new
-    @release_note.issue_id = @issue
+    @release_note.issue = @issue
     @release_notes_completed = false
     render :action => 'edit'
   rescue ActiveRecord::RecordNotFound

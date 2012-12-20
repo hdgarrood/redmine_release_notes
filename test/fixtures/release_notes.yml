@@ -1,0 +1,5 @@
+---
+release_note_001:
+  id: 1
+  issue_id: 1
+  text: "Recipes may now be printed with the 'print' button."

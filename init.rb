@@ -32,6 +32,7 @@ Redmine::Plugin.register :redmine_release_notes do
   description 'A plugin for managing release notes.'
   version '1.2.0'
   author_url 'https://github.com/hdgarrood'
+  requires_redmine :version_or_higher => '2.0.0'
 
   settings :default => {
       'issue_required_field_id' => '',

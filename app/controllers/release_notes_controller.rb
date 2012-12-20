@@ -80,7 +80,7 @@ class ReleaseNotesController < ApplicationController
     @project = @issue.project
     
     @release_note = ReleaseNote.new
-    @release_note.issue_id = @issue
+    @release_note.issue = @issue
     @release_notes_completed = false
     render :action => 'edit'
   rescue ActiveRecord::RecordNotFound
@@ -106,7 +106,7 @@ class ReleaseNotesController < ApplicationController
     if @issue.save
       flash[:notice] = l(:notice_successful_create)
       update_custom_field(params[:mark_complete])
-      redirect_to :controller => 'issues', :action => 'show', :id => @issue.id
+      redirect_to @issue
     else
       error_str = format_release_note_errors(@issue, l(:label_issue))
       flash.now[:error] = error_str

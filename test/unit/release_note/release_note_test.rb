@@ -13,13 +13,17 @@ class ReleaseNoteTest < ActiveSupport::TestCase
     rn = ReleaseNote.new
     assert !rn.valid?
 
-    rn.issue = issues(:issue_001)
+    rn.issue = issues(:issues_001)
     rn.text = "now fixed!"
     assert rn.valid?
   end
 
   test 'release notes may have text up to 2000 chars but not longer' do
-    rn = release_notes(:release_note_001)
-    rn.text = (2000 * "a")
+    rn = release_notes(:release_notes_001)
+    rn.text = "a" * 2000
+    assert rn.valid?
+
+    rn.text += "b"
+    assert !rn.valid?
   end
 end

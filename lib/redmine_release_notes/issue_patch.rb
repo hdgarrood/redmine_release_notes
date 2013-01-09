@@ -27,6 +27,14 @@ module RedmineReleaseNotes
 
   module IssuePatch
     def self.patch(issue_class)
+      unless @issue_class_patched
+        do_patch(issue_class)
+        @issue_class_patched = true
+      end
+    end
+
+    private
+    def self.do_patch(issue_class)
       issue_class.class_eval do
         has_one :release_note, :dependent => :destroy
         validates_associated :release_note

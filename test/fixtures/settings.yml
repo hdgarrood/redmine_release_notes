@@ -1,0 +1,11 @@
+---
+release_notes_settings:
+  id: 1
+  name: plugin_redmine_release_notes
+  value:
+    issue_required_field_id: '1'
+    field_value_done: Done
+    field_value_todo: Todo
+    field_value_not_required: No
+    version_generated_field_id: '1'
+    default_generation_format: Textile

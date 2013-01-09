@@ -20,15 +20,15 @@ module RedmineReleaseNotes
       cf = CustomField.find(
         RedmineReleaseNotes.settings['issue_required_field_id'])
 
-      # if context[:project].module_enabled? :release_notes &&
-      #    context[:issue].tracker.custom_fields.include?(cf)
-      #   context[:controller].send(:render_to_string,
-      #     { :partial =>
-      #         'hooks/release_notes/view_issues_show_description_bottom',
-      #       :locals => context })
-      # else
-      #   ""
-      # end
+      if context[:project].module_enabled? :release_notes &&
+         context[:issue].tracker.custom_fields.include?(cf)
+        context[:controller].send(:render_to_string,
+          { :partial =>
+              'hooks/release_notes/view_issues_show_description_bottom',
+            :locals => context })
+      else
+        ""
+      end
     rescue ActiveRecord::RecordNotFound
       context[:controller].send(:render_to_string,
         { :partial =>

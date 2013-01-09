@@ -2,8 +2,6 @@
 # Adds a relationship - an issue has one release note
 # Adds methods for counting required and completed release notes for a version
 
-require 'yaml'
-
 # Copyright © 2012  Harry Garrood
 # This file is a part of redmine_release_notes.
 

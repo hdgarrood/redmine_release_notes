@@ -21,9 +21,7 @@ require 'redmine_release_notes/hooks'
 require_dependency 'issue'
 
 ActionDispatch::Callbacks.to_prepare do
-  unless Issue.included_modules.include?(RedmineReleaseNotes::IssuePatch)
-    Issue.send(:include, RedmineReleaseNotes::IssuePatch)
-  end
+  RedmineReleaseNotes::IssuePatch.patch(Issue)
 end
 
 Redmine::Plugin.register :redmine_release_notes do
@@ -35,35 +33,24 @@ Redmine::Plugin.register :redmine_release_notes do
   requires_redmine :version_or_higher => '2.0.0'
 
   settings :default => {
-      'issue_required_field_id' => '',
+      'issue_required_field_id' => 0,
       'field_value_done' => 'Done',
       'field_value_todo' => 'Todo',
       'field_value_not_required' => 'No',
-      'version_generated_field_id' => '',
+      'version_generated_field_id' => 0,
       'default_generation_format' => 'HTML'
     }, :partial => 'settings/settings'
   
   project_module :release_notes do
     permission :release_notes,
-      {
-        :release_notes => [:index, :new, :generate, :mark_version_as_generated]
-      },
+      { :release_notes =>
+        [:index, :new, :generate, :mark_version_as_generated] },
       :public => true
   end
   
   menu :project_menu,
     :release_notes,
-    {:controller => 'release_notes', :action => 'index'},
+    { :controller => 'release_notes', :action => 'index' },
     :caption => :Release_notes,
     :param => :project_id
-end
-
-# load the configuration or die
-config_path = File.expand_path("config/config.yml", File.dirname(__FILE__))
-if File.exist?(config_path)
-  RELEASE_NOTES_CONFIG = YAML.load_file(
-    File.expand_path("config/config.yml", File.dirname(__FILE__))
-  )
-else
-  fail 'redmine_release_notes: you need to create config/config.yml'
 end

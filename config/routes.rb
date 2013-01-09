@@ -16,6 +16,8 @@
 
 RedmineApp::Application.routes.draw do
   resources :release_notes
-  get "/release_notes/generate/:id", :to => "release_notes#generate"
-  post "/release_notes/mark_version_as_generated/:id", :to => "release_notes#mark_version_as_generated"
+  get "/release_notes/generate/:id",
+    :to => "release_notes#generate"
+  post "/release_notes/mark_version_as_generated/:id",
+    :to => "release_notes#mark_version_as_generated"
 end

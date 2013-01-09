@@ -1,4 +1,4 @@
-# Patches Redmine's Issues dynamically.
+# Patches Redmine's issues dynamically.
 # Adds a relationship - an issue has one release note
 # Adds methods for counting required and completed release notes for a version
 
@@ -21,48 +21,39 @@ require 'yaml'
 # along with redmine_release_notes.  If not, see <http://www.gnu.org/licenses/>.
 
 module RedmineReleaseNotes
-
-  # Yes, I know this also happens in ReleaseNotesHelper. I am very sorry for this awful practice.
-  RELEASE_NOTES_CONFIG = YAML.load_file("#{Rails.root}/plugins/redmine_release_notes/config/config.yml")
+  def self.settings
+    Setting['plugin_redmine_release_notes']
+  end
 
   module IssuePatch
-    def self.included(base)
-      # Same as typing in the class
-      base.class_eval do
-        unloadable # Send unloadable so it will not be unloaded in development
+    def self.patch(issue_class)
+      issue_class.class_eval do
         has_one :release_note, :dependent => :destroy
         validates_associated :release_note
- 
-        scope :release_notes_required, lambda { |version_id|
-          {
-            :joins => :custom_values,
-            :conditions => ['custom_values.value <> ? and custom_values.custom_field_id = ? and fixed_version_id = ?',
-              RELEASE_NOTES_CONFIG['field_value_not_required'],
-              CustomField.find_by_name(RELEASE_NOTES_CONFIG['issue_required_field']).id.to_s,
-              version_id.to_s]
-          }
-        }
- 
-        scope :release_notes_completed, lambda { |version_id|
-          {
-            :joins => :custom_values,
-            :conditions => ['custom_values.value = ? and custom_values.custom_field_id = ? and fixed_version_id = ?',
-              RELEASE_NOTES_CONFIG['field_value_done'],
-              CustomField.find_by_name(RELEASE_NOTES_CONFIG['issue_required_field']).id.to_s,
-              version_id.to_s]
-          }
-        }
- 
-        scope :release_notes_to_be_done, lambda { |version_id|
-          {
-            :joins => :custom_values,
-            :conditions => ['custom_values.value = ? and custom_values.custom_field_id = ? and fixed_version_id = ?',
-              RELEASE_NOTES_CONFIG['field_value_to_be_done'],
-              CustomField.find_by_name(RELEASE_NOTES_CONFIG['issue_required_field']).id.to_s,
-              version_id.to_s]
-          }
-        }
-        
+
+        def self.release_notes_required(version)
+          release_notes_to_be_done(version).release_notes_completed(version)
+        end
+
+        def self.release_notes_to_be_done(version)
+          release_notes_for(version).
+            where('custom_values.value = ?',
+                  RedmineReleaseNotes.settings['field_value_to_be_done'])
+        end
+
+        def self.release_notes_completed(version)
+          release_notes_for(version).
+            where('custom_values.value = ?',
+                  RedmineReleaseNotes.settings['field_value_done'])
+        end
+
+        private
+        def self.release_notes_for(version)
+          joins(:custom_values).
+            where('custom_values.custom_field_id = ?',
+                  RedmineReleaseNotes.settings['issue_required_field_id']).
+            where('fixed_version_id = ?', version.id)
+        end
       end
     end
   end

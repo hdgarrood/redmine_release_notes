@@ -12,6 +12,7 @@ en:
   
   release_notes_destroy_confirmation: "Are you sure you want to delete these release notes?"
   failed_find_custom_value: "Failed to find the custom field value for this issue. Have you set this project up for release notes properly?"
+  failed_find_issue_custom_field: "Failed to find the release notes custom field for issues."
   failed_find_custom_field: "Failed to find the custom field: %{field}"
   failed_update_issue_history: "Failed to save %{field} field update in issue history"
   failed_save_field_value: "Failed to save value for field: %{field}"

@@ -18,8 +18,12 @@ class IssueHookTest < ActionController::TestCase
     :roles,
     :trackers,
     :users,
-    :workflows
-    # :settings # for release notes plugin config
+    :workflows,
+    :settings # for release notes plugin config
+
+  def setup
+    @controller = IssuesController.new
+  end
 
   test 'release notes are displayed on issues#show' do
   end
@@ -27,7 +31,7 @@ class IssueHookTest < ActionController::TestCase
   test 'error is shown on issues#show when issue custom field is not set up' do
     # set the issue required field to 0 so that it can't be found
     setting = Setting.find_by_name('plugin_redmine_release_notes')
-    setting.value['issue_required_field_id'] = 0
+    setting.value = setting.value.update('issue_required_field_id' => 0)
     setting.save!
 
     get :show, :id => '1'

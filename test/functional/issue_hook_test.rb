@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class IssuesControllerTest < ActionController::TestCase
+class IssueHookTest < ActionController::TestCase
   fixtures :custom_fields_projects,
     :custom_fields_trackers,
     :custom_fields,
@@ -19,7 +19,7 @@ class IssuesControllerTest < ActionController::TestCase
     :trackers,
     :users,
     :workflows,
-    :settings # for release notes plugin config
+    # :settings # for release notes plugin config
 
   test 'release notes are displayed on issues#show' do
   end

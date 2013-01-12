@@ -26,17 +26,24 @@ class IssueHookTest < ActionController::TestCase
   end
 
   test 'release notes are displayed on issues#show' do
+    get :show, :id => '1'
+
+    assert_response :success
+    assert_select 'div.flash.error', false
+    assert_select 'p#release_notes',
+      :text => "Recipes may now be printed with the 'print' button."
   end
 
   test 'error is shown on issues#show when issue custom field is not set up' do
-    # set the issue required field to 0 so that it can't be found
-    setting = Setting.find_by_name('plugin_redmine_release_notes')
-    setting.value = setting.value.update('issue_required_field_id' => 0)
-    setting.save!
+    with_settings('plugin_redmine_release_notes' =>
+                  Setting['plugin_redmine_release_notes'].update(
+                    'issue_required_field_id' => 'garbage')) do
 
-    get :show, :id => '1'
-    assert_response :success
-    assert_select 'div.flash.error',
-      :text => I18n.t(:failed_find_issue_custom_field)
+      get :show, :id => '1'
+
+      assert_response :success
+      assert_select 'div.flash.error',
+        :text => I18n.t(:failed_find_issue_custom_field)
+    end
   end
 end

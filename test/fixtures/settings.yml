@@ -1,6 +1,5 @@
 ---
 release_notes_settings:
-  id: 1
   name: plugin_redmine_release_notes
   value:
     issue_required_field_id: '1'

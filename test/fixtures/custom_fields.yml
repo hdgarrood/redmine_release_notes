@@ -1,16 +1,13 @@
 --- 
 custom_fields_001: 
-  name: Database
-  min_length: 0
-  regexp: ""
+  name: Release notes
   is_for_all: true
   is_filter: true
   type: IssueCustomField
-  max_length: 0
   possible_values: 
-  - MySQL
-  - PostgreSQL
-  - Oracle
+  - Done
+  - Todo
+  - No
   id: 1
   is_required: false
   field_format: list

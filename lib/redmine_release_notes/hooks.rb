@@ -18,7 +18,7 @@ module RedmineReleaseNotes
   class Hooks < Redmine::Hook::ViewListener
     def view_issues_show_description_bottom(context = {})
       cf = CustomField.find(
-        RedmineReleaseNotes.settings['issue_required_field_id'])
+        Setting['plugin_redmine_release_notes']['issue_required_field_id'])
 
       if context[:project].module_enabled? :release_notes &&
          context[:issue].tracker.custom_fields.include?(cf)

@@ -18,7 +18,7 @@ class IssueHookTest < ActionController::TestCase
     :roles,
     :trackers,
     :users,
-    :workflows,
+    :workflows
     # :settings # for release notes plugin config
 
   test 'release notes are displayed on issues#show' do

@@ -14,7 +14,9 @@
   <% end %>
 </div>
 
-<p><strong><%= l(:Release_notes) %></strong></p>
-<% if relnotes %>
-  <p id="release_notes"><%= html_escape(relnotes.text).gsub(/\r\n/, "<br>").html_safe %></p>
-<% end %>
+<div id="release_notes">
+  <p><strong><%= l(:Release_notes) %></strong></p>
+  <% if relnotes %>
+    <p><%= html_escape(relnotes.text).gsub(/\r\n/, "<br>").html_safe %></p>
+  <% end %>
+</div>

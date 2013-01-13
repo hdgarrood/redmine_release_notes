@@ -1,8 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class IssueHookTest < ActionController::TestCase
-  # TODO: sort out transactional tests
-
   fixtures :custom_fields_projects,
     :custom_fields_trackers,
     :custom_fields,
@@ -37,30 +35,32 @@ class IssueHookTest < ActionController::TestCase
   end
 
   test 'release notes not displayed if module is disabled' do
-    proj = Project.find(1)
-    proj.transaction do
-      proj.enabled_modules.delete(EnabledModule.find_by_name(:release_notes))
+    proj = projects(:projects_001)
+    proj.enabled_modules.delete(enabled_modules(:release_notes))
 
-      get :show, :id => '1'
-      assert_response :success
-      assert_select 'div.flash.error', false
-      assert_select 'div#release_notes>p', false
+    get :show, :id => '1'
+    assert_response :success
+    assert_select 'div.flash.error', false
+    assert_select 'div#release_notes>p', false
+  end
 
-      # roll back at the end to undo changes
-      raise ActiveRecord::Rollback
-    end
+  test 'release notes not displayed if project does not have release notes' +
+    'custom field enabled' do
+    proj = projects(:projects_001)
+    
   end
 
   test 'error is shown on issues#show when issue custom field is not set up' do
-    with_settings('plugin_redmine_release_notes' =>
-                  Setting['plugin_redmine_release_notes'].update(
-                    'issue_required_field_id' => 'garbage')) do
+    setting = settings(:release_notes)
+    setting.value = setting.value.
+      update('issue_required_field_id' => 'garbage')
 
-      get :show, :id => '1'
+    require 'debugger'; debugger
 
-      assert_response :success
-      assert_select 'div.flash.error',
-        :text => I18n.t(:failed_find_issue_custom_field)
-    end
+    get :show, :id => '1'
+
+    assert_response :success
+    assert_select 'div.flash.error',
+      :text => I18n.t(:failed_find_issue_custom_field)
   end
 end

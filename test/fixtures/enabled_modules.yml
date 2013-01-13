@@ -1,9 +1,9 @@
 --- 
-enabled_modules_001: 
+issue_tracking: 
   name: issue_tracking
   project_id: 1
   id: 1
-enabled_modules_002: 
+release_notes: 
   name: release_notes
   project_id: 1
   id: 2

@@ -31,7 +31,7 @@ class IssueHookTest < ActionController::TestCase
     assert_response :success
     assert_select 'div.flash.error', false
     assert_select 'p#release_notes',
-      :text => "Recipes may now be printed with the 'print' button."
+      :text => /Recipes may now be printed/
   end
 
   test 'error is shown on issues#show when issue custom field is not set up' do

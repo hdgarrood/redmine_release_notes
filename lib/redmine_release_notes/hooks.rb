@@ -20,14 +20,14 @@ module RedmineReleaseNotes
       cf = CustomField.find(
         Setting['plugin_redmine_release_notes']['issue_required_field_id'])
 
-      if context[:project].module_enabled? :release_notes &&
+      if context[:project].module_enabled?(:release_notes) &&
          context[:issue].tracker.custom_fields.include?(cf)
-        context[:controller].send(:render_to_string,
+        return context[:controller].send(:render_to_string,
           { :partial =>
               'hooks/release_notes/view_issues_show_description_bottom',
             :locals => context })
       else
-        ""
+        return ""
       end
     rescue ActiveRecord::RecordNotFound
       context[:controller].send(:render_to_string,

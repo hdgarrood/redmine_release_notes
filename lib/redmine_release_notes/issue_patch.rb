@@ -19,10 +19,6 @@
 # along with redmine_release_notes.  If not, see <http://www.gnu.org/licenses/>.
 
 module RedmineReleaseNotes
-  def self.settings
-    Setting['plugin_redmine_release_notes']
-  end
-
   module IssuePatch
     def self.patch(issue_class)
       unless @issue_class_patched
@@ -37,27 +33,30 @@ module RedmineReleaseNotes
         has_one :release_note, :dependent => :destroy
         validates_associated :release_note
 
+        # all the issues wanting release notes for a particular version
         def self.release_notes_required(version)
           release_notes_to_be_done(version).release_notes_completed(version)
         end
 
+        # all the issues which still need release notes for a version
         def self.release_notes_to_be_done(version)
           release_notes_for(version).
             where('custom_values.value = ?',
-                  RedmineReleaseNotes.settings['field_value_to_be_done'])
+              Setting['plugin_redmine_release_notes']['field_value_to_be_done'])
         end
 
+        # all the issues whose release notes are done for a version
         def self.release_notes_completed(version)
           release_notes_for(version).
             where('custom_values.value = ?',
-                  RedmineReleaseNotes.settings['field_value_done'])
+              Setting['plugin_redmine_release_notes']['field_value_done'])
         end
 
         private
         def self.release_notes_for(version)
           joins(:custom_values).
             where('custom_values.custom_field_id = ?',
-                  RedmineReleaseNotes.settings['issue_required_field_id']).
+              Setting['plugin_redmine_release_notes']['issue_required_field_id'])
             where('fixed_version_id = ?', version.id)
         end
       end

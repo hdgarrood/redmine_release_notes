@@ -25,10 +25,7 @@ class IssueHookTest < ActionController::TestCase
     @controller = IssuesController.new
 
     # this is rather horrible; there should be a better way
-    Setting.instance_eval do
-      @cached_settings = {}
-      @cached_cleared_on = Time.now
-    end
+    Setting.clear_cache
   end
 
   test 'release notes are displayed on issues#show' do
@@ -53,7 +50,12 @@ class IssueHookTest < ActionController::TestCase
   test 'release notes not displayed if project does not have release notes' +
     'custom field enabled' do
     proj = projects(:projects_001)
-    
+    proj.issue_custom_fields.delete(custom_fields(:custom_fields_001))
+
+    get :show, :id => '1'
+    assert_response :success
+    assert_select 'div.flash.error', false
+    assert_select 'div#release_notes>p', false
   end
 
   test 'error is shown on issues#show when issue custom field is not set up' do

@@ -37,7 +37,7 @@ class IssuePatchTest < ActiveSupport::TestCase
     i.subject = 'everything is broken'
     i.project = projects(:projects_001)
     i.author = users(:users_001)
-    i.tracker = trackers(:trackers_001)
+    i.tracker = trackers(:bug)
     i
   end
 end

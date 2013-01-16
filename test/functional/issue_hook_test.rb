@@ -37,7 +37,7 @@ class IssueHookTest < ActionController::TestCase
       :text => /Recipes may now be printed/
   end
 
-  test 'release notes not displayed if module is disabled' do
+  test 'release notes not displayed if module not enabled for the project' do
     proj = projects(:projects_001)
     proj.enabled_modules.delete(enabled_modules(:release_notes))
 
@@ -51,6 +51,17 @@ class IssueHookTest < ActionController::TestCase
     'custom field enabled' do
     proj = projects(:projects_001)
     proj.issue_custom_fields.delete(custom_fields(:custom_fields_001))
+
+    get :show, :id => '1'
+    assert_response :success
+    assert_select 'div.flash.error', false
+    assert_select 'div#release_notes>p', false
+  end
+
+  test "release notes not displayed if issue's tracker does not have the" +
+    "release notes custom field" do
+    tracker = trackers(:bug)
+    tracker.custom_fields.delete(custom_fields(:custom_fields_001))
 
     get :show, :id => '1'
     assert_response :success

@@ -5,6 +5,6 @@ release_notes:
     issue_required_field_id: '1'
     field_value_done: Done
     field_value_todo: Todo
-    field_value_not_required: No
+    field_value_not_required: 'No' # silly yaml changes a literal No to false
     version_generated_field_id: '1'
     default_generation_format: Textile

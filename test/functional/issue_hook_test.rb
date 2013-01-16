@@ -23,6 +23,12 @@ class IssueHookTest < ActionController::TestCase
 
   def setup
     @controller = IssuesController.new
+
+    # this is rather horrible; there should be a better way
+    Setting.instance_eval do
+      @cached_settings = {}
+      @cached_cleared_on = Time.now
+    end
   end
 
   test 'release notes are displayed on issues#show' do
@@ -51,11 +57,10 @@ class IssueHookTest < ActionController::TestCase
   end
 
   test 'error is shown on issues#show when issue custom field is not set up' do
-    setting = settings(:release_notes)
-    setting.value = setting.value.
-      update('issue_required_field_id' => 'garbage')
-
-    require 'debugger'; debugger
+    # change the issue required field id just for this test
+    s = Setting.find_by_name(:plugin_redmine_release_notes)
+    s.value = s.value.update('issue_required_field_id' => 'garbage')
+    s.save!
 
     get :show, :id => '1'
 

@@ -63,10 +63,11 @@ module RedmineReleaseNotes
 
         private
         # joins issues with custom values so that the result set has one row
-        # per issue, and the value of the release notes custom field for that
-        # issue is given by 'custom_values.value'
+        # per issue, and the value of the release notes custom field value for
+        # that issue is given by 'custom_values.value'
         def self.with_release_notes
-          custom_field_id = Setting.plugin_redmine_release_notes['issue_required_field_id']
+          custom_field_id = Setting.
+            plugin_redmine_release_notes['issue_required_field_id']
           joins(:custom_values).
             where('custom_values.custom_field_id = ?', custom_field_id)
         end

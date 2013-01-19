@@ -27,4 +27,21 @@ class ReleaseNoteTest < ActiveSupport::TestCase
     assert !rn.valid?,
       "release notes should not be valid when their text is 2001 chars long"
   end
+
+  test 'release notes are completed when their issues are completed' do
+    mock_issue = Object.new
+    def mock_issue.release_notes_completed?; true; end
+
+    rn = ReleaseNote.new
+    def rn.issue; @mock_issue; end
+    rn.instance_variable_set(:@mock_issue, mock_issue)
+
+    assert rn.completed?,
+      "release notes should be completed if their issues are completed"
+
+    def mock_issue.release_notes_completed?; false; end
+
+    assert !rn.completed?,
+      "release notes should not be completed unless their issues are completed"
+  end
 end

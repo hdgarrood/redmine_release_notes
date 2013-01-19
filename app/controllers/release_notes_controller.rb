@@ -70,7 +70,7 @@ class ReleaseNotesController < ApplicationController
   
   def show
     release_note = ReleaseNote.find(params[:id])
-    redirect_to :controller => "issues", :action => "show", :id => release_note.issue_id
+    redirect_to release_note.issue
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -91,17 +91,14 @@ class ReleaseNotesController < ApplicationController
     @release_note = ReleaseNote.find(params[:id])
     @issue = @release_note.issue
     @project = @issue.project
-    release_notes_cf_id = CustomField.find_by_name(ReleaseNotesHelper::CONFIG['issue_required_field']).id
-    release_notes_completed_value = @issue.custom_values.find_by_custom_field_id(release_notes_cf_id).value
-    @release_notes_completed = (release_notes_completed_value == ReleaseNotesHelper::CONFIG['field_value_done'])
+    @release_notes_completed = @release_note.completed?
   rescue ActiveRecord::RecordNotFound
     render_404
   end
   
   def create
-    @release_note = ReleaseNote.create(:text => params[:release_note][:text])
-    @issue = Issue.find(params[:release_note][:issue_id])
-    @issue.release_note = @release_note
+    @release_note = ReleaseNote.create(params[:release_note])
+    @issue = @release_note.issue
 
     if @issue.save
       flash[:notice] = l(:notice_successful_create)
@@ -119,42 +116,37 @@ class ReleaseNotesController < ApplicationController
   def update
     @release_note = ReleaseNote.find(params[:id])
     @release_note.text = params[:release_note][:text]
+
     if @release_note.save
       flash[:notice] = l(:notice_successful_update)
     else
-      error_str = format_release_note_errors(@release_note, l(:release_note).downcase)
+      error_str = format_release_note_errors(@release_note, l(:release_note))
       flash[:error] = error_str
-      redirect_to :action => "edit", :id => params[:id]
+      redirect_to edit_release_note_path(@release_note)
       return
     end
     
     update_custom_field(params[:mark_complete])
-    
-    redirect_to :controller => 'issues', :action => 'show', :id => @release_note.issue.id
-    return
-    
+    redirect_to @release_note.issue
   rescue ActiveRecord::RecordNotFound
     render_404
   end
   
   def destroy
-    if request.delete?
-      release_note = ReleaseNote.find(params[:id])
-      issue_id = release_note.issue_id
-      release_note.destroy
-      redirect_to :action => 'show', :controller => 'issues', :id => issue_id
-      flash[:notice] = l(:notice_successful_delete)
-    else
-      render_403
-    end
+    release_note = ReleaseNote.find(params[:id])
+    issue = release_note.issue
+    release_note.destroy
+
+    flash[:notice] = l(:notice_successful_delete)
+    redirect_to issue
   end
   
   def generate
     @project = @version.project
-    @formats = YAML.load_file("#{Rails.root}/plugins/redmine_release_notes/config/formats.yml")
+    @formats = ['todo']
     @format = params[:release_notes_format]
     if @formats[@format].nil? or @formats[@format].empty?
-      @format = ReleaseNotesHelper::CONFIG['default_generation_format']
+      @format = Setting.plugin_redmine_release_notes['default_generation_format']
     end
 
     if params[:raw]

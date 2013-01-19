@@ -1,8 +1,4 @@
-# Patches Redmine's issues dynamically.
-# Adds a relationship - an issue has one release note
-# Adds methods for counting required and completed release notes for a version
-
-# Copyright © 2012  Harry Garrood
+# Copyright © 2012-2013 Harry Garrood
 # This file is a part of redmine_release_notes.
 
 # redmine_release_notes is free software: you can redistribute it and/or modify
@@ -20,16 +16,16 @@
 
 module RedmineReleaseNotes
   module IssuePatch
-    def self.patch(issue_class)
-      unless @issue_class_patched
-        do_patch(issue_class)
-        @issue_class_patched = true
+    def self.patch(klass)
+      unless @already_patched
+        do_patch(klass)
+        @already_patched = true
       end
     end
 
     private
-    def self.do_patch(issue_class)
-      issue_class.class_eval do
+    def self.do_patch(klass)
+      klass.class_eval do
         has_one :release_note, :dependent => :destroy
         validates_associated :release_note
 

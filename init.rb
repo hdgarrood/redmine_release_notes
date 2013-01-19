@@ -28,7 +28,7 @@ Redmine::Plugin.register :redmine_release_notes do
   name 'Redmine release notes plugin'
   author 'Harry Garrood'
   description 'A plugin for managing release notes.'
-  version '1.2.0'
+  version '1.2.1-pre'
   author_url 'https://github.com/hdgarrood'
   requires_redmine :version_or_higher => '2.0.0'
 

@@ -15,11 +15,6 @@
 # along with redmine_release_notes.  If not, see <http://www.gnu.org/licenses/>.
 
 module ReleaseNotesHelper
-
-  def self.config
-    ::RELEASE_NOTES_CONFIG
-  end
- 
   def generate_release_notes(version_id, format)
     output_str = ""
     null_release_notes = []

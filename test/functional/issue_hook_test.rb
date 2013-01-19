@@ -115,10 +115,13 @@ class IssueHookTest < ActionController::TestCase
     assert_select 'div.flash.error',
       :text => I18n.t(:failed_find_issue_custom_field)
 
-    @settings.value = @settings.value.
-      update('issue_required_field_id' => @cf.id)
-    @settings.save!
+    @admin = FactoryGirl.create(:user, :admin => true)
+    @request.session[:user_id] = @admin.id
 
     get :show, :id => @issue.id
+
+    assert_response :success
+    assert_select 'div.flash.error',
+      :text => /#{I18n.t(:button_configure)}/
   end
 end

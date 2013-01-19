@@ -73,12 +73,12 @@ FactoryGirl.define do
 
     after(:build) do |s, e|
       s.value = {
-        :issue_required_field_id    => e.issue_required_field_id,
-        :default_generation_format  => "Textile",
-        :field_value_done           => "Done",
-        :field_value_to_be_done     => "Todo",
-        :field_value_not_required   => "No"
-      }
+        'issue_required_field_id'    => e.issue_required_field_id,
+        'default_generation_format'  => "Textile",
+        'field_value_done'           => "Done",
+        'field_value_to_be_done'     => "Todo",
+        'field_value_not_required'   => "No"
+      }.with_indifferent_access
     end
   end
 end

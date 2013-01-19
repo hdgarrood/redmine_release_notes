@@ -7,15 +7,14 @@ class IssueHookTest < ActionController::TestCase
     # this is rather horrible; there should be a better way
     Setting.clear_cache
 
-    @user = FactoryGirl.create(:user)
-    User.current = @user
+    @user = User.anonymous
 
     # set up release notes
     @cf         = FactoryGirl.create(:release_notes_custom_field)
     @settings   = FactoryGirl.create(:release_notes_settings,
                                      :issue_required_field_id => @cf.id)
     @tracker    = FactoryGirl.create(:tracker)
-    @project    = FactoryGirl.create(:project, :trackers => [@project])
+    @project    = FactoryGirl.create(:project, :trackers => [@tracker])
     @module     = FactoryGirl.create(:enabled_module,
                                      :name => 'release_notes',
                                      :project => @project)
@@ -24,6 +23,11 @@ class IssueHookTest < ActionController::TestCase
                                      :tracker => @tracker)
     @issue.release_note = FactoryGirl.create(:release_note,
                                       :text => "product can now do backflips")
+
+    # allow anonymous user to view issues in this project
+    @role       = @user.roles_for_project(@project).first
+    @role.permissions = [:view_issues]
+    @role.save!
   end
 
   def assert_release_notes_displayed
@@ -79,7 +83,7 @@ class IssueHookTest < ActionController::TestCase
   test "release notes not displayed if issue's tracker does not have the" +
     " release notes custom field" do
     tracker = @project.trackers.first
-    tracker.issue_custom_fields.delete(@cf)
+    tracker.custom_fields.delete(@cf)
 
     assert_release_notes_not_displayed
   end

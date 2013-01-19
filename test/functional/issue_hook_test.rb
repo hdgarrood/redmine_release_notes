@@ -67,7 +67,7 @@ class IssueHookTest < ActionController::TestCase
     @project.enabled_modules.where('name = ?', 'release_notes').destroy_all
     @project.save!
 
-    get :show, :id => '1'
+    get :show, :id => @issue.id
 
     assert_release_notes_not_displayed
   end
@@ -76,7 +76,7 @@ class IssueHookTest < ActionController::TestCase
     ' custom field enabled' do
     @project.issue_custom_fields.delete(@cf)
 
-    get :show, :id => '1'
+    get :show, :id => @issue.id
 
     assert_release_notes_not_displayed
   end
@@ -86,6 +86,8 @@ class IssueHookTest < ActionController::TestCase
     tracker = @project.trackers.first
     tracker.custom_fields.delete(@cf)
 
+    get :show, :id => @issue.id
+
     assert_release_notes_not_displayed
   end
 
@@ -94,10 +96,29 @@ class IssueHookTest < ActionController::TestCase
       update('issue_required_field_id' => 'garbage')
     @settings.save!
 
-    get :show, :id => '1'
+    get :show, :id => @issue.id
 
     assert_response :success
     assert_select 'div.flash.error',
       :text => I18n.t(:failed_find_issue_custom_field)
+  end
+
+  test 'configure link is only shown on when issue custom field is not set up' +
+    ' and current user is admin' do
+    @settings.value = @settings.value.
+      update('issue_required_field_id' => 'garbage')
+    @settings.save!
+
+    get :show, :id => @issue.id
+
+    assert_response :success
+    assert_select 'div.flash.error',
+      :text => I18n.t(:failed_find_issue_custom_field)
+
+    @settings.value = @settings.value.
+      update('issue_required_field_id' => @cf.id)
+    @settings.save!
+
+    get :show, :id => @issue.id
   end
 end

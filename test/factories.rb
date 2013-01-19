@@ -9,8 +9,8 @@ FactoryGirl.define do
     status
 
     after(:build) do |i|
-      i.tracker = FactoryGirl.create(:tracker,
-                                     :projects => [i.project])
+      i.tracker ||= FactoryGirl.create(:tracker,
+                                       :projects => [i.project])
     end
   end
 
@@ -23,14 +23,9 @@ FactoryGirl.define do
   end
 
   factory :project do
-    name        { Faker::Lorem.words(1).first[0..20] }
-    identifier  { name.downcase }
-    
-    after(:build) do |p|
-      FactoryGirl.create(:enabled_module,
-                         :name => 'issue_tracking',
-                         :project => p)
-    end
+    name                  { Faker::Lorem.words(1).first[0..20] }
+    identifier            { name.downcase }
+    enabled_module_names  %w(issue_tracking)
   end
 
   factory :enabled_module do
@@ -72,7 +67,7 @@ FactoryGirl.define do
     name "plugin_redmine_release_notes"
 
     after(:build) do |s, e|
-      s.value = {
+      s.value ||= {
         'issue_required_field_id'    => e.issue_required_field_id,
         'default_generation_format'  => "Textile",
         'field_value_done'           => "Done",

@@ -13,16 +13,16 @@ class IssueHookTest < ActionController::TestCase
     @cf         = FactoryGirl.create(:release_notes_custom_field)
     @settings   = FactoryGirl.create(:release_notes_settings,
                                      :issue_required_field_id => @cf.id)
-    @tracker    = FactoryGirl.create(:tracker)
-    @project    = FactoryGirl.create(:project, :trackers => [@tracker])
-    @module     = FactoryGirl.create(:enabled_module,
-                                     :name => 'release_notes',
-                                     :project => @project)
+    @tracker    = FactoryGirl.create(:tracker,
+                                     :custom_fields => [@cf])
+    @project    = FactoryGirl.create(:project,
+                                    :trackers => [@tracker],
+                                    :enabled_module_names =>
+                                      %w(issue_tracking release_notes))
     @issue      = FactoryGirl.create(:issue,
                                      :project => @project,
                                      :tracker => @tracker)
-    @issue.release_note = FactoryGirl.create(:release_note,
-                                      :text => "product can now do backflips")
+    @issue.create_release_note!(:text => "product can now do backflips")
 
     # allow anonymous user to view issues in this project
     @role       = @user.roles_for_project(@project).first
@@ -55,7 +55,7 @@ class IssueHookTest < ActionController::TestCase
   test 'release notes displayed when custom field is not for all projects' do
     @cf.is_for_all = false
     @cf.save!
-    @project.issue_custom_fields << @cf
+    @project.issue_custom_fields = [@cf]
     @project.save!
 
     get :show, :id => @issue.id
@@ -64,7 +64,8 @@ class IssueHookTest < ActionController::TestCase
   end
 
   test 'release notes not displayed if module not enabled for the project' do
-    @project.enabled_modules.delete(@module)
+    @project.enabled_modules.where('name = ?', 'release_notes').destroy_all
+    @project.save!
 
     get :show, :id => '1'
 

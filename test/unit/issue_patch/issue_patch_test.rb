@@ -51,4 +51,34 @@ class IssuePatchTest < ActiveSupport::TestCase
       "issue's release notes should not be completed when the custom field value" +
       " is not the same as the configured field_value_done"
   end
+
+  test "Issue.release_notes_required gives all issues which want release notes" +
+    ", including those which have them already" do
+
+    cf          = FactoryGirl.create(:release_notes_custom_field)
+    settings    = FactoryGirl.create(:release_notes_settings,
+                                     :issue_required_field_id => cf.id)
+
+    todo_value  = settings.value['field_value_todo']
+    done_value  = settings.value['field_value_done']
+    not_value   = settings.value['field_value_not_required']
+
+    tracker     = FactoryGirl.create(:tracker,
+                                     :custom_fields => [cf])
+
+    # create three issues; one todo, one done, one not required
+    issues = [todo_value, done_value, not_value].map do |rn_value|
+      issue       = FactoryGirl.create(:issue, :tracker => tracker)
+      cv          = FactoryGirl.create(:custom_value,
+                                       :customized_type => 'Issue',
+                                       :customized_id   => issue.id,
+                                       :custom_field => cf,
+                                       :value => rn_value)
+      issue
+    end
+
+    assert_equal issues[0..1], Issue.release_notes_required.to_a,
+      "Issue.release_notes_required should give all issues which want release" +
+      " notes, including those which have them already"
+  end
 end

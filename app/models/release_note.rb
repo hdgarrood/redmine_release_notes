@@ -20,4 +20,8 @@ class ReleaseNote < ActiveRecord::Base
 
   validates :text, :presence => :true,
                    :length => { :maximum => 2000 }
+
+  def completed?
+    self.issue.release_notes_completed?
+  end
 end

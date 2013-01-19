@@ -1,7 +1,10 @@
 # Load the normal Rails helper
-require File.expand_path(File.dirname(__FILE__) + '/../../../test/test_helper')
+require File.dirname(__FILE__) + '/../../../test/test_helper'
 
 class ActiveSupport::TestCase
-  # Ensure that we are using the plugin's fixture path
-  self.fixture_path = File.dirname(__FILE__) + '/fixtures'
+  self.use_transactional_fixtures = true
 end
+
+require 'factory_girl_rails'
+require File.dirname(__FILE__) + '/factories.rb'
+FactoryGirl.find_definitions

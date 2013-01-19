@@ -21,7 +21,7 @@ module RedmineReleaseNotes
         Setting['plugin_redmine_release_notes']['issue_required_field_id'])
 
       if context[:project].module_enabled?(:release_notes) &&
-         context[:project].issue_custom_fields.include?(cf) &&
+         context[:project].all_issue_custom_fields.include?(cf) &&
          context[:issue].tracker.custom_fields.include?(cf)
         return context[:controller].send(:render_to_string,
           { :partial =>

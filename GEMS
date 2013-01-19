@@ -1,0 +1,5 @@
+# Having a Gemfile in here as well as a Gemfile in Redmine's root seems to
+# cause all kind of problems. As a workaround, gems are listed here. Append
+# the contents of this file to #{Rails.root}/Gemfile.local
+gem 'factory_girl_rails', '~> 4.0'
+gem 'faker'

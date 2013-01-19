@@ -1,5 +1,7 @@
-# all of these just assume the db has already been prepared and don't set
-# verbose to true
+# differences to standard Redmine plugin tests:
+#   executes db:test:purge instead of db:test:prepare
+#   verbose is set to false
+#   only does release notes plugin
 
 namespace :redmine do
   namespace :plugins do

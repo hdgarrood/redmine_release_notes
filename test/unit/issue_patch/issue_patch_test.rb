@@ -40,15 +40,15 @@ class IssuePatchTest < ActiveSupport::TestCase
                                     :custom_field => cf,
                                     :value => done_value)
 
-    assert issue.release_notes_completed?,
-      "issue's release notes should be completed when the custom field value" +
+    assert issue.release_notes_done?,
+      "issue's release notes should be done when the custom field value" +
       " is the same as the configured field_value_done"
 
     cv.value = todo_value
     cv.save!
 
-    assert !issue.release_notes_completed?,
-      "issue's release notes should not be completed when the custom field value" +
+    assert !issue.release_notes_done?,
+      "issue's release notes should not be done when the custom field value" +
       " is not the same as the configured field_value_done"
   end
 
@@ -80,5 +80,35 @@ class IssuePatchTest < ActiveSupport::TestCase
     assert_equal issues[0..1], Issue.release_notes_required.to_a,
       "Issue.release_notes_required should give all issues which want release" +
       " notes, including those which have them already"
+  end
+
+  test "Issue.release_notes_todo gives all issues which need release notes" +
+    " and do not yet have them" do
+
+    cf          = FactoryGirl.create(:release_notes_custom_field)
+    settings    = FactoryGirl.create(:release_notes_settings,
+                                     :issue_required_field_id => cf.id)
+
+    todo_value  = settings.value['field_value_todo']
+    done_value  = settings.value['field_value_done']
+    not_value   = settings.value['field_value_not_required']
+
+    tracker     = FactoryGirl.create(:tracker,
+                                     :custom_fields => [cf])
+
+    # create three issues; one todo, one done, one not required
+    issues = [todo_value, done_value, not_value].map do |rn_value|
+      issue       = FactoryGirl.create(:issue, :tracker => tracker)
+      cv          = FactoryGirl.create(:custom_value,
+                                       :customized_type => 'Issue',
+                                       :customized_id   => issue.id,
+                                       :custom_field => cf,
+                                       :value => rn_value)
+      issue
+    end
+
+    assert_equal issues[0], Issue.release_notes_todo.first,
+      "Issue.release_notes_todo should give all issues whose release notes" +
+      " need to be done and are not yet done"
   end
 end

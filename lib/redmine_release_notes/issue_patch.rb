@@ -42,19 +42,19 @@ module RedmineReleaseNotes
         end
 
         # issues which still need release notes
-        def self.release_notes_to_be_done
+        def self.release_notes_todo
           with_release_notes.where('custom_values.value = ?',
             Setting.plugin_redmine_release_notes['field_value_todo'])
         end
 
         # issues whose release notes are done
-        def self.release_notes_completed
+        def self.release_notes_done
           with_release_notes.where('custom_values.value = ?',
             Setting.plugin_redmine_release_notes['field_value_done'])
         end
 
         # are the release notes complete for a particular issue
-        def release_notes_completed?
+        def release_notes_done?
           setting = Setting.plugin_redmine_release_notes
           custom_field_id = setting['issue_required_field_id']
           cv = self.custom_values.find_by_custom_field_id(custom_field_id)

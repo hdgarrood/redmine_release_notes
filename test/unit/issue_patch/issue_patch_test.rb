@@ -20,4 +20,35 @@ class IssuePatchTest < ActiveSupport::TestCase
       "i should be valid because its release note is valid. Errors:\n" +
       i.errors.full_messages.join(", ")
   end
+
+  test "issues' release notes are completed when the release notes custom " +
+    "field's value is the configured field_value_done" do
+
+    cf          = FactoryGirl.create(:release_notes_custom_field)
+    settings    = FactoryGirl.create(:release_notes_settings,
+                                     :issue_required_field_id => cf.id)
+
+    todo_value  = settings.value['field_value_todo']
+    done_value  = settings.value['field_value_done']
+
+    tracker     = FactoryGirl.create(:tracker,
+                                     :custom_fields => [cf])
+    issue       = FactoryGirl.create(:issue, :tracker => tracker)
+    cv          = FactoryGirl.create(:custom_value,
+                                    :customized_type => 'Issue',
+                                    :customized_id   => issue.id,
+                                    :custom_field => cf,
+                                    :value => done_value)
+
+    assert issue.release_notes_completed?,
+      "issue's release notes should be completed when the custom field value" +
+      " is the same as the configured field_value_done"
+
+    cv.value = todo_value
+    cv.save!
+
+    assert !issue.release_notes_completed?,
+      "issue's release notes should not be completed when the custom field value" +
+      " is not the same as the configured field_value_done"
+  end
 end

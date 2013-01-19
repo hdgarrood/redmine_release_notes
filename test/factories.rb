@@ -59,6 +59,12 @@ FactoryGirl.define do
     end
   end
 
+  factory :custom_value do
+    association :customized, :factory => :issue
+    association :custom_field, :factory => :issue_custom_field
+    value "hello"
+  end
+
   factory :release_notes_settings, :class => Setting do
     ignore do
       issue_required_field_id 0
@@ -71,7 +77,7 @@ FactoryGirl.define do
         'issue_required_field_id'    => e.issue_required_field_id,
         'default_generation_format'  => "Textile",
         'field_value_done'           => "Done",
-        'field_value_to_be_done'     => "Todo",
+        'field_value_todo'           => "Todo",
         'field_value_not_required'   => "No"
       }.with_indifferent_access
     end

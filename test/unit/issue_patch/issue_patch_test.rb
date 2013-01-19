@@ -107,8 +107,37 @@ class IssuePatchTest < ActiveSupport::TestCase
       issue
     end
 
-    assert_equal issues[0], Issue.release_notes_todo.first,
+    assert_equal [issues[0]], Issue.release_notes_todo.to_a,
       "Issue.release_notes_todo should give all issues whose release notes" +
       " need to be done and are not yet done"
+  end
+
+  test "Issue.release_notes_done gives all issues whose release notes are done" do
+
+    cf          = FactoryGirl.create(:release_notes_custom_field)
+    settings    = FactoryGirl.create(:release_notes_settings,
+                                     :issue_required_field_id => cf.id)
+
+    todo_value  = settings.value['field_value_todo']
+    done_value  = settings.value['field_value_done']
+    not_value   = settings.value['field_value_not_required']
+
+    tracker     = FactoryGirl.create(:tracker,
+                                     :custom_fields => [cf])
+
+    # create three issues; one todo, one done, one not required
+    issues = [todo_value, done_value, not_value].map do |rn_value|
+      issue       = FactoryGirl.create(:issue, :tracker => tracker)
+      cv          = FactoryGirl.create(:custom_value,
+                                       :customized_type => 'Issue',
+                                       :customized_id   => issue.id,
+                                       :custom_field => cf,
+                                       :value => rn_value)
+      issue
+    end
+
+    assert_equal [issues[1]], Issue.release_notes_done.to_a,
+      "Issue.release_notes_done should give all issues whose release notes" +
+      " are done"
   end
 end

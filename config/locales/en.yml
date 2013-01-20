@@ -33,3 +33,5 @@ en:
     
   select_all: "Select all"
   raw: "Raw"
+
+  label_formats: "Formats"

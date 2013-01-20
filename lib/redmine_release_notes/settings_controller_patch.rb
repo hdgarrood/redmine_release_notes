@@ -26,6 +26,8 @@ module RedmineReleaseNotes
     private
     def self.do_patch(klass)
       klass.class_eval do
+        helper 'release_notes_settings'
+
         # tells Rails to render the 'release notes settings' view instead of the
         # standard plugin settings view if the plugin we're looking at is the
         # release notes one

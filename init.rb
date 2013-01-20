@@ -19,9 +19,11 @@ require 'redmine_release_notes/hooks'
 
 # Patches to the Redmine core.
 require_dependency 'issue'
+require_dependency 'settings_controller'
 
 ActionDispatch::Callbacks.to_prepare do
   RedmineReleaseNotes::IssuePatch.patch(Issue)
+  RedmineReleaseNotes::SettingsControllerPatch.patch(SettingsController)
 end
 
 Redmine::Plugin.register :redmine_release_notes do
@@ -39,7 +41,7 @@ Redmine::Plugin.register :redmine_release_notes do
       'field_value_not_required' => 'No',
       'version_generated_field_id' => 0,
       'default_generation_format' => 'HTML'
-    }, :partial => 'settings/settings'
+    }, :partial => 'not_blank' # this won't be used, but can't be blank
   
   project_module :release_notes do
     permission :release_notes,

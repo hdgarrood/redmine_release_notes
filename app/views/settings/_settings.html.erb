@@ -1,6 +1,0 @@
-<% @settings.keys.each do |key| %>
-<p>
-  <%= label_tag key, key %>
-  <%= text_field_tag "settings[#{key}]", @settings[key] %>
-</p>
-<% end %>

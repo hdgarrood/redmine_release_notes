@@ -2,12 +2,27 @@
 class ReleaseNotesSettings
   include ActiveModel::Validations
 
+  # to be valid:
   validate do
-    %w(not_required todo done).each do |val|
+    custom_field = IssueCustomField.find(custom_field_id)
+    if custom_field
+      %w(not_required todo done).map{|s| "field_value_#{s}"}.each do |key|
+        val = send(key)
+        # each of the given values must be valid possible values
+        unless custom_field.possible_values.include?(key)
+          errors.add(:base,
+                     t('release_notes.config.value_not_exist', val))
+        end
+      end
+    else
+    # its custom_field_id must reference an existing IssueCustomField
+      errors.add(:base, t('release_notes.config.custom_field_not_exist'))
     end
 
-    errors.add(:base, t('release_notes.config.format_not_exist')) \
-      unless true # todo
+    unless true # TODO
+      # the referenced default generation format must exist
+      errors.add(:base, t('release_notes.config.format_not_exist'))
+    end
   end
 
   # public constructor method is +find+ instead of +new+

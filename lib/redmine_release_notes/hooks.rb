@@ -20,7 +20,6 @@ module RedmineReleaseNotes
       cf = CustomField.find(
         Setting['plugin_redmine_release_notes']['custom_field_id'])
 
-
       if context[:project].module_enabled?(:release_notes) &&
          context[:project].all_issue_custom_fields.include?(cf) &&
          context[:issue].tracker.custom_fields.include?(cf)

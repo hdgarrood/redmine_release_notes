@@ -26,6 +26,8 @@ ActionDispatch::Callbacks.to_prepare do
   RedmineReleaseNotes::SettingsControllerPatch.patch(SettingsController)
 end
 
+require File.dirname(__FILE__) + '/app/models/release_notes_settings'
+
 Redmine::Plugin.register :redmine_release_notes do
   name 'Redmine release notes plugin'
   author 'Harry Garrood'
@@ -33,15 +35,11 @@ Redmine::Plugin.register :redmine_release_notes do
   version '1.2.1-pre'
   author_url 'https://github.com/hdgarrood'
   requires_redmine :version_or_higher => '2.0.0'
-
-  settings :default => {
-      'issue_required_field_id' => 0,
-      'field_value_done' => 'Done',
-      'field_value_todo' => 'Todo',
-      'field_value_not_required' => 'No',
-      'version_generated_field_id' => 0,
-      'default_generation_format' => 'HTML'
-    }, :partial => 'not_blank' # this won't be used, but can't be blank
+  
+  # the partial won't be used, but can't be blank, because Redmine needs to
+  # think this plugin is configurable
+  settings :default => ReleaseNotesSettings.defaults,
+    :partial => 'not_blank' 
   
   project_module :release_notes do
     permission :release_notes,

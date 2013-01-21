@@ -21,7 +21,13 @@ module ReleaseNotesSettingsHelper
         :label => :label_general},
       {:name => 'formats',
         :partial => 'settings/release_notes_formats',
-        :label => :label_formats}
+        :label => 'release_notes.formats'}
     ]
+  end
+
+  def options_for_release_notes_issue_required_field(settings)
+    custom_fields = IssueCustomField.where(:field_format => 'list')
+    selected = settings['issue_required_field_id']
+    options_from_collection_for_select(custom_fields, 'id', 'name', selected)
   end
 end

@@ -1,37 +1,48 @@
 en:
-  Release_note: "Release note"
-  release_note: "release note"
-  Release_notes: "Release notes"
-  release_notes: "release notes"
-  
-  generate_release_notes: "Generate release notes"
-  generate_title: "Release notes for version %{version}"
-  mark_version_as_generated: "Mark this version as generated"
-  edit_release_notes: "Editing release notes for"
-  mark_release_notes_complete: "Release notes complete for this issue?"
-  
-  release_notes_destroy_confirmation: "Are you sure you want to delete these release notes?"
-  failed_find_custom_value: "Failed to find the custom field value for this issue. Have you set this project up for release notes properly?"
-  failed_find_issue_custom_field: "Failed to find the release notes custom field for issues."
-  failed_find_custom_field: "Failed to find the custom field: %{field}"
-  failed_update_issue_history: "Failed to save %{field} field update in issue history"
-  failed_save_field_value: "Failed to save value for field: %{field}"
-  
-  show_generated_versions: "Show generated versions"
+  release_notes:
+    title: "Release note"
+    title_plural: "Release notes"
 
-  x_issues_in_total: "%{count} issues in total"
-  x_requiring_release_notes: "%{count} requiring release notes"
-  x_done: "%{count} done"
-  x_to_go: "%{count} to go"
-  all_done: "All done!"
-  not_started: "Not started"
+    release_note: "release note"
+    release_note_plural: "release notes"
 
-  some_issues_no_release_notes_html: "There were some issues, with \"%{field}\" = \"%{value}\" but with no release notes (<a href=# onclick=\"alert(&quot;Issues with no release notes: %{list}&quot;)\">show</a>)"
-  some_issues_not_finished:
-    one: "There is 1 issue which still needs release notes"
-    other: "There are %{count} issues which still need release notes"
+    generate: "Generate release notes"
+    generate_title: "Release notes for version %{version}"
+    hide_version: "Hide this version from this list"
+    edit: "Editing release notes for"
+    mark_complete: "Release notes complete for this issue?"
+
+    config:
+      issue_required_field:
+        name: "Issue custom field for release notes"
+        info: "This field is used to check whether release notes for issues have been completed. It should be a list type custom field with three values; indicating that either a) the issue doesn't need release notes, b) that the issue does need release notes and doesn't have them yet, or c) that the release notes for this issue are done."
+      field_value_not_required:
+        name: "Value for release notes not required"
+      field_value_todo:
+        name: "Value for release notes to be done"
+      field_value_done:
+        name: "Value for release notes done"
+  
+    confirm_destroy: "Are you sure you want to delete these release notes?"
+    failed_find_issue_custom_field: "Failed to find the release notes custom field for issues."
+    failed_update_issue_history: "Failed to save %{field} field update in issue history"
+    failed_save_field_value: "Failed to save value for field: %{field}"
+  
+    show_hidden_versions: "Show hidden versions"
+
+    x_issues_in_total: "%{count} issues in total"
+    x_requiring_release_notes: "%{count} requiring release notes"
+    x_done: "%{count} done"
+    x_to_go: "%{count} to go"
+    all_done: "All done!"
+    not_started: "Not started"
+
+    some_issues_no_release_notes_html: "There were some issues, with \"%{field}\" = \"%{value}\" but with no release notes (<a href=# onclick=\"alert(&quot;Issues with no release notes: %{list}&quot;)\">show</a>)"
+    some_issues_not_finished:
+      one: "There is 1 issue which still needs release notes"
+      other: "There are %{count} issues which still need release notes"
     
-  select_all: "Select all"
-  raw: "Raw"
+    select_all: "Select all"
+    raw: "Raw"
 
-  label_formats: "Formats"
+    formats: "Formats"

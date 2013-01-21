@@ -67,18 +67,18 @@ FactoryGirl.define do
 
   factory :release_notes_settings, :class => Setting do
     ignore do
-      issue_required_field_id 0
+      custom_field_id 0
     end
 
     name "plugin_redmine_release_notes"
 
     after(:build) do |s, e|
       s.value ||= {
-        'issue_required_field_id'    => e.issue_required_field_id,
-        'default_generation_format'  => "Textile",
-        'field_value_done'           => "Done",
-        'field_value_todo'           => "Todo",
-        'field_value_not_required'   => "No"
+        'custom_field_id'             => e.custom_field_id,
+        'default_generation_format'   => "Textile",
+        'field_value_done'            => "Done",
+        'field_value_todo'            => "Todo",
+        'field_value_not_required'    => "No"
       }.with_indifferent_access
     end
   end

@@ -20,7 +20,7 @@ module ReleaseNotesHelper
     null_release_notes = []
     count_release_notes_to_be_done = Issue.release_notes_to_be_done(version_id).count
     version = Version.find(version_id)
-    release_notes_required_field_id = CustomField.find_by_name(CONFIG['issue_required_field']).id
+    release_notes_required_field_id = CustomField.find_by_name(CONFIG['custom_field']).id
     
     output_str << format['start'] + "\n"
   
@@ -73,7 +73,7 @@ module ReleaseNotesHelper
       if null_release_notes != []
         flash.now[:warning] << l(:some_issues_no_release_notes_html,
                                 :list => comma_format_list(null_release_notes),
-                                :field => CONFIG['issue_required_field'],
+                                :field => CONFIG['custom_field'],
                                 :value => CONFIG['field_value_done'])
       end
     end

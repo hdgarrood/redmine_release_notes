@@ -26,7 +26,7 @@ class IssuePatchTest < ActiveSupport::TestCase
 
     cf          = FactoryGirl.create(:release_notes_custom_field)
     settings    = FactoryGirl.create(:release_notes_settings,
-                                     :issue_required_field_id => cf.id)
+                                     :custom_field_id => cf.id)
 
     todo_value  = settings.value['field_value_todo']
     done_value  = settings.value['field_value_done']
@@ -57,7 +57,7 @@ class IssuePatchTest < ActiveSupport::TestCase
 
     cf          = FactoryGirl.create(:release_notes_custom_field)
     settings    = FactoryGirl.create(:release_notes_settings,
-                                     :issue_required_field_id => cf.id)
+                                     :custom_field_id => cf.id)
 
     todo_value  = settings.value['field_value_todo']
     done_value  = settings.value['field_value_done']
@@ -87,7 +87,7 @@ class IssuePatchTest < ActiveSupport::TestCase
 
     cf          = FactoryGirl.create(:release_notes_custom_field)
     settings    = FactoryGirl.create(:release_notes_settings,
-                                     :issue_required_field_id => cf.id)
+                                     :custom_field_id => cf.id)
 
     todo_value  = settings.value['field_value_todo']
     done_value  = settings.value['field_value_done']
@@ -116,7 +116,7 @@ class IssuePatchTest < ActiveSupport::TestCase
 
     cf          = FactoryGirl.create(:release_notes_custom_field)
     settings    = FactoryGirl.create(:release_notes_settings,
-                                     :issue_required_field_id => cf.id)
+                                     :custom_field_id => cf.id)
 
     todo_value  = settings.value['field_value_todo']
     done_value  = settings.value['field_value_done']

@@ -52,7 +52,7 @@ module RedmineReleaseNotes
         # are the release notes complete for a particular issue
         def release_notes_done?
           setting = Setting.plugin_redmine_release_notes
-          custom_field_id = setting['issue_required_field_id']
+          custom_field_id = setting['custom_field_id']
           cv = self.custom_values.find_by_custom_field_id(custom_field_id)
           cv.value == setting['field_value_done']
         end
@@ -63,7 +63,7 @@ module RedmineReleaseNotes
         # that issue is given by 'custom_values.value'
         def self.with_release_notes
           custom_field_id = Setting.
-            plugin_redmine_release_notes['issue_required_field_id']
+            plugin_redmine_release_notes['custom_field_id']
           joins(:custom_values).
             where('custom_values.custom_field_id = ?', custom_field_id)
         end

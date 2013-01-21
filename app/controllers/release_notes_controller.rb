@@ -63,7 +63,7 @@ class ReleaseNotesController < ApplicationController
     
     @versions.reject! {|version| !project_ids.include?(version.project_id) && @issues_by_version[version].blank?}
     
-    @release_notes_required_cf_id = CustomField.find_by_name(ReleaseNotesHelper::CONFIG['issue_required_field']).id
+    @release_notes_required_cf_id = CustomField.find_by_name(ReleaseNotesHelper::CONFIG['custom_field']).id
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -192,7 +192,7 @@ class ReleaseNotesController < ApplicationController
       to_value = ReleaseNotesHelper::CONFIG['field_value_to_be_done']
     end
 
-    release_notes_required_field_id = CustomField.find_by_name(ReleaseNotesHelper::CONFIG['issue_required_field']).id
+    release_notes_required_field_id = CustomField.find_by_name(ReleaseNotesHelper::CONFIG['custom_field']).id
     custom_value = @release_note.issue.custom_values.find_by_custom_field_id(release_notes_required_field_id)
 
     if !custom_value

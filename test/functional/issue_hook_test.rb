@@ -12,7 +12,7 @@ class IssueHookTest < ActionController::TestCase
     # set up release notes
     @cf         = FactoryGirl.create(:release_notes_custom_field)
     @settings   = FactoryGirl.create(:release_notes_settings,
-                                     :issue_required_field_id => @cf.id)
+                                     :custom_field_id => @cf.id)
     @tracker    = FactoryGirl.create(:tracker,
                                      :custom_fields => [@cf])
     @project    = FactoryGirl.create(:project,
@@ -93,7 +93,7 @@ class IssueHookTest < ActionController::TestCase
 
   test 'error is shown on issues#show when issue custom field is not set up' do
     @settings.value = @settings.value.
-      update('issue_required_field_id' => 'garbage')
+      update('custom_field_id' => 'garbage')
     @settings.save!
 
     get :show, :id => @issue.id
@@ -106,7 +106,7 @@ class IssueHookTest < ActionController::TestCase
   test 'configure link is only shown on when issue custom field is not set up' +
     ' and current user is admin' do
     @settings.value = @settings.value.
-      update('issue_required_field_id' => 'garbage')
+      update('custom_field_id' => 'garbage')
     @settings.save!
 
     get :show, :id => @issue.id

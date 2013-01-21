@@ -19,10 +19,12 @@ class ReleaseNotesSettingsTest < ActiveSupport::TestCase
   end
 
   test 'delegates saving to Setting if valid' do
+    defaults = ReleaseNotesSettings.defaults
+    Setting.stubs(:plugin_redmine_release_notes).returns(defaults)
+
     settings = ReleaseNotesSettings.find
     settings.stubs(:valid?).returns(true)
 
-    defaults = ReleaseNotesSettings.defaults
     Setting.expects(:plugin_redmine_release_notes=).with(defaults)
 
     settings.save

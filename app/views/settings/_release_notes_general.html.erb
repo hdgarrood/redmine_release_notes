@@ -1,13 +1,13 @@
 <div class="box tabular settings">
 <%= form_tag(:action => :plugin) do %>
   <p>
-  <%= label_tag 'settings_issue_required_field_id',
-    t('release_notes.config.issue_required_field.name') %>
-  <%= select_tag 'settings[issue_required_field_id]',
-    options_for_release_notes_issue_required_field(@settings),
+  <%= label_tag 'settings_custom_field_id',
+    t('release_notes.config.custom_field.name') %>
+  <%= select_tag 'settings[custom_field_id]',
+    options_for_release_notes_custom_field(@settings),
     :include_blank => true %>
     <em class="info">
-      <%= t('release_notes.config.issue_required_field.info') %>
+      <%= t('release_notes.config.custom_field.info') %>
     </em>
   </p>
   <% %w(not_required todo done).each do |x| %>

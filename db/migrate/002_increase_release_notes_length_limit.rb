@@ -15,11 +15,11 @@
 # along with redmine_release_notes.  If not, see <http://www.gnu.org/licenses/>.
 
 class IncreaseReleaseNotesLengthLimit < ActiveRecord::Migration
-  def self.up
+  def up
     change_column :release_notes, :text, :string, :limit => 2000
   end
 
-  def self.down
+  def down
     change_column :release_notes, :text, :string, :limit => 254
   end
 end

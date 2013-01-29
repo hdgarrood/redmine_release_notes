@@ -15,7 +15,7 @@
 # along with redmine_release_notes.  If not, see <http://www.gnu.org/licenses/>.
 
 class CreateReleaseNotes < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :release_notes do |t|
       t.column :id, :integer
       t.column :issue_id, :integer
@@ -23,7 +23,7 @@ class CreateReleaseNotes < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     drop_table :release_notes
   end
 end

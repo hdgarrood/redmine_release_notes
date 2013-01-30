@@ -16,18 +16,16 @@
 
 module RedmineReleaseNotes
   module IssuePatch
-    def self.patch(klass)
-      unless @already_patched
-        do_patch(klass)
-        @already_patched = true
-      end
-    end
+    extend Patch
 
-    private
     def self.do_patch(klass)
       klass.class_eval do
         has_one :release_note, :dependent => :destroy
         validates_associated :release_note
+
+        def release_note
+          read_attribute(:release_note) or create_release_note
+        end
 
         # all the issues which need release notes (including ones which have
         # them already)
@@ -43,6 +41,10 @@ module RedmineReleaseNotes
         # issues whose release notes are done
         def self.release_notes_done
           joins(:release_note).where('release_notes.status' => 'done')
+        end
+
+        def release_notes_done?
+          release_note.done?
         end
       end
     end

@@ -1,5 +1,4 @@
-
-# Copyright © 2012-2013 Harry Garrood
+# Copyright Â© 2012-2013 Harry Garroo
 # This file is a part of redmine_release_notes.
 
 # redmine_release_notes is free software: you can redistribute it and/or modify
@@ -16,28 +15,12 @@
 # along with redmine_release_notes.  If not, see <http://www.gnu.org/licenses/>.
 
 module RedmineReleaseNotes
-  module VersionPatch
+  module IssuesControllerPatch
     extend Patch
 
     def self.do_patch(klass)
       klass.class_eval do
-        # default value for hide_from_release_notes should be false
-        before_validation(:on => :create) do
-          self.hide_from_release_notes = false unless
-            attribute_present?(:hide_from_release_notes)
-        end
-
-        # number, 0 <= n <= 100, the proportion of this version's issues'
-        # release notes which are done
-        def release_notes_percent_completion
-          required_count  = fixed_issues.release_notes_required.count
-          if required_count > 0
-            done_count = fixed_issues.release_notes_done.count
-            100 * done_count / required_count
-          else
-            0
-          end
-        end
+        helper 'release_notes'
       end
     end
   end

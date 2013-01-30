@@ -18,7 +18,6 @@ class ReleaseNote < ActiveRecord::Base
   unloadable
   belongs_to :issue
 
-  validates :text,   :presence => true
   validates :issue,  :presence => true
   validates :status, :inclusion => { :in => %w(todo done not_required) }
 

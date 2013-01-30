@@ -14,9 +14,22 @@
   <% end %>
 </div>
 
-<div id="release_notes">
-  <p><strong><%= l(:Release_notes) %></strong></p>
-  <% if relnotes %>
+<div id="release-notes-display">
+  <p><strong><%= t('release_notes.title_plural') %></strong></p>
+  <% if relnotes.text %>
     <p><%= html_escape(relnotes.text).gsub(/\r\n/, "<br>").html_safe %></p>
   <% end %>
 </div>
+
+<%= form_for(relnotes,
+              :as => :release_note, :remote => true,
+              :url => release_notes_path(@issue),
+              :method => :post,
+              :html => {:id => 'edit-release-notes-form', :style => 'display: none;'}) do |f| %>
+  <%= f.label 'status', t('release_notes.status.name') %>
+  <%= f.select 'status', relnotes.status, release_notes_status_options_for_select %>
+
+  <%= f.text_area 'text', relnotes.text %>
+
+  <%= f.submit t(:submit) %>
+<% end %>

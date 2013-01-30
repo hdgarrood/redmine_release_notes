@@ -86,7 +86,7 @@ class ReleaseNotesController < ApplicationController
   
   def update
     @release_note = ReleaseNote.find(params[:id])
-    @release_note.text = params[:release_note][:text]
+    @release_note.update_attributes(params[:release_note])
 
     if @release_note.save
       flash[:notice] = l(:notice_successful_update)

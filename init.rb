@@ -19,13 +19,13 @@ require 'redmine_release_notes/hooks'
 
 # Patches to the Redmine core.
 require_dependency 'issue'
+require_dependency 'issues_controller'
 require_dependency 'settings_controller'
 require_dependency 'version'
 
 ActionDispatch::Callbacks.to_prepare do
-  RedmineReleaseNotes::IssuePatch.patch(Issue)
-  RedmineReleaseNotes::SettingsControllerPatch.patch(SettingsController)
-  RedmineReleaseNotes::VersionPatch.patch(Version)
+  RedmineReleaseNotes::Patches.
+    perform(Issue, IssuesController, SettingsController, Version)
 end
 
 Redmine::Plugin.register :redmine_release_notes do

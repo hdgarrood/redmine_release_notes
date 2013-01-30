@@ -39,6 +39,12 @@ module ReleaseNotesHelper
       text
     end
   end
+  
+  def release_notes_status_options_for_select
+    %w(todo done not_required).map do |status|
+      [status, t("release_notes.#{status}")]
+    end
+  end
 
   # todo: move to lib
   def generate_release_notes(version_id, format)

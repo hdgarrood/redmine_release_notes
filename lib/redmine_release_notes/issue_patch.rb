@@ -23,10 +23,6 @@ module RedmineReleaseNotes
         has_one :release_note, :dependent => :destroy
         validates_associated :release_note
 
-        def release_note
-          read_attribute(:release_note) or create_release_note
-        end
-
         # all the issues which need release notes (including ones which have
         # them already)
         def self.release_notes_required

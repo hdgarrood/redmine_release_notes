@@ -19,6 +19,7 @@ class ReleaseNote < ActiveRecord::Base
   belongs_to :issue
 
   validates :issue,  :presence => true
+  validates :text,   :presence => true, :if => proc {|i| i.status == 'done'}
   validates :status, :inclusion => { :in => %w(todo done not_required) }
 
   before_validation(:on => :create) do

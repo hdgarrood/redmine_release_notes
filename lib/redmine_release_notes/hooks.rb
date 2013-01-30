@@ -18,6 +18,8 @@ module RedmineReleaseNotes
   class Hooks < Redmine::Hook::ViewListener
     def view_issues_show_description_bottom(context = {})
       if context[:project].module_enabled?(:release_notes)
+        context[:release_notes] = context[:issue].release_note ||
+          context[:issue].create_release_note
         context[:controller].send(:render_to_string,
           { :partial =>
               'hooks/release_notes/view_issues_show_description_bottom',

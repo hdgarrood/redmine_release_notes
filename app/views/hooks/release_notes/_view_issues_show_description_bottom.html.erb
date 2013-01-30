@@ -3,33 +3,31 @@
 <hr />
 
 <div class="contextual">
-  <% if relnotes %>
-    <%= link_to l(:button_edit), edit_release_note_path(relnotes) %> | 
-    <%= link_to l(:button_delete), relnotes,
-      :confirm => l(:release_notes_destroy_confirmation),
-      :method => :delete %>
-  <% else %>
-    <%= link_to l(:button_add),
-      new_release_note_path(:issue_id => @issue.id) %>
-  <% end %>
+  <%= link_to l(:button_edit), edit_release_note_path(relnotes) %>
 </div>
 
-<div id="release-notes-display">
-  <p><strong><%= t('release_notes.title_plural') %></strong></p>
-  <% if relnotes.text %>
-    <p><%= html_escape(relnotes.text).gsub(/\r\n/, "<br>").html_safe %></p>
+<p><strong><%= t('release_notes.title_plural') %></strong></p>
+<div id="release-notes" style="margin: 0px 10px">
+  <div id="release-notes-display">
+    <% if relnotes.text %>
+      <p><%= html_escape(relnotes.text).gsub(/\r\n/, "<br>").html_safe %></p>
+    <% end %>
+  </div>
+
+  <%= form_for(relnotes,
+               :as => :release_note, :remote => true,
+               :url => release_notes_path(@issue),
+               :method => :post,
+               :html => {:id => 'edit-release-notes-form', :style => 'isplay: none;'}) do |f| %>
+    <strong>
+      <%= f.label 'status', t('release_notes.status.label') %>
+    </strong>
+    <%= f.select 'status', release_notes_status_options_for_select %>
+    <br />
+    <%= f.text_area 'text', :rows => 5,
+                            :class => 'wiki-edit',
+                            :no_label => true %>
+    <br />
+    <%= f.submit t(:button_submit) %>
   <% end %>
 </div>
-
-<%= form_for(relnotes,
-              :as => :release_note, :remote => true,
-              :url => release_notes_path(@issue),
-              :method => :post,
-              :html => {:id => 'edit-release-notes-form', :style => 'display: none;'}) do |f| %>
-  <%= f.label 'status', t('release_notes.status.name') %>
-  <%= f.select 'status', relnotes.status, release_notes_status_options_for_select %>
-
-  <%= f.text_area 'text', relnotes.text %>
-
-  <%= f.submit t(:submit) %>
-<% end %>

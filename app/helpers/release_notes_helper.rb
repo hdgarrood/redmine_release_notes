@@ -42,7 +42,7 @@ module ReleaseNotesHelper
   
   def release_notes_status_options_for_select
     %w(todo done not_required).map do |status|
-      [status, t("release_notes.#{status}")]
+      [t("release_notes.status.#{status}"), status]
     end
   end
 

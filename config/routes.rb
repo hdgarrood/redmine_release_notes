@@ -26,6 +26,7 @@ RedmineApp::Application.routes.draw do
   get "/versions/:id/generate_release_notes",
     :to => "release_notes#generate",
     :as => :generate_release_notes
+
   post "/versions/:id/hide_from_release_notes",
     :to => "release_notes#hide_version",
     :as => :hide_version_from_release_notes

@@ -40,10 +40,12 @@
   <p>
   <%= link_to t('release_notes.generate'),
     generate_release_notes_path(version) %>
-  &#8212;
-  <%= link_to t('release_notes.hide_version'),
-    hide_version_from_release_notes_path(version),
-    :method => :post %>
+  <% unless version.hide_from_release_notes %>
+    &#8212;
+    <%= link_to t('release_notes.hide_version'),
+      hide_version_from_release_notes_path(version),
+      :method => :post %>
+  <% end %>
   </p>
 <% else %>
   <p><em><%= l(:label_roadmap_no_issues) %></em></p>

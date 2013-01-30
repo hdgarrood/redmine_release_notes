@@ -20,34 +20,34 @@ require 'redmine_release_notes/hooks'
 # Patches to the Redmine core.
 require_dependency 'issue'
 require_dependency 'settings_controller'
+require_dependency 'version'
 
 ActionDispatch::Callbacks.to_prepare do
   RedmineReleaseNotes::IssuePatch.patch(Issue)
   RedmineReleaseNotes::SettingsControllerPatch.patch(SettingsController)
+  RedmineReleaseNotes::VersionPatch.patch(Version)
 end
-
-require File.dirname(__FILE__) + '/app/models/release_notes_settings'
 
 Redmine::Plugin.register :redmine_release_notes do
   name 'Redmine release notes plugin'
   author 'Harry Garrood'
   description 'A plugin for managing release notes.'
-  version '1.2.1-pre'
+  version '1.3.0'
   author_url 'https://github.com/hdgarrood'
   requires_redmine :version_or_higher => '2.0.0'
-  
+
   # the partial won't be used, but can't be blank, because Redmine needs to
   # think this plugin is configurable
-  settings :default => ReleaseNotesSettings.defaults,
+  settings :default => {},
     :partial => 'not_blank' 
   
   project_module :release_notes do
     permission :release_notes,
       { :release_notes =>
-        [:index, :new, :generate, :mark_version_as_generated] },
+        [:index, :new, :generate, :hide_version] },
       :public => true
   end
-  
+
   menu :project_menu,
     :release_notes,
     { :controller => 'release_notes', :action => 'index' },

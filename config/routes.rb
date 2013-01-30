@@ -15,10 +15,20 @@
 # along with redmine_release_notes.  If not, see <http://www.gnu.org/licenses/>.
 
 RedmineApp::Application.routes.draw do
-  resources :release_notes
+  # release notes index is per-project
+  resources :projects do
+    resources :release_notes, :only => [:index]
+  end
+
+  # all other RESTful release notes stuff is per-issue
+  resources :issues do
+    resources :release_notes, :shallow => true, :except => [:index]
+  end
 
   get "/release_notes/generate/:id",
-    :to => "release_notes#generate"
+    :to => "release_notes#generate",
+    :as => :generate_release_notes
   post "/release_notes/hide_version/:id",
-    :to => "release_notes#hide_version"
+    :to => "release_notes#hide_version",
+    :as => :hide_version_from_release_notes
 end

@@ -1,4 +1,5 @@
-# Copyright Â© 2012-2013 Harry Garrood
+
+# Copyright © 2012-2013 Harry Garrood
 # This file is a part of redmine_release_notes.
 
 # redmine_release_notes is free software: you can redistribute it and/or modify
@@ -15,7 +16,7 @@
 # along with redmine_release_notes.  If not, see <http://www.gnu.org/licenses/>.
 
 module RedmineReleaseNotes
-  module SettingsControllerPatch
+  module VersionPatch
     def self.patch(klass)
       unless @already_patched
         do_patch(klass)
@@ -26,27 +27,17 @@ module RedmineReleaseNotes
     private
     def self.do_patch(klass)
       klass.class_eval do
-        helper 'release_notes_settings'
-
-        # tells Rails to render the 'release notes settings' view instead of the
-        # standard plugin settings view if the plugin we're looking at is the
-        # release notes one
-        def plugin_with_release_notes_patch
-          if params[:id] == 'redmine_release_notes'
-            @settings = Setting.plugin_redmine_release_notes
-            if request.get?
-              render 'plugin_release_notes'
-            elsif request.post?
-              raise NotImplementedError # todo
-            else
-              render_404
-            end
+        # number, 0 <= n <= 100, the proportion of this version's issues'
+        # release notes which are done
+        def release_notes_percent_completion
+          required_count  = fixed_issues.release_notes_required.count
+          done_count      = fixed_issues.release_notes_done.count
+          if required_count > 0
+            100 * done_count / required_count
           else
-            plugin_without_release_notes_patch
+            0
           end
         end
-
-        alias_method_chain :plugin, :release_notes_patch
       end
     end
   end

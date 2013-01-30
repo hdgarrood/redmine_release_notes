@@ -19,51 +19,25 @@ require 'yaml'
 class ReleaseNotesController < ApplicationController
   unloadable
   
-  before_filter :find_version, :only => [:generate, :mark_version_as_generated]
+  before_filter :find_version, :only => [:generate, :hide_version]
+  before_filter :find_project, :only => [:index]
   
-  helper :custom_fields
   helper :projects
   
   def index
-    # Pretty much copied from VersionsController#index
-    @project = Project.find(params[:project_id])
-    
-    @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
-    project_ids = @with_subprojects ? @project.self_and_descendants.collect(&:id) : [@project.id]
-    
+    @with_subprojects = params[:with_subprojects].nil? ?
+      Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
+
     @versions = @project.shared_versions || []
     @versions += @project.rolled_up_versions.visible if @with_subprojects
     @versions = @versions.uniq.sort
-      
-    # Find the custom field id for release notes generated
-    release_notes_generated_cf_id = CustomField.find_by_name(ReleaseNotesHelper::CONFIG['version_generated_field']).id
-    
-    # want to reject versions with release notes completed, as opposed to closed versions
-    if !params[:completed]
-      @versions.reject! do |version|
-        cv = version.custom_values.first(:conditions => { :custom_field_id => release_notes_generated_cf_id })
-        if cv
-          # rejects if version is generated
-          cv.value == "1"
-        else
-          # doesn't reject
-          false
-        end
-      end
-    end
-    
-    @issues_by_version = {}
-    @versions.each do |version|
-      issues = version.fixed_issues.visible.find(:all,
-                                                 :include => [:project, :status, :tracker, :priority],
-                                                 :conditions => {:tracker_id => @selected_tracker_ids, :project_id => project_ids},
-                                                 :order => "#{Project.table_name}.lft, #{Tracker.table_name}.position, #{Issue.table_name}.id")
-      @issues_by_version[version] = issues
-    end
-    
-    @versions.reject! {|version| !project_ids.include?(version.project_id) && @issues_by_version[version].blank?}
-    
-    @release_notes_required_cf_id = CustomField.find_by_name(ReleaseNotesHelper::CONFIG['custom_field']).id
+
+    # reject hidden versions unless the user has specifically asked for them
+    # todo: check for hidden versions
+    @versions.reject! { |v| false } unless params[:hidden]
+
+    # reject versions if they have no issues
+    @versions.reject! { |v| v.fixed_issues.empty? }
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -180,6 +154,12 @@ class ReleaseNotesController < ApplicationController
  private  
   def find_version
     @version = Version.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
+  def find_project
+    @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end

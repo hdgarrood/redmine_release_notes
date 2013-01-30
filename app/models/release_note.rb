@@ -20,8 +20,10 @@ class ReleaseNote < ActiveRecord::Base
 
   validates :text, :presence => :true,
                    :length => { :maximum => 2000 }
+  validates :issue, :presence => true
+  validates :status, :inclusion => { :in => %w(todo done not_required) }
 
   def done?
-    self.issue.release_notes_done?
+    status == 'done'
   end
 end

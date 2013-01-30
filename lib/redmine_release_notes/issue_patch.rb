@@ -32,40 +32,17 @@ module RedmineReleaseNotes
         # all the issues which need release notes (including ones which have
         # them already)
         def self.release_notes_required
-          with_release_notes.where('custom_values.value IN (?,?)',
-            Setting.plugin_redmine_release_notes['field_value_todo'],
-            Setting.plugin_redmine_release_notes['field_value_done'])
+          joins(:release_note).where('release_notes.status' => ['todo', 'done'])
         end
 
         # issues which still need release notes
         def self.release_notes_todo
-          with_release_notes.where('custom_values.value = ?',
-            Setting.plugin_redmine_release_notes['field_value_todo'])
+          joins(:release_note).where('release_notes.status' => 'todo')
         end
 
         # issues whose release notes are done
         def self.release_notes_done
-          with_release_notes.where('custom_values.value = ?',
-            Setting.plugin_redmine_release_notes['field_value_done'])
-        end
-
-        # are the release notes complete for a particular issue
-        def release_notes_done?
-          setting = Setting.plugin_redmine_release_notes
-          custom_field_id = setting['custom_field_id']
-          cv = self.custom_values.find_by_custom_field_id(custom_field_id)
-          cv.value == setting['field_value_done']
-        end
-
-        private
-        # joins issues with custom values so that the result set has one row
-        # per issue, and the value of the release notes custom field value for
-        # that issue is given by 'custom_values.value'
-        def self.with_release_notes
-          custom_field_id = Setting.
-            plugin_redmine_release_notes['custom_field_id']
-          joins(:custom_values).
-            where('custom_values.custom_field_id = ?', custom_field_id)
+          joins(:release_note).where('release_notes.status' => 'done')
         end
       end
     end

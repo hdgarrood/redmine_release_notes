@@ -15,6 +15,32 @@
 # along with redmine_release_notes.  If not, see <http://www.gnu.org/licenses/>.
 
 module ReleaseNotesHelper
+  def release_notes_progress_bar(version)
+    completion = version.release_notes_percent_completion
+    progress_bar([completion, completion],
+                 :width => '40em',
+                 :legend => '%0.0f%' % completion)
+  end
+
+  def release_notes_overview_link(text, version, project, opts = {})
+    opts = {
+      :status_id => '*',
+      :fixed_version_id => version.id,
+      :set_filter => 1
+    }.merge(opts)
+
+    link_to text, project_issues_path(project, opts)
+  end
+
+  def release_notes_overview_link_if(condition, text, version, project, opts = {})
+    if condition
+      release_notes_overview_link(text, version, project, opts)
+    else
+      text
+    end
+  end
+
+  # todo: move to lib
   def generate_release_notes(version_id, format)
     output_str = ""
     null_release_notes = []
@@ -123,6 +149,5 @@ module ReleaseNotesHelper
     end
     return return_str
   end
-
 end
 

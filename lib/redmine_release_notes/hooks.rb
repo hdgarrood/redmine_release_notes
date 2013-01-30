@@ -17,24 +17,14 @@
 module RedmineReleaseNotes
   class Hooks < Redmine::Hook::ViewListener
     def view_issues_show_description_bottom(context = {})
-      cf = CustomField.find(
-        Setting['plugin_redmine_release_notes']['custom_field_id'])
-
-      if context[:project].module_enabled?(:release_notes) &&
-         context[:project].all_issue_custom_fields.include?(cf) &&
-         context[:issue].tracker.custom_fields.include?(cf)
-        return context[:controller].send(:render_to_string,
+      if context[:project].module_enabled?(:release_notes)
+        context[:controller].send(:render_to_string,
           { :partial =>
               'hooks/release_notes/view_issues_show_description_bottom',
             :locals => context })
       else
-        return ""
+        ""
       end
-    rescue ActiveRecord::RecordNotFound
-      context[:controller].send(:render_to_string,
-        { :partial =>
-            'hooks/release_notes/failed_find_issue_custom_field',
-          :locals => context })
     end
   end
 end

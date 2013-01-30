@@ -34,10 +34,7 @@ class ReleaseNotesController < ApplicationController
 
     # reject hidden versions unless the user has specifically asked for them
     # todo: check for hidden versions
-    @versions.reject! { |v| false } unless params[:hidden]
-
-    # reject versions if they have no issues
-    @versions.reject! { |v| v.fixed_issues.empty? }
+    @versions.reject!(&:hide_from_release_notes) unless params[:hidden]
   rescue ActiveRecord::RecordNotFound
     render_404
   end

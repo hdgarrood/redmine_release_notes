@@ -13,13 +13,12 @@
   <%= link_to_function l(:button_edit), 'toggle_release_notes()' %>
 </div>
 
-<p><strong><%= t('release_notes.title_plural') %></strong></p>
-<div id="release-notes" style="margin: 0px 10px">
+<div id="release-notes">
   <div id="release-notes-display">
-    <strong>
-      <%= t('release_notes.status.label') %>
-    </strong>
-    <%= t("release_notes.status.#{release_notes.status}") %>
+    <p>
+      <strong><%= t('release_notes.title_plural') %></strong>
+      (<%= t("release_notes.status.#{release_notes.status}") %>)
+    </p>
     <% if release_notes.text %>
       <p><%= h(release_notes.text).gsub(/(\r\n|\r|\n)/, "<br>").html_safe %></p>
     <% end %>
@@ -30,16 +29,15 @@
                :url => release_notes_path(@issue),
                :method => :post,
                :html => {:id => 'release-notes-form', :style => 'display: none;'}) do |f| %>
-    <strong>
-      <%= f.label 'status', t('release_notes.status.label') %>
-    </strong>
+    <strong><%= t('release_notes.title_plural') %></strong>
     <%= f.select 'status', release_notes_status_options_for_select %>
-    <br />
-    <%= f.text_area 'text', :rows => 5,
+    <div style='margin: 0px 10px;'>
+      <%= f.text_area 'text', :rows => 5,
                             :class => 'wiki-edit',
                             :no_label => true %>
-    <br />
-    <%= f.submit t(:button_submit) %>
-    <%= link_to_function t(:button_cancel), 'toggle_release_notes()' %>
+      <br />
+      <%= f.submit t(:button_submit) %>
+      <%= link_to_function t(:button_cancel), 'toggle_release_notes()' %>
+    </div>
   <% end %>
 </div>

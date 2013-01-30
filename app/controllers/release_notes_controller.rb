@@ -129,23 +129,15 @@ class ReleaseNotesController < ApplicationController
     end
   end
   
-  def mark_version_as_generated
-    if request.post?
-      @project = @version.project
-      generated_field_id = CustomField.find_by_name(ReleaseNotesHelper::CONFIG['version_generated_field'])
-      custom_value = @version.custom_values.find_or_initialize_by_custom_field_id(generated_field_id)
-      custom_value.value = 1
-      if custom_value.save
-        flash.now[:notice] = l(:notice_successful_update)
-      else
-        error_str = format_release_note_errors(custom_value, l(:label_custom_field))
-        flash.now[:error] = error_str
-      end
+  def hide_version
+    @version.hide_from_release_notes = true
+    if @version.save
+      flash[:notice] = t(:notice_successful_update)
     else
-      render_403
+      render_404
     end
-  rescue ActiveRecord::RecordNotFound
-    flash.now[:error] = l(:failed_find_custom_field, :field => ReleaseNotesHelper::CONFIG['version_generated_field'])
+
+    redirect_to release_notes_path(:project_id => @version.project.identifier)
   end
   
  private  

@@ -15,13 +15,13 @@
 # along with redmine_release_notes.  If not, see <http://www.gnu.org/licenses/>.
 
 RedmineApp::Application.routes.draw do
-  resources :projects do
-    resources :release_notes, :only => [:index]
-  end
+  resources :release_notes,
+    :path => '/projects/:project_id/release_notes',
+    :only => [:index]
 
-  resources :issues do
-    resources :release_notes, :shallow => true, :except => [:index]
-  end
+  resources :release_notes,
+    :path => '/issues/:issue_id/release_note',
+    :except => [:index]
 
   get "/versions/:id/generate_release_notes",
     :to => "release_notes#generate",

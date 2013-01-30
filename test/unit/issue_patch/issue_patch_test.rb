@@ -21,123 +21,57 @@ class IssuePatchTest < ActiveSupport::TestCase
       i.errors.full_messages.join(", ")
   end
 
-  test "issues' release notes are completed when the release notes custom " +
-    "field's value is the configured field_value_done" do
-
-    cf          = FactoryGirl.create(:release_notes_custom_field)
-    settings    = FactoryGirl.create(:release_notes_settings,
-                                     :custom_field_id => cf.id)
-
-    todo_value  = settings.value['field_value_todo']
-    done_value  = settings.value['field_value_done']
-
-    tracker     = FactoryGirl.create(:tracker,
-                                     :custom_fields => [cf])
-    issue       = FactoryGirl.create(:issue, :tracker => tracker)
-    cv          = FactoryGirl.create(:custom_value,
-                                    :customized_type => 'Issue',
-                                    :customized_id   => issue.id,
-                                    :custom_field => cf,
-                                    :value => done_value)
+  test "issues' release notes are done when they're done" do 
+    release_note = FactoryGirl.build(:release_note)
+    release_note.status = 'done'
+    issue = release_note.issue
 
     assert issue.release_notes_done?,
-      "issue's release notes should be done when the custom field value" +
-      " is the same as the configured field_value_done"
+      "issue's release notes should be done when release note status == 'done'"
 
-    cv.value = todo_value
-    cv.save!
-
+    cv.value = 'todo'
     assert !issue.release_notes_done?,
-      "issue's release notes should not be done when the custom field value" +
-      " is not the same as the configured field_value_done"
+      "issue's release notes should not be done when release notes status != 'done'"
   end
 
   test "Issue.release_notes_required gives all issues which want release notes" +
     ", including those which have them already" do
-
-    cf          = FactoryGirl.create(:release_notes_custom_field)
-    settings    = FactoryGirl.create(:release_notes_settings,
-                                     :custom_field_id => cf.id)
-
-    todo_value  = settings.value['field_value_todo']
-    done_value  = settings.value['field_value_done']
-    not_value   = settings.value['field_value_not_required']
-
-    tracker     = FactoryGirl.create(:tracker,
-                                     :custom_fields => [cf])
-
-    # create three issues; one todo, one done, one not required
-    issues = [todo_value, done_value, not_value].map do |rn_value|
-      issue       = FactoryGirl.create(:issue, :tracker => tracker)
-      cv          = FactoryGirl.create(:custom_value,
-                                       :customized_type => 'Issue',
-                                       :customized_id   => issue.id,
-                                       :custom_field => cf,
-                                       :value => rn_value)
-      issue
+    issues = {}
+    %w(todo done not_required).each do |status|
+      rn  = FactoryGirl.create(:release_note, :status => status)
+      issues[status] = rn.issue
     end
 
-    assert_equal issues[0..1], Issue.release_notes_required.to_a,
-      "Issue.release_notes_required should give all issues which want release" +
-      " notes, including those which have them already"
+    assert Issue.release_notes_required.include?(issues['todo'])
+    assert Issue.release_notes_required.include?(issues['done'])
+    assert !Issue.release_notes_required.include?(issues['not_required'])
+    assert_equal 2, Issue.release_notes_required.count
   end
 
   test "Issue.release_notes_todo gives all issues which need release notes" +
     " and do not yet have them" do
-
-    cf          = FactoryGirl.create(:release_notes_custom_field)
-    settings    = FactoryGirl.create(:release_notes_settings,
-                                     :custom_field_id => cf.id)
-
-    todo_value  = settings.value['field_value_todo']
-    done_value  = settings.value['field_value_done']
-    not_value   = settings.value['field_value_not_required']
-
-    tracker     = FactoryGirl.create(:tracker,
-                                     :custom_fields => [cf])
-
-    # create three issues; one todo, one done, one not required
-    issues = [todo_value, done_value, not_value].map do |rn_value|
-      issue       = FactoryGirl.create(:issue, :tracker => tracker)
-      cv          = FactoryGirl.create(:custom_value,
-                                       :customized_type => 'Issue',
-                                       :customized_id   => issue.id,
-                                       :custom_field => cf,
-                                       :value => rn_value)
-      issue
+    issues = {}
+    %w(todo done not_required).each do |status|
+      rn  = FactoryGirl.create(:release_note, :status => status)
+      issues[status] = rn.issue
     end
 
-    assert_equal [issues[0]], Issue.release_notes_todo.to_a,
-      "Issue.release_notes_todo should give all issues whose release notes" +
-      " need to be done and are not yet done"
+    assert Issue.release_notes_todo.include?(issues['todo'])
+    assert !Issue.release_notes_todo.include?(issues['done'])
+    assert !Issue.release_notes_todo.include?(issues['not_required'])
+    assert_equal 1, Issue.release_notes_todo.count
   end
 
   test "Issue.release_notes_done gives all issues whose release notes are done" do
-
-    cf          = FactoryGirl.create(:release_notes_custom_field)
-    settings    = FactoryGirl.create(:release_notes_settings,
-                                     :custom_field_id => cf.id)
-
-    todo_value  = settings.value['field_value_todo']
-    done_value  = settings.value['field_value_done']
-    not_value   = settings.value['field_value_not_required']
-
-    tracker     = FactoryGirl.create(:tracker,
-                                     :custom_fields => [cf])
-
-    # create three issues; one todo, one done, one not required
-    issues = [todo_value, done_value, not_value].map do |rn_value|
-      issue       = FactoryGirl.create(:issue, :tracker => tracker)
-      cv          = FactoryGirl.create(:custom_value,
-                                       :customized_type => 'Issue',
-                                       :customized_id   => issue.id,
-                                       :custom_field => cf,
-                                       :value => rn_value)
-      issue
+    issues = {}
+    %w(todo done not_required).each do |status|
+      rn  = FactoryGirl.create(:release_note, :status => status)
+      issues[status] = rn.issue
     end
 
-    assert_equal [issues[1]], Issue.release_notes_done.to_a,
-      "Issue.release_notes_done should give all issues whose release notes" +
-      " are done"
+    assert !Issue.release_notes_done.include?(issues['todo'])
+    assert Issue.release_notes_done.include?(issues['done'])
+    assert !Issue.release_notes_done.include?(issues['not_required'])
+    assert_equal 1, Issue.release_notes_done.count
   end
 end

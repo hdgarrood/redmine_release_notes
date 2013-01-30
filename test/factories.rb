@@ -47,39 +47,4 @@ FactoryGirl.define do
     text { Faker::Lorem.sentences.join(" ") }
     issue
   end
-
-  factory :issue_custom_field do
-    name         "Reported in version"
-    field_format "text"
-
-    factory :release_notes_custom_field do
-      name            "Release notes"
-      field_format    "list"
-      possible_values "Done\nTodo\nNo"
-    end
-  end
-
-  factory :custom_value do
-    association :customized, :factory => :issue
-    association :custom_field, :factory => :issue_custom_field
-    value "hello"
-  end
-
-  factory :release_notes_settings, :class => Setting do
-    ignore do
-      custom_field_id 0
-    end
-
-    name "plugin_redmine_release_notes"
-
-    after(:build) do |s, e|
-      s.value ||= {
-        'custom_field_id'             => e.custom_field_id,
-        'default_generation_format'   => "Textile",
-        'field_value_done'            => "Done",
-        'field_value_todo'            => "Todo",
-        'field_value_not_required'    => "No"
-      }.with_indifferent_access
-    end
-  end
 end

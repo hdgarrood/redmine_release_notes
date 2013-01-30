@@ -18,30 +18,20 @@ class ReleaseNoteTest < ActiveSupport::TestCase
       "release notes should be valid when they have text and an issue"
   end
 
-  test 'release notes may have text up to 2000 chars but not longer' do
+  test 'release notes may have long text' do
     rn = FactoryGirl.build(:release_note, :text => "a" * 2000)
     assert rn.valid?,
-      "release notes should be valid when their text is 2000 chars long"
-
-    rn.text += "b"
-    assert !rn.valid?,
-      "release notes should not be valid when their text is 2001 chars long"
+      "release notes should be valid when their text is really long"
   end
 
-  test 'release notes are done when their issues say they are done' do
-    mock_issue = Object.new
-    def mock_issue.release_notes_done?; true; end
-
+  test 'release notes validate inclusion of status in %w(done todo not_required)' do
     rn = ReleaseNote.new
-    def rn.issue; @mock_issue; end
-    rn.instance_variable_set(:@mock_issue, mock_issue)
+    rn.status = 'invalid'
+    assert !rn.valid?,
+      "release note should be invalid because of its status"
 
-    assert rn.done?,
-      "release notes should be done if their issues say they are done"
-
-    def mock_issue.release_notes_done?; false; end
-
-    assert !rn.done?,
-      "release notes should not be done unless their issues say they are done"
+    rn.status = 'done'
+    assert rn.valid?,
+      "release note should now be valid because its status is ok"
   end
 end

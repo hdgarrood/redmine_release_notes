@@ -18,10 +18,13 @@ class ReleaseNote < ActiveRecord::Base
   unloadable
   belongs_to :issue
 
-  validates :text, :presence => :true,
-                   :length => { :maximum => 2000 }
-  validates :issue, :presence => true
+  validates :text,   :presence => true
+  validates :issue,  :presence => true
   validates :status, :inclusion => { :in => %w(todo done not_required) }
+
+  before_validation(:on => :create) do
+    self.status = 'todo' unless attribute_present?(:status)
+  end
 
   def done?
     status == 'done'

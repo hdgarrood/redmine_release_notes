@@ -27,6 +27,12 @@ module RedmineReleaseNotes
     private
     def self.do_patch(klass)
       klass.class_eval do
+        # default value for hide_from_release_notes should be false
+        before_validation(:on => :create) do
+          self.hide_from_release_notes = false unless
+            attribute_present?(:hide_from_release_notes)
+        end
+
         # number, 0 <= n <= 100, the proportion of this version's issues'
         # release notes which are done
         def release_notes_percent_completion

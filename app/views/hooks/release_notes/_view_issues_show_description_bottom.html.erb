@@ -1,16 +1,25 @@
 <% relnotes = issue.release_note %>
 
+<script>
+  function toggle_release_notes() {
+    $.each(['#release-notes-display', '#release-notes-form'],
+           function(_, selector) {
+             $(selector).toggle()
+           })
+  }
+</script>
+
 <hr />
 
 <div class="contextual">
-  <%= link_to l(:button_edit), edit_release_note_path(relnotes) %>
+  <%= link_to_function l(:button_edit), 'toggle_release_notes()' %>
 </div>
 
 <p><strong><%= t('release_notes.title_plural') %></strong></p>
 <div id="release-notes" style="margin: 0px 10px">
   <div id="release-notes-display">
     <% if relnotes.text %>
-      <p><%= html_escape(relnotes.text).gsub(/\r\n/, "<br>").html_safe %></p>
+      <p><%= h(relnotes.text).gsub(/(\r\n|\r|\n)/, "<br>").html_safe %></p>
     <% end %>
   </div>
 
@@ -18,7 +27,7 @@
                :as => :release_note, :remote => true,
                :url => release_notes_path(@issue),
                :method => :post,
-               :html => {:id => 'edit-release-notes-form', :style => 'isplay: none;'}) do |f| %>
+               :html => {:id => 'release-notes-form', :style => 'display: none;'}) do |f| %>
     <strong>
       <%= f.label 'status', t('release_notes.status.label') %>
     </strong>
@@ -29,5 +38,6 @@
                             :no_label => true %>
     <br />
     <%= f.submit t(:button_submit) %>
+    <%= link_to_function t(:button_cancel), 'toggle_release_notes()' %>
   <% end %>
 </div>

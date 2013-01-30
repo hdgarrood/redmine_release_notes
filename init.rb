@@ -51,6 +51,6 @@ Redmine::Plugin.register :redmine_release_notes do
   menu :project_menu,
     :release_notes,
     { :controller => 'release_notes', :action => 'index' },
-    :caption => :Release_notes,
+    :caption => :'release_notes.title_plural',
     :param => :project_id
 end

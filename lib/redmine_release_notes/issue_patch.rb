@@ -23,7 +23,18 @@ module RedmineReleaseNotes
         has_one :release_note,
           :dependent => :destroy,
           :inverse_of => :issue
+
         validates_associated :release_note
+        
+        validate :cant_close_with_release_notes_todo,
+          :if => :release_note
+
+        def cant_close_with_release_notes_todo
+          if release_note.status == 'todo'
+            errors.add(:base,
+              I18n.t('release_notes.cant_close_with_release_notes_todo'))
+          end
+        end
 
         # all the issues which need release notes (including ones which have
         # them already)

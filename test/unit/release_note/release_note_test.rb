@@ -25,7 +25,7 @@ class ReleaseNoteTest < ActiveSupport::TestCase
   end
 
   test 'release notes validate inclusion of status in %w(done todo not_required)' do
-    rn = ReleaseNote.new
+    rn = FactoryGirl.build(:release_note)
     rn.status = 'invalid'
     assert !rn.valid?,
       "release note should be invalid because of its status"

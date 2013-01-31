@@ -21,7 +21,7 @@ class IssueHookTest < ActionController::TestCase
 
   def assert_release_notes_displayed
     assert_response :success
-    assert_select 'div#release_notes>p',
+    assert_select 'div#release-notes p',
       :text => /product can now do backflips/
   end
 

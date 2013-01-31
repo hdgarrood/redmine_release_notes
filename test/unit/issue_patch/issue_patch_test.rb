@@ -9,9 +9,9 @@ class IssuePatchTest < ActiveSupport::TestCase
 
   test 'issues validate their associated release note' do
     i = FactoryGirl.build(:issue)
-
-    i.release_note = FactoryGirl.build(:release_note,
-                                       :text => nil, :issue => nil)
+    i.build_release_note
+    i.release_note.status = 'done'
+    
     assert !i.valid?,
       "i should be invalid because its release note is invalid"
 
@@ -29,7 +29,7 @@ class IssuePatchTest < ActiveSupport::TestCase
     assert issue.release_notes_done?,
       "issue's release notes should be done when release note status == 'done'"
 
-    cv.value = 'todo'
+    release_note.status = 'todo'
     assert !issue.release_notes_done?,
       "issue's release notes should not be done when release notes status != 'done'"
   end

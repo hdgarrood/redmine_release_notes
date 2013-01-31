@@ -20,7 +20,9 @@ module RedmineReleaseNotes
 
     def self.do_patch(klass)
       klass.class_eval do
-        has_one :release_note, :dependent => :destroy
+        has_one :release_note,
+          :dependent => :destroy,
+          :inverse_of => :issue
         validates_associated :release_note
 
         # all the issues which need release notes (including ones which have

@@ -16,7 +16,7 @@
 
 class ReleaseNote < ActiveRecord::Base
   unloadable
-  belongs_to :issue
+  belongs_to :issue, :inverse_of => :release_note
 
   attr_accessible :text, :status
 

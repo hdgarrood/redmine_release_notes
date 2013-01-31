@@ -4,7 +4,9 @@
   (<%= t("release_notes.status.#{release_notes.status}") %>)
   </p>
   <% if release_notes.text %>
+    <div class="wiki">
     <p><%= h(release_notes.text).gsub(/(\r\n|\r|\n)/, "<br>").html_safe %></p>
+    </div>
   <% end %>
 </div>
 

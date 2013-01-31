@@ -65,7 +65,8 @@ class IssuePatchTest < ActiveSupport::TestCase
   test "Issue.release_notes_done gives all issues whose release notes are done" do
     issues = {}
     %w(todo done not_required).each do |status|
-      rn  = FactoryGirl.create(:release_note, :status => status)
+      rn  = FactoryGirl.create(:release_note,
+                               :status => status)
       issues[status] = rn.issue
     end
 

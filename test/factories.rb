@@ -1,8 +1,6 @@
-require 'faker'
-
 FactoryGirl.define do
   factory :issue do
-    subject { Faker::Company.bs }
+    subject 'not working'
     project
     author
     priority
@@ -15,36 +13,37 @@ FactoryGirl.define do
   end
 
   factory :issue_priority, :aliases => [:priority] do
-    name { Faker::Lorem.words(1).first[0..20] }
+    sequence(:name) {|n| "priority-#{n}"}
   end
 
   factory :issue_status, :aliases => [:status] do
-    name { Faker::Lorem.words(2).join(" ")[0..20] }
+    sequence(:name) {|n| "issue-status-#{n}"}
   end
 
   factory :project do
-    name                  { Faker::Lorem.words(1).first[0..20] }
+    sequence(:name)       {|n| "my-project-#{n}"}
     identifier            { name.downcase }
     enabled_module_names  %w(issue_tracking)
   end
 
   factory :enabled_module do
-    name { Faker::Lorem.words(1).first[0..20] }
+    name 'gantt'
+    project
   end
 
   factory :user, :aliases => [:author] do
-    firstname { Faker::Name.first_name }
-    lastname  { Faker::Name.last_name }
-    login     { "#{firstname}.#{lastname}".downcase.gsub(/[^0-9a-z]/, '') }
-    mail      { "#{login}@example.com" }
+    firstname 'joe'
+    lastname  'bloggs'
+    sequence(:login) {|n| "#{firstname}.#{lastname}.#{n}".downcase.gsub(/[^0-9a-z]/, '') }
+    mail { "#{login}@example.com" }
   end
 
   factory :tracker do
-    name { Faker::Lorem.words(1).first[0..20] }
+    sequence(:name) {|n| "tracker-#{n}"}
   end
 
   factory :release_note do
-    text { Faker::Lorem.sentences.join(" ") }
+    text 'no longer broken'
     issue
   end
 end

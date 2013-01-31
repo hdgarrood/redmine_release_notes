@@ -14,30 +14,6 @@
 </div>
 
 <div id="release-notes">
-  <div id="release-notes-display">
-    <p>
-      <strong><%= t('release_notes.title_plural') %></strong>
-      (<%= t("release_notes.status.#{release_notes.status}") %>)
-    </p>
-    <% if release_notes.text %>
-      <p><%= h(release_notes.text).gsub(/(\r\n|\r|\n)/, "<br>").html_safe %></p>
-    <% end %>
-  </div>
-
-  <%= form_for(release_notes,
-               :as => :release_note, :remote => true,
-               :url => release_notes_path(@issue),
-               :method => :post,
-               :html => {:id => 'release-notes-form', :style => 'display: none;'}) do |f| %>
-    <strong><%= t('release_notes.title_plural') %></strong>
-    <%= f.select 'status', release_notes_status_options_for_select %>
-    <div style='margin: 0px 10px;'>
-      <%= f.text_area 'text', :rows => 5,
-                            :class => 'wiki-edit',
-                            :no_label => true %>
-      <br />
-      <%= f.submit t(:button_submit) %>
-      <%= link_to_function t(:button_cancel), 'toggle_release_notes()' %>
-    </div>
-  <% end %>
+  <%= render :partial => 'issues/release_notes', 
+    :locals => { :release_notes => release_notes } %>
 </div>

@@ -20,8 +20,7 @@ RedmineApp::Application.routes.draw do
     :only => [:index]
 
   resources :release_notes,
-    :path => '/issues/:issue_id/release_note',
-    :except => [:index]
+    :only => [:update]
 
   get "/versions/:id/generate_release_notes",
     :to => "release_notes#generate",

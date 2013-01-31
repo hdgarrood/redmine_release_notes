@@ -1,0 +1,5 @@
+$('#release-notes').html('<%= escape_javascript render(:partial => 'issues/release_notes',
+                                       :locals => { :release_notes => @release_notes }) %>')
+<% if @release_notes.errors.any? %>
+  toggle_release_notes()
+<% end %>

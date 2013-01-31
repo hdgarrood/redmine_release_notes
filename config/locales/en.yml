@@ -12,6 +12,8 @@ en:
       done: "Done"
       not_required: "Not required"
 
+    cant_be_blank_when_done: "can't be blank if the release notes are done"
+
     generate: "Generate release notes"
     generate_title: "Release notes for version %{version}"
     hide_version: "Hide this version from this list"

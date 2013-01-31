@@ -39,66 +39,11 @@ class ReleaseNotesController < ApplicationController
     render_404
   end
   
-  def show
-    release_note = ReleaseNote.find(params[:id])
-    redirect_to release_note.issue
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-  
-  def new
-    @issue = Issue.find(params[:issue_id])
-    @project = @issue.project
-    
-    @release_note = ReleaseNote.new
-    @release_note.issue = @issue
-    @release_notes_completed = false
-    render :action => 'edit'
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-  
-  def edit
-    @release_note = ReleaseNote.find(params[:id])
-    @issue = @release_note.issue
-    @project = @issue.project
-    @release_notes_completed = @release_note.completed?
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-  
-  def create
-    @release_note = ReleaseNote.create(params[:release_note])
-    @issue = @release_note.issue
-
-    if @issue.save
-      flash[:notice] = l(:notice_successful_create)
-      update_custom_field(params[:mark_complete])
-      redirect_to @issue
-    else
-      error_str = format_release_note_errors(@issue, l(:label_issue))
-      flash.now[:error] = error_str
-      render :action => 'edit', :id => params[:release_note][:id]
-    end
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-  
+  # we only expect this to be called with :format => :js
   def update
-    @release_note = ReleaseNote.find(params[:id])
-    @release_note.update_attributes(params[:release_note])
-
-    if @release_note.save
-      flash[:notice] = l(:notice_successful_update)
-    else
-      error_str = format_release_note_errors(@release_note, l(:release_note))
-      flash[:error] = error_str
-      redirect_to edit_release_note_path(@release_note)
-      return
-    end
-    
-    update_custom_field(params[:mark_complete])
-    redirect_to @release_note.issue
+    @release_notes = ReleaseNote.find(params[:id])
+    @release_notes.update_attributes(params[:release_note])
+    @release_notes.save
   rescue ActiveRecord::RecordNotFound
     render_404
   end

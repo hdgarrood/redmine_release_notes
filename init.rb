@@ -22,10 +22,11 @@ require_dependency 'issue'
 require_dependency 'issues_controller'
 require_dependency 'settings_controller'
 require_dependency 'version'
+require_dependency 'issue_query'
 
 ActionDispatch::Callbacks.to_prepare do
   RedmineReleaseNotes::Patches.
-    perform(Issue, IssuesController, SettingsController, Version)
+    perform(Issue, IssuesController, SettingsController, Version, IssueQuery)
 end
 
 Redmine::Plugin.register :redmine_release_notes do

@@ -18,6 +18,10 @@ class ReleaseNote < ActiveRecord::Base
   unloadable
   belongs_to :issue, :inverse_of => :release_note
 
+  def self.statuses
+    %w(todo done not_required)
+  end
+
   attr_accessible :text, :status
 
   validates_presence_of :issue
@@ -26,7 +30,7 @@ class ReleaseNote < ActiveRecord::Base
     :message => I18n.t('release_notes.cant_be_blank_when_done')
 
   validates :status,
-    :inclusion => { :in => %w(todo done not_required) }
+    :inclusion => { :in => statuses }
 
   before_validation(:on => :create) do
     self.status = 'todo' unless attribute_present?(:status)

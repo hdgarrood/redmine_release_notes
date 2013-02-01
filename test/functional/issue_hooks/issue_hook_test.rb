@@ -4,19 +4,22 @@ class IssueHookTest < ActionController::TestCase
   def setup
     @controller = IssuesController.new
 
-    # this is rather horrible; there should be a better way
-    Setting.clear_cache
-
-    # set up release notes
-    @release_note = FactoryGirl.build(:release_note)
+    # create a release note
+    @release_note = FactoryGirl.build(:release_note,
+                                      :text => "product can now do backflips")
     @issue = @release_note.issue
     @project = @issue.project
 
-    # allow anonymous user to view issues in this project
-    @user = User.anonymous
-    @role = @user.roles_for_project(@release_note.issue.project).first
-    @role.permissions = [:view_issues]
-    @role.save!
+    # create a user
+    @user = FactoryGirl.create(:user)
+
+    # give him the permission to view issues in @project
+    role = FactoryGirl.create(:role, :permissions => %w(view_issues))
+    member = Member.new(:role_ids => [role.id], :user_id => @user.id)
+    @project.members << member
+
+    # log him in
+    @request.session[:user_id] = @user.id
   end
 
   def assert_release_notes_displayed
@@ -27,10 +30,13 @@ class IssueHookTest < ActionController::TestCase
 
   def assert_release_notes_not_displayed
     assert_response :success
-    assert_select 'div#release_notes>p', false
+    assert_select 'div#release_notes p', false
   end
 
-  test 'release notes displayed' do
+  test 'release notes displayed if module enabled' do
+    @project.enabled_module_names = %w(release_notes)
+    @project.save!
+
     get :show, :id => @issue.id
     assert_release_notes_displayed
   end

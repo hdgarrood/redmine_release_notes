@@ -46,4 +46,8 @@ FactoryGirl.define do
     text 'no longer broken'
     issue
   end
+
+  factory :role do
+    sequence(:name) {|n| "role-#{n}"}
+  end
 end

@@ -1,0 +1,36 @@
+ru:
+  Release_note: "Примечание к версии"
+  release_note: "примечание к версии"
+  Release_notes: "Примечания к версии"
+  release_notes: "примечания к версии"
+
+  project_module_release_notes: "Примечания к версии"
+  
+  generate_release_notes: "Сформировать примечания"
+  generate_title: "Примечания к версии %{version}"
+  mark_version_as_generated: "Пометить как сгенерированную"
+  edit_release_notes: "Редактирование примечаний к"
+  mark_release_notes_complete: "Пометить этот релиз как выполненный?"
+  
+  release_notes_destroy_confirmation: "Уверены что хотитет удалить примечания?"
+  failed_find_custom_value: "Не найдено значение поля для этой задачи. Проект настроен корректно для работы с Примечаниями?"
+  failed_find_custom_field: "Не найдено настраиваемое поле: %{field}"
+  failed_update_issue_history: "Ошибка сохранения поля %{field} при обновлении истории"
+  failed_save_field_value: "Ошибка сохранения значения в поле: %{field}"
+  
+  show_generated_versions: "Показать сформированные версии"
+
+  x_issues_in_total: "%{count} задач всего"
+  x_requiring_release_notes: "%{count} требуют примечаний"
+  x_done: "%{count} выполнено"
+  x_to_go: "%{count} осталось"
+  all_done: "Все выполнены!"
+  not_started: "Не начато"
+
+  some_issues_no_release_notes_html: "Несколько задач с \"%{field}\" = \"%{value}\", но без примечаний к версии (<a href=# onclick=\"alert(&quot;Задачи без примечания к версии: %{list}&quot;)\">Показать</a>)"
+  some_issues_not_finished:
+    one: "Есть 1 задача, требующая заполнения примечания к версии"
+    other: "%{count} задач(и) требуют заполнения примечаний к версии"
+    
+  select_all: "Выбрать все"
+  raw: "Необработанный"

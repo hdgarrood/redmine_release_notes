@@ -4,7 +4,7 @@ ru:
   Release_notes: "Примечания к версии"
   release_notes: "примечания к версии"
 
-  project_module_release_notes: Примечания к версии
+  project_module_release_notes: "Примечания к версии"
   
   generate_release_notes: "Сформировать примечания"
   generate_title: "Примечания к версии %{version}"
@@ -33,4 +33,4 @@ ru:
     other: "%{count} задач(и) требуют заполнения примечаний к версии"
     
   select_all: "Выбрать все"
-  raw: "необработанный"
+  raw: "Необработанный"

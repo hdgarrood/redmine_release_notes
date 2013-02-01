@@ -9,19 +9,23 @@ module RedmineReleaseNotes
         add_available_column(ReleaseNotesQueryColumn.new)
 
         # chain available_filters so that the release notes query filter is
-        # included in the list of available filters
+        # included in the list of available filters, if the query has a project
+        # which has release notes enabled
         def available_filters_with_release_notes
           filters = available_filters_without_release_notes
 
-          release_note_values = ReleaseNote.statuses.map do |status|
-            [I18n.t(status, :scope => 'release_notes.status'), status]
+          if project && project.module_enabled?(:release_notes)
+            release_note_values = ReleaseNote.statuses.map do |status|
+              [I18n.t(status, :scope => 'release_notes.status'), status]
+            end
+            filters["release_notes"] ||= {
+              :type => :list,
+              :name => I18n.t('release_notes.title_plural'),
+              :values => release_note_values,
+              :order => filters.size + 1
+            }
           end
-          filters["release_notes"] ||= {
-            :type => :list,
-            :name => I18n.t('release_notes.title_plural'),
-            :values => release_note_values,
-            :order => filters.size + 1
-          }
+
           filters
         end
 

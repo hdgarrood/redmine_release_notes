@@ -1,4 +1,4 @@
-<h2>Release notes</h2>
+<h2><%= l(:Release_notes) %></h2>
 
 <% if @versions.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
@@ -33,4 +33,4 @@
 <% end %>
 <% end %>
 
-<% html_title "Release notes" %>
+<% html_title <%= l(:Release_notes) %> %>

@@ -9,6 +9,6 @@ class ReleaseNotesQueryColumn < QueryColumn
 
   # not sure if this is ever used
   def value(object)
-    object.release_note.status
+    I18n.t(object.release_note.status, :scope => 'release_notes.status')
   end
 end

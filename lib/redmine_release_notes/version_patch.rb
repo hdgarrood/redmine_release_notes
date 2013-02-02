@@ -1,4 +1,3 @@
-
 # Copyright © 2012-2013 Harry Garrood
 # This file is a part of redmine_release_notes.
 
@@ -17,9 +16,7 @@
 
 module RedmineReleaseNotes
   module VersionPatch
-    extend Patch
-
-    def self._perform
+    def self.perform
       Version.class_eval do
         # default value for hide_from_release_notes should be false
         before_save :set_default_for_hide_from_release_notes

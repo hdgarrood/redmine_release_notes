@@ -16,9 +16,7 @@
 
 module RedmineReleaseNotes
   module SettingsControllerPatch
-    extend Patch
-
-    def self._perform
+    def self.perform
       SettingsController.class_eval do
         helper 'release_notes_settings'
 

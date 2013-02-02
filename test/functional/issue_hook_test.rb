@@ -5,7 +5,7 @@ class IssueHookTest < ActionController::TestCase
     @controller = IssuesController.new
 
     # create a release note
-    @release_note = FactoryGirl.build(:release_note,
+    @release_note = FactoryGirl.create(:release_note,
                                       :text => "product can now do backflips")
     @issue = @release_note.issue
     @project = @issue.project
@@ -35,11 +35,10 @@ class IssueHookTest < ActionController::TestCase
   end
 
   test 'release notes displayed if module enabled' do
-    @project.enabled_module_names << 'release_notes'
+    @project.enabled_modules << EnabledModule.new(:name => 'release_notes')
     @project.save!
 
     get :show, :id => @issue.id
-    require 'debugger'; debugger
     assert_release_notes_displayed
   end
 

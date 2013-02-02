@@ -17,6 +17,7 @@ class IssueHookTest < ActionController::TestCase
     role = FactoryGirl.create(:role, :permissions => %w(view_issues))
     member = Member.new(:role_ids => [role.id], :user_id => @user.id)
     @project.members << member
+    @project.save!
 
     # log him in
     @request.session[:user_id] = @user.id
@@ -24,20 +25,21 @@ class IssueHookTest < ActionController::TestCase
 
   def assert_release_notes_displayed
     assert_response :success
-    assert_select 'div#release-notes p',
+    assert_select '#release-notes',
       :text => /product can now do backflips/
   end
 
   def assert_release_notes_not_displayed
     assert_response :success
-    assert_select 'div#release_notes p', false
+    assert_select '#release-notes', false
   end
 
   test 'release notes displayed if module enabled' do
-    @project.enabled_module_names = %w(release_notes)
+    @project.enabled_module_names << 'release_notes'
     @project.save!
 
     get :show, :id => @issue.id
+    require 'debugger'; debugger
     assert_release_notes_displayed
   end
 

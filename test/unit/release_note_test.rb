@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
 class ReleaseNoteTest < ActiveSupport::TestCase
   test 'release notes belong to issues' do

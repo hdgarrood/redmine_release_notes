@@ -22,7 +22,7 @@ module RedmineReleaseNotes
     def self.do_patch(klass)
       klass.class_eval do
         # default value for hide_from_release_notes should be false
-        before_validation(:on => :create) do
+        before_validation do
           self.hide_from_release_notes = false unless
             attribute_present?(:hide_from_release_notes)
         end

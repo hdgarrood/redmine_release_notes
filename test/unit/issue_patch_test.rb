@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../test_helper.rb'
+require File.dirname(__FILE__) + '/../test_helper.rb'
 
 class IssuePatchTest < ActiveSupport::TestCase
   test 'an issue has one release note' do

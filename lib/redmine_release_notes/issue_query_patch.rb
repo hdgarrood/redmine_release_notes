@@ -58,7 +58,7 @@ module RedmineReleaseNotes
                               :joins => joins_for_release_notes,
                               :conditions => statement)
         rescue ::ActiveRecord::StatementInvalid => e
-          raise StatementInvalid.new(e.message)
+          raise ::Query::StatementInvalid.new(e.message)
         end
       end
     end

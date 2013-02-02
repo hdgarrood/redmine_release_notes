@@ -1,9 +1,10 @@
 
 module RedmineReleaseNotes
   module Patch
-    def patch(klass)
+    def perform
+      logger.warn 'tried to perform a patch twice' if @already_patched
       unless @already_patched
-        do_patch(klass)
+        _perform
         @already_patched = true
       end
     end

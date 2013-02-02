@@ -18,8 +18,8 @@ module RedmineReleaseNotes
   module IssuesControllerPatch
     extend Patch
 
-    def self.do_patch(klass)
-      klass.class_eval do
+    def self._perform
+      IssuesController.class_eval do
         helper 'release_notes'
       end
     end

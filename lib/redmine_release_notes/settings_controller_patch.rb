@@ -16,16 +16,10 @@
 
 module RedmineReleaseNotes
   module SettingsControllerPatch
-    def self.patch(klass)
-      unless @already_patched
-        do_patch(klass)
-        @already_patched = true
-      end
-    end
+    extend Patch
 
-    private
-    def self.do_patch(klass)
-      klass.class_eval do
+    def self._perform
+      SettingsController.class_eval do
         helper 'release_notes_settings'
 
         # tells Rails to render the 'release notes settings' view instead of the

@@ -18,8 +18,8 @@ module RedmineReleaseNotes
   module IssuePatch
     extend Patch
 
-    def self.do_patch(klass)
-      klass.class_eval do
+    def self._perform
+      Issue.class_eval do
         has_one :release_note,
           :dependent => :destroy,
           :inverse_of => :issue

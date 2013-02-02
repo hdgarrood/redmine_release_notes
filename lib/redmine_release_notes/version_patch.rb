@@ -19,10 +19,13 @@ module RedmineReleaseNotes
   module VersionPatch
     extend Patch
 
-    def self.do_patch(klass)
-      klass.class_eval do
+    def self._perform
+      Version.class_eval do
         # default value for hide_from_release_notes should be false
-        before_validation do
+        before_save :set_default_for_hide_from_release_notes
+        before_validation :set_default_for_hide_from_release_notes
+
+        def set_default_for_hide_from_release_notes
           self.hide_from_release_notes = false unless
             attribute_present?(:hide_from_release_notes)
         end

@@ -3,8 +3,8 @@ module RedmineReleaseNotes
   module IssueQueryPatch
     extend Patch
 
-    def self.do_patch(klass)
-      klass.class_eval do
+    def self._perform
+      IssueQuery.class_eval do
         # make IssueQueries aware of ReleaseNotesQueryColumns
         add_available_column(ReleaseNotesQueryColumn.new)
 

@@ -17,16 +17,16 @@
 require 'redmine'
 require 'redmine_release_notes/hooks'
 
-# Patches to the Redmine core.
-require_dependency 'issue'
-require_dependency 'issues_controller'
-require_dependency 'settings_controller'
-require_dependency 'version'
-require_dependency 'issue_query'
-
 ActionDispatch::Callbacks.to_prepare do
-  RedmineReleaseNotes::Patches.
-    perform(Issue, IssuesController, SettingsController, Version, IssueQuery)
+  # Patches to the Redmine core.
+  %w(issue
+     issues_controller
+     settings_controller
+     version
+     issue_query).each do |core_class|
+    require_dependency core_class
+    "RedmineReleaseNotes::#{core_class.camelize}Patch".constantize.perform
+  end
 end
 
 Redmine::Plugin.register :redmine_release_notes do

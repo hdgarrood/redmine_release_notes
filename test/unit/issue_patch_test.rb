@@ -10,15 +10,14 @@ class IssuePatchTest < ActiveSupport::TestCase
   test 'issues validate their associated release note' do
     i = FactoryGirl.build(:issue)
     i.build_release_note
-    i.release_note.status = 'done'
+    i.release_note.stubs(:valid?).returns(false)
     
     assert !i.valid?,
       "i should be invalid because its release note is invalid"
 
-    i.release_note.text = "ok, i fixed it"
+    i.release_note.stubs(:valid?).returns(true)
     assert i.valid?,
-      "i should be valid because its release note is valid. Errors:\n" +
-      i.errors.full_messages.join(", ")
+      "i should be valid because its release note is valid"
   end
 
   test "issues' release notes are done when they're done" do 
@@ -45,7 +44,6 @@ class IssuePatchTest < ActiveSupport::TestCase
     assert Issue.release_notes_required.include?(issues['todo'])
     assert Issue.release_notes_required.include?(issues['done'])
     assert !Issue.release_notes_required.include?(issues['not_required'])
-    assert_equal 2, Issue.release_notes_required.count
   end
 
   test "Issue.release_notes_todo gives all issues which need release notes" +
@@ -59,7 +57,6 @@ class IssuePatchTest < ActiveSupport::TestCase
     assert Issue.release_notes_todo.include?(issues['todo'])
     assert !Issue.release_notes_todo.include?(issues['done'])
     assert !Issue.release_notes_todo.include?(issues['not_required'])
-    assert_equal 1, Issue.release_notes_todo.count
   end
 
   test "Issue.release_notes_done gives all issues whose release notes are done" do
@@ -73,15 +70,5 @@ class IssuePatchTest < ActiveSupport::TestCase
     assert !Issue.release_notes_done.include?(issues['todo'])
     assert Issue.release_notes_done.include?(issues['done'])
     assert !Issue.release_notes_done.include?(issues['not_required'])
-    assert_equal 1, Issue.release_notes_done.count
-  end
-
-  test "issues can't be closed with release notes todo" do
-    issue = FactoryGirl.build(:issue)
-    issue.stubs(:closed?).returns(true)
-
-    issue.build_release_note
-    issue.release_note.status = 'todo'
-    assert !issue.valid?
   end
 end

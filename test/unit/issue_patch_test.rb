@@ -75,4 +75,13 @@ class IssuePatchTest < ActiveSupport::TestCase
     assert !Issue.release_notes_done.include?(issues['not_required'])
     assert_equal 1, Issue.release_notes_done.count
   end
+
+  test "issues can't be closed with release notes todo" do
+    issue = FactoryGirl.build(:issue)
+    issue.stubs(:closed?).returns(true)
+
+    issue.build_release_note
+    issue.release_note.status = 'todo'
+    assert !issue.valid?
+  end
 end

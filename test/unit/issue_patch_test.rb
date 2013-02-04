@@ -20,15 +20,15 @@ class IssuePatchTest < ActiveSupport::TestCase
       "i should be valid because its release note is valid"
   end
 
-  test "issues' release notes are done when they're done" do 
-    release_note = FactoryGirl.build(:release_note)
-    release_note.status = 'done'
-    issue = release_note.issue
+  test "issues return correct value for release_notes_done?" do 
+    issue = FactoryGirl.build(:issue)
+    issue.build_release_note
+    issue.release_note.status = 'done'
 
     assert issue.release_notes_done?,
       "issue's release notes should be done when release note status == 'done'"
 
-    release_note.status = 'todo'
+    issue.release_note.status = 'todo'
     assert !issue.release_notes_done?,
       "issue's release notes should not be done when release notes status != 'done'"
   end

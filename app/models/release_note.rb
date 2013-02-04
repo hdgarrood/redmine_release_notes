@@ -16,7 +16,7 @@
 
 class ReleaseNote < ActiveRecord::Base
   unloadable
-  belongs_to :issue, :inverse_of => :release_note
+  belongs_to :issue
 
   def self.statuses
     %w(todo done not_required)

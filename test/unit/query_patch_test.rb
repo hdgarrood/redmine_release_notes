@@ -19,6 +19,12 @@ class QueryPatchTest < ActiveSupport::TestCase
     project
   end
 
+  def make_a_valid_query(project)
+    query = IssueQuery.new(:project => project)
+    query.stubs(:valid?).returns(true)
+    query
+  end
+
   test 'release notes filter available when project has release notes' +
   ' enabled' do
     project = FactoryGirl.create(:project,
@@ -44,8 +50,21 @@ class QueryPatchTest < ActiveSupport::TestCase
 
   test 'issue_count returns correct value' do
     project = make_a_project_with_some_issues_and_release_notes
-    query = IssueQuery.new(:project => project)
 
+    query = make_a_valid_query(project)
     assert_equal 12, query.issue_count
+
+    query = make_a_valid_query(project)
+    query.add_filter('release_notes', '=', %w(todo))
+    assert_equal 3, query.issue_count
+
+    query = make_a_valid_query(project)
+    query.add_filter('release_notes', '=', %w(todo done))
+    assert_equal 7, query.issue_count
+  end
+
+  test 'issues returns correct issues' do
+    project = make_a_project_with_some_issues_and_release_notes
+    # todo
   end
 end

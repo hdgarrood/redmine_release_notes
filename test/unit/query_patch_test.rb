@@ -13,7 +13,7 @@ class QueryPatchTest < ActiveSupport::TestCase
         issue.build_release_note
         issue.release_note.status = status
         issue.release_note.text = 'LULZ' # so that it's valid
-        issue.save!
+        issue.release_note.save!
       end
     end
     project

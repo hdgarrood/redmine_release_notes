@@ -18,6 +18,7 @@ FactoryGirl.define do
 
   factory :issue_status, :aliases => [:status] do
     sequence(:name) {|n| "issue-status-#{n}"}
+    is_closed false
   end
 
   factory :project do

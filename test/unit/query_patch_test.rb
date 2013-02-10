@@ -52,6 +52,7 @@ class QueryPatchTest < ActiveSupport::TestCase
     project = make_a_project_with_some_issues_and_release_notes
 
     query = make_a_valid_query(project)
+    # require 'debugger'; debugger
     assert_equal 12, query.issue_count
 
     query = make_a_valid_query(project)

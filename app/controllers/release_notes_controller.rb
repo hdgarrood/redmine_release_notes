@@ -72,7 +72,7 @@ class ReleaseNotesController < ApplicationController
       render :text => @content, :content_type => 'text/plain'
     elsif params[:download]
       send_data @content, :content_type => 'text/plain',
-        :filename => "release-notes-version-#{@version.name}.txt"
+        :filename => "release-notes-#{@project.name}-version-#{@version.name}.txt"
     end
   end
   

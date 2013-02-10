@@ -1,7 +1,9 @@
 <div id="release-notes-display">
   <p>
   <strong><%= t('release_notes.title_plural') %></strong>
-  (<%= t("release_notes.status.#{release_notes.status}") %>)
+  <% if release_notes.status %>
+    (<%= t("release_notes.status.#{release_notes.status}") %>)
+  <% end %>
   </p>
   <% if release_notes.text %>
     <div class="wiki">

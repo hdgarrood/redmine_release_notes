@@ -1,40 +1,20 @@
-<script type="text/javascript">
-	function fnSelect(objId) {
-		fnDeSelect();
-		if (document.selection) {
-            var range = document.body.createTextRange();
-            range.moveToElementText(document.getElementById(objId));
-            range.select();
-		}
-		else if (window.getSelection) {
-            var range = document.createRange();
-            range.selectNode(document.getElementById(objId));
-            window.getSelection().addRange(range);
-		}
-	}
-		
-	function fnDeSelect() {
-		if (document.selection) document.selection.empty(); 
-		else if (window.getSelection)
-                window.getSelection().removeAllRanges();
-	}
-</script>
-
-<% html_title l(:generate_title, :version => @version.name) %>
+<% html_title l('release_notes.generate_title', :version => @version.name) %>
 
 <div style="width:100%;">
-<h2><%= l(:generate_title, :version => @version.name) %></h2>
+<h2><%= l('release_notes.generate_title', :version => @version.name) %></h2>
 <p>
-<%= link_to( l(:mark_version_as_generated), {:action => 'mark_version_as_generated', :id => @version.id}, :method => :post) %> | 
-<a href="javascript:fnSelect('relnotes')"><%= l(:select_all) %></a> | 
-<%= link_to( l(:raw), {:action => 'generate', :release_notes_format => params[:release_notes_format], :raw => "true"}) %>
+<%= link_to l('release_notes.hide_version'),
+            hide_version_from_release_notes_path(:id => @version.id),
+            :method => :post %> | 
+<%= link_to l('release_notes.raw'), :raw => "true",
+  :release_notes_format => params[:release_notes_format] %> | 
+<%= link_to l('release_notes.download'), :download => "true",
+  :release_notes_format => params[:release_notes_format] %>
 </p>
 
 <%= render_other_formats(@formats) %>
   
-<% str_generated = html_escape(generate_release_notes_header(@version.id, @formats[@format]) + "\n" + generate_release_notes(@version.id, @formats[@format])) %>
-
 <div style="width: 80%; margin: 10px auto 10px auto; border: thin solid #222266;" id="relnotes">
-<pre style="padding:3em; word-wrap:break-word;"><%= str_generated %></pre>
+<pre style="padding:3em; word-wrap:break-word;"><%= @content %></pre>
 </div>
 </div>

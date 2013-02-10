@@ -50,8 +50,9 @@ module ReleaseNotesHelper
     str = "<p>"
     str << l(:label_export_to)
     str << " "
-    formats.keys.each do |format|
-      str << link_to(format, {:action => "generate", :controller => "release_notes", :release_notes_format => format})
+    formats.each do |format|
+      str << link_to(format.name, generate_release_notes_path(
+        :release_notes_format => format.name))
       str << " | "
     end
     3.times { str.chop! }

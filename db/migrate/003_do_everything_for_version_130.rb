@@ -11,14 +11,25 @@ class DoEverythingForVersion130 < ActiveRecord::Migration
 
     add_index :release_notes, :status
     add_index :release_notes, :issue_id
+
+    create_table :release_notes_formats do |t|
+      t.string :name,         :null => false
+      t.string :header,       :null => false
+      t.string :each_issue,   :null => false
+      t.string :start,        :null => false
+      t.string :end,          :null => false
+    end
+
+    add_index :release_notes_formats, :name, :unique => true
   end
 
   def down
-    # don't bother with changing the type of release_notes.text back, or
-    # dropping the indices -- if we're migrating down it's probably because
-    # the plugin is being uninstalled, so that stuff gets taken care of when
-    # the table is dropped
+    # don't bother with changing the type of release_notes.text back
     remove_column :release_notes, :status
     remove_column :versions, :hide_from_release_notes
+
+    remove_index :release_notes, :name => 'index_release_notes_on_issue_id'
+
+    drop_table :release_notes_formats
   end
 end

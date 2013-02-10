@@ -58,19 +58,21 @@ class ReleaseNotesController < ApplicationController
   end
   
   def generate
+    # for project menu
     @project = @version.project
-    @formats = ['todo']
-    @format = params[:release_notes_format]
-    if @formats[@format].nil? or @formats[@format].empty?
-      @format = Setting.plugin_redmine_release_notes['default_generation_format']
-    end
+
+    # for 'Also available in'
+    @formats = ReleaseNotesFormat.all
+    @format = ReleaseNotesFormat.find_by_name(params[:release_notes_format]) ||
+      @formats.first # todo: use default from settings
+
+    @content = ReleaseNotesGenerator.new(@version, @format).generate
 
     if params[:raw]
-      content = view_context.generate_release_notes_header(@version.id, @formats[@format])
-      content << "\n"
-      content << view_context.generate_release_notes(@version.id, @formats[@format])
-      render :text => content,
-             :content_type => 'text/plain'
+      render :text => @content, :content_type => 'text/plain'
+    elsif params[:download]
+      send_data @content, :content_type => 'text/plain',
+        :filename => "release-notes-version-#{@version.name}.txt"
     end
   end
   
@@ -79,6 +81,7 @@ class ReleaseNotesController < ApplicationController
     if @version.save
       flash[:notice] = t(:notice_successful_update)
     else
+      # TODO: a helpful error message would be better here
       render_404
     end
 

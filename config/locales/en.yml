@@ -32,7 +32,7 @@ en:
       one: "There is 1 issue which still needs release notes"
       other: "There are %{count} issues which still need release notes"
     
-    select_all: "Select all"
-    raw: "Raw"
+    raw: "View raw"
+    download: "Download"
 
     formats: "Formats"

@@ -1,23 +1,12 @@
 <div class="box tabular settings">
 <%= form_tag(:action => :plugin) do %>
   <p>
-  <%= label_tag 'settings_custom_field_id',
-    t('release_notes.config.custom_field.name') %>
-  <%= select_tag 'settings[custom_field_id]',
-    options_for_release_notes_custom_field(@settings),
-    :include_blank => true %>
-    <em class="info">
-      <%= t('release_notes.config.custom_field.info') %>
-    </em>
+    <%= label_tag 'settings[default_generation_format_id]',
+      t('release_notes.default_generation_format') %>
+    <%= select_tag 'settings[default_generation_format_id]',
+      options_from_collection_for_select(@formats, 'id', 'name',
+                              @settings[:default_generation_format_id].to_i) %>
   </p>
-  <% %w(not_required todo done).each do |x| %>
-    <p>
-    <%= label_tag "settings[field_value_#{x}]",
-      t("release_notes.config.field_value_#{x}.name") %>
-    <%= text_field_tag "settings[field_value_#{x}]",
-      @settings["field_value_#{x}"] %>
-    </p>
-  <% end %>
 </div>
 
 <%= submit_tag t(:button_save) %>

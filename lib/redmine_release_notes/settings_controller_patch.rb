@@ -27,6 +27,7 @@ module RedmineReleaseNotes
           if params[:id] == 'redmine_release_notes'
             @settings = Setting.plugin_redmine_release_notes
             if request.get?
+              @formats = ReleaseNotesFormat.all
               render 'plugin_release_notes'
             elsif request.post?
               raise NotImplementedError # todo

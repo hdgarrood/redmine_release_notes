@@ -36,3 +36,6 @@ en:
     download: "Download"
 
     formats: "Formats"
+    format: "Format"
+    new_format: "New format"
+    default_generation_format: "Default generation format"

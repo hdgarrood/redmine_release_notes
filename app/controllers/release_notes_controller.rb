@@ -14,8 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_release_notes.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'yaml'
-
 class ReleaseNotesController < ApplicationController
   unloadable
   
@@ -100,51 +98,4 @@ class ReleaseNotesController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
-  # changes the value of the custom field for issues if necessary
-  def update_custom_field(completed)
-    if completed == '1'
-      to_value = ReleaseNotesHelper::CONFIG['field_value_done']
-    else
-      to_value = ReleaseNotesHelper::CONFIG['field_value_to_be_done']
-    end
-
-    release_notes_required_field_id = CustomField.find_by_name(ReleaseNotesHelper::CONFIG['custom_field']).id
-    custom_value = @release_note.issue.custom_values.find_by_custom_field_id(release_notes_required_field_id)
-
-    if !custom_value
-      flash[:error] = l(:failed_find_custom_value)
-      return
-    end
-    
-    if custom_value.value != to_value
-      old_value = custom_value.value
-      custom_value.value = to_value
-      if custom_value.save
-        journal = @release_note.issue.init_journal(User.current)
-        journal.details << JournalDetail.new(:property => 'cf',
-                                             :prop_key => release_notes_required_field_id,
-                                             :old_value => old_value,
-                                             :value => to_value)
-        if journal.save == false
-          flash[:error] = format_release_note_errors(journal, l(:label_history))
-        end  
-      else
-        flash[:error] = format_release_note_errors(custom_value, l(:label_custom_field))
-      end
-    end
-  end
-  
-  def format_release_note_errors(model, localised_name)
-    error_str = ""
-    count = model.errors.count
-    model.errors.each do |attr, msg|
-      error_str << "<br>#{attr}: #{msg}, "
-    end
-    return_str = l('activerecord.errors.template.header.other',
-                        :model => localised_name,
-                        :count => count) + ': ' + error_str
-    return return_str.chop!.chop!.html_safe
-  end
-  
 end

@@ -32,4 +32,9 @@ RedmineApp::Application.routes.draw do
 
   resources :release_notes_formats,
     :except => [:index, :show]
+
+  match 'settings/plugin/redmine_release_notes?tab=formats',
+    :controller => :settings,
+    :action => :plugin,
+    :as => :release_notes_formats
 end

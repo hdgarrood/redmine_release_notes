@@ -35,7 +35,8 @@ en:
     raw: "View raw"
     download: "Download"
 
-    formats: "Formats"
-    format: "Format"
-    new_format: "New format"
-    default_generation_format: "Default generation format"
+    formats:
+      title: "Formats"
+      format: "Format"
+      new: "New format"
+      default_generation_format: "Default generation format"

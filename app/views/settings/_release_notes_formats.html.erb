@@ -1,7 +1,7 @@
 <% if @formats.any? %>
   <table class='list'>
     <thead>
-      <th><%= t('release_notes.format') %></th>
+      <th><%= t('release_notes.formats.title') %></th>
       <th></th>
     </thead>
     <tbody>
@@ -20,5 +20,5 @@
 <% end %>
 
 <p>
-<%= link_to l('release_notes.new_format'), new_release_notes_format_path, :class => 'icon icon-add' %>
+<%= link_to l('release_notes.formats.new'), new_release_notes_format_path, :class => 'icon icon-add' %>
 </p>

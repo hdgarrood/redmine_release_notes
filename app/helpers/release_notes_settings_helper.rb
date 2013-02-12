@@ -21,7 +21,7 @@ module ReleaseNotesSettingsHelper
         :label => :label_general},
       {:name => 'formats',
         :partial => 'settings/release_notes_formats',
-        :label => 'release_notes.formats'}
+        :label => 'release_notes.formats.title'}
     ]
   end
 

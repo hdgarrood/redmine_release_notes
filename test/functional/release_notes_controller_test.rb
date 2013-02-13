@@ -21,7 +21,7 @@ class ReleaseNotesControllerPatchTest < ActionController::TestCase
   end
 
   test "don't try to generate without any formats" do
-    assert_equal ReleaseNotesFormat.all, [],
+    assert_equal ReleaseNotesFormat.count, 0,
       "this test will only work if there are no formats in the db"
 
     v = create_version_with_release_notes

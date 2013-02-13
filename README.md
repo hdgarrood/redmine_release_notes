@@ -33,7 +33,7 @@ Do the migrations.
 
 Load the default data (optional, recommended).
 
-    rake redmine:plugins:release_notes:load_default_data
+    rake redmine:plugins:release_notes:load_default_data [RAILS_ENV="production|development..."]
 
 Restart redmine.
 

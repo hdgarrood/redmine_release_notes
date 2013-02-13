@@ -69,7 +69,7 @@ Plugins (if you're an admin).
 
 ## contributing
 
-Bug reports, enhancement requests, and pull requests are all welcome.
+Bug reports, feature requests, and pull requests are all welcome.
 
 * [source](https://github.com/hdgarrood/redmine_release_notes)
 * [issue tracker](https://github.com/hdgarrood/redmine_release_notes/issues)

@@ -19,7 +19,6 @@ module RedmineReleaseNotes
     def self.perform
       Issue.class_eval do
         has_one :release_note, :dependent => :destroy
-        validates_associated :release_note
         
         # all the issues which need release notes (including ones which have
         # them already)
@@ -38,7 +37,7 @@ module RedmineReleaseNotes
         end
 
         def release_notes_done?
-          release_note.done?
+          release_note && release_note.done?
         end
       end
     end

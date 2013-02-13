@@ -74,7 +74,7 @@ Bug reports, enhancement requests, and pull requests are all welcome.
 * [source](https://github.com/hdgarrood/redmine_release_notes)
 * [issue tracker](https://github.com/hdgarrood/redmine_release_notes/issues)
 
-# licence
+## licence
 
 Copyright (C) 2012-2013 Harry Garrood.
 

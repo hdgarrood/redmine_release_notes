@@ -24,16 +24,10 @@ module RedmineReleaseNotes
         # standard plugin settings view if the plugin we're looking at is the
         # release notes one
         def plugin_with_release_notes_patch
-          if params[:id] == 'redmine_release_notes'
+          if request.get? && params[:id] == 'redmine_release_notes'
             @settings = Setting.plugin_redmine_release_notes
-            if request.get?
-              @formats = ReleaseNotesFormat.all
-              render 'plugin_release_notes'
-            elsif request.post?
-              raise NotImplementedError # todo
-            else
-              render_404
-            end
+            @formats = ReleaseNotesFormat.all
+            render 'plugin_release_notes'
           else
             plugin_without_release_notes_patch
           end

@@ -12,17 +12,20 @@ If so, then this plugin may be just what you need.
 
 ## install
 
-As on [redmine wiki:plugins][]
+Clone it.
 
-1. Migrations.
+    git clone git://github.com/hdgarrood/redmine_release_notes \
+        /path/to/redmine/plugins/redmine_release_notes
 
-        rake redmine:plugins:migrate [RAILS_ENV="production|development..."]
+Do the migrations.
 
-2. Load default data (optional, recommended)
+    rake redmine:plugins:migrate [RAILS_ENV="production|development..."]
 
-        rake redmine:plugins:release_notes:load_default_data
+Load the default data (optional, recommended).
 
-3. Restart redmine
+    rake redmine:plugins:release_notes:load_default_data
+
+Restart redmine.
 
 ## To use the plugin for a project:
 

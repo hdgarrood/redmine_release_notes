@@ -51,4 +51,9 @@ FactoryGirl.define do
   factory :role do
     sequence(:name) {|n| "role-#{n}"}
   end
+
+  factory :version do
+    sequence(:name) {|n| "0.0.#{n}"}
+    project
+  end
 end

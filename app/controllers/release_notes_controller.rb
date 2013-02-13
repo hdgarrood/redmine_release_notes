@@ -60,9 +60,14 @@ class ReleaseNotesController < ApplicationController
     @project = @version.project
 
     # for 'Also available in'
-    @formats = ReleaseNotesFormat.all
-    @format = ReleaseNotesFormat.find_by_name(params[:release_notes_format]) ||
-      @formats.first # todo: use default from settings
+    @formats = ReleaseNotesFormat.select(:name).all
+
+    @format =
+      ReleaseNotesFormat.find_by_name(params[:release_notes_format]) or
+      (id = Setting.
+        plugin_redmine_release_notes[:default_generation_format_id];
+       ReleaseNotesFormat.exists?(id) && ReleaseNotesFormat.find(id)) or
+      (render 'no_formats'; return)
 
     @content = ReleaseNotesGenerator.new(@version, @format).generate
 

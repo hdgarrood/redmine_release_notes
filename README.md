@@ -13,13 +13,12 @@ If so, then this plugin may be just what you need.
 
 ## features
 
-* Create/read/update/delete release notes per issue.
-* Show a list of versions, together with how close the release notes are to
-  being done.
+* Store release notes and release notes status (todo, done, not required) per
+  issue.
+* See how close the release notes for a certain version are to being finished.
 * Generate release notes for a particular version.
 * Define templates for generated release notes.
-* Localizable - currently there are English, German, Russian, and French
-  translations.
+* Localizable; currently available in English, German, Russian, and French.
 
 ## install
 

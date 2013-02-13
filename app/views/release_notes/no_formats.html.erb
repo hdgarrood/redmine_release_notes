@@ -1,0 +1,6 @@
+<div class='flash error'>
+  <%= l('release_notes.formats.none') %>
+  <% if User.current.admin? %>
+    <%= link_to l(:button_add), new_release_notes_format_path %>
+  <% end %>
+</div>

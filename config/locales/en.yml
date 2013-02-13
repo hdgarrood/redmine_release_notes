@@ -39,4 +39,5 @@ en:
       title: "Formats"
       format: "Format"
       new: "New format"
+      none: "No release notes formats are currently defined."
       default_generation_format: "Default generation format"

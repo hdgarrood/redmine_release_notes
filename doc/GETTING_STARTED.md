@@ -16,11 +16,11 @@ As on [redmine wiki:plugins][]
 
 1. Migrations.
 
-    rake redmine:plugins:migrate [RAILS_ENV="production|development..."]
+        rake redmine:plugins:migrate [RAILS_ENV="production|development..."]
 
 2. Load default data (optional, recommended)
 
-    rake redmine:plugins:release_notes:load_default_data
+        rake redmine:plugins:release_notes:load_default_data
 
 3. Restart redmine
 

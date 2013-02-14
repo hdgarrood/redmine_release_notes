@@ -35,6 +35,7 @@ class ReleaseNotesGenerator
 
   def generate_release_notes
     str = format.start
+    str << "\n"
     version.fixed_issues.release_notes_done.find_each do |issue|
       str << make_substitutions(format.each_issue, values_for_issue(issue))
       str << "\n"

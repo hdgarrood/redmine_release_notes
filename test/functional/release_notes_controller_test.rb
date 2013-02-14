@@ -9,24 +9,50 @@ class ReleaseNotesControllerPatchTest < ActionController::TestCase
     @request.session[:user_id] = @user.id
   end
 
-  def create_version_with_release_notes
-    version = FactoryGirl.create(:version)
-    proj = version.project
-    unless proj.module_enabled? :release_notes
-      proj.enabled_modules << FactoryGirl.build(:enabled_module,
-                                                :name => :release_notes)
-      proj.save!
-    end
-    version
-  end
-
   test "don't try to generate without any formats" do
     assert_equal ReleaseNotesFormat.count, 0,
       "this test will only work if there are no formats in the db"
 
-    v = create_version_with_release_notes
+    version = FactoryGirl.create(:version_with_release_notes)
 
-    get :generate, :id => v.id
+    get :generate, :id => version.id
     assert_template 'no_formats'
+  end
+
+  test "should use default format when not specified" do
+    version = FactoryGirl.create(:version_with_release_notes)
+    format = FactoryGirl.create(:release_notes_format)
+
+    Setting.stubs(:plugin_redmine_release_notes).
+      returns(:default_generation_format_id => format.id)
+
+    get :generate, :id => version.id
+    assert_template 'generate'
+    assert_equal assigns(:format), format
+  end
+
+  test "should use default format when specified format not found" do
+    version = FactoryGirl.create(:version_with_release_notes)
+    format = FactoryGirl.create(:release_notes_format)
+
+    Setting.stubs(:plugin_redmine_release_notes).
+      returns(:default_generation_format_id => format.id)
+
+    get :generate, :id => version.id, :release_notes_format => 'garbage'
+    assert_template 'generate'
+    assert_equal assigns(:format), format
+  end
+
+  test "should use specified format" do
+    version = FactoryGirl.create(:version_with_release_notes)
+    format = FactoryGirl.create(:release_notes_format)
+
+    # ensure the format is not retrieved from settings
+    Setting.stubs(:plugin_redmine_release_notes).
+      returns(:default_generation_format_id => 0)
+
+    get :generate, :id => version.id, :release_notes_format => format.name
+    assert_template 'generate'
+    assert_equal assigns(:format), format
   end
 end

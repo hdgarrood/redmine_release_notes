@@ -4,9 +4,7 @@ class QueryPatchTest < ActiveSupport::TestCase
   # create a project with 3 issues with release notes todo, 4 done, and 5
   # not required
   def make_a_project_with_some_issues_and_release_notes
-    project = FactoryGirl.create(:project,
-                                 :enabled_module_names => %w(issue_tracking
-                                                             release_notes))
+    project = FactoryGirl.create(:project_with_release_notes)
     [[3, 'todo'], [4, 'done'], [5, 'not_required']].map do |n, status|
       n.times do
         issue = FactoryGirl.create(:issue, :project => project)
@@ -52,7 +50,6 @@ class QueryPatchTest < ActiveSupport::TestCase
     project = make_a_project_with_some_issues_and_release_notes
 
     query = make_a_valid_query(project)
-    # require 'debugger'; debugger
     assert_equal 12, query.issue_count
 
     query = make_a_valid_query(project)

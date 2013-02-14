@@ -59,15 +59,11 @@ class ReleaseNotesController < ApplicationController
     # for project menu
     @project = @version.project
 
+    @format = release_notes_format_from_params
+    (render 'no_formats'; return) unless @format
+
     # for 'Also available in'
     @formats = ReleaseNotesFormat.select(:name).all
-
-    @format =
-      ReleaseNotesFormat.find_by_name(params[:release_notes_format]) or
-      (id = Setting.
-        plugin_redmine_release_notes[:default_generation_format_id];
-       ReleaseNotesFormat.exists?(id) && ReleaseNotesFormat.find(id)) or
-      (render 'no_formats'; return)
 
     @content = ReleaseNotesGenerator.new(@version, @format).generate
 
@@ -102,5 +98,19 @@ class ReleaseNotesController < ApplicationController
     @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def release_notes_format_from_params
+    if (format_name = params[:release_notes_format])
+      format = ReleaseNotesFormat.find_by_name(format_name)
+    end
+
+    if format.nil?
+      id = Setting.plugin_redmine_release_notes[:default_generation_format_id]
+      # dont raise RecordNotFound
+      format = ReleaseNotesFormat.find_by_id(id)
+    end
+
+    format
   end
 end

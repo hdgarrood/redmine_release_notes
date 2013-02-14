@@ -29,11 +29,11 @@ Clone it.
 
 Do the migrations.
 
-    rake redmine:plugins:migrate [RAILS_ENV="production|development..."]
+    rake redmine:plugins:migrate
 
 Load the default data (optional, recommended).
 
-    rake redmine:plugins:release_notes:load_default_data [RAILS_ENV="production|development..."]
+    rake redmine:plugins:release_notes:load_default_data
 
 Restart redmine.
 

@@ -3,9 +3,6 @@
 <div style="width:100%;">
 <h2><%= l('release_notes.generate_title', :version => @version.name) %></h2>
 <p>
-<%= link_to l('release_notes.hide_version'),
-            hide_version_from_release_notes_path(:id => @version.id),
-            :method => :post %> | 
 <%= link_to l('release_notes.raw'), :raw => "true",
   :release_notes_format => params[:release_notes_format] %> | 
 <%= link_to l('release_notes.download'), :download => "true",

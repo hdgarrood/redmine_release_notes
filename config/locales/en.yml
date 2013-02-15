@@ -13,12 +13,10 @@ en:
       not_required: "Not required"
 
     cant_be_blank_when_done: "can't be blank if the release notes are done"
-    cant_close_with_release_notes_todo: "Issue can't be closed before the release notes have been dealt with"
 
     generate: "Generate release notes"
     generate_title: "Release notes for version %{version}"
     hide_version: "Hide this version from this list"
-
     show_hidden_versions: "Show hidden versions"
 
     x_issues_in_total: "%{count} issues in total"

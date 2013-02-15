@@ -74,4 +74,8 @@ FactoryGirl.define do
     # hack -- we can't write a literal 'end' cuz it's a Ruby keyword
     sequence(:end) {|n| '' }
   end
+
+  factory :issue_query do
+    sequence(:name) {|n| "query-#{n}"}
+  end
 end

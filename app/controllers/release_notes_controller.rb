@@ -111,6 +111,11 @@ class ReleaseNotesController < ApplicationController
       format = ReleaseNotesFormat.find_by_id(id)
     end
 
+    # last resort -- just get the first one
+    if format.nil?
+      format = ReleaseNotesFormat.first
+    end
+
     format
   end
 end

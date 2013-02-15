@@ -66,8 +66,14 @@ class QueryPatchTest < ActiveSupport::TestCase
     assert_equal 7, query.issue_count
   end
 
-  test 'issues returns correct issues' do
+  test 'issues may be grouped by release notes' do
     project = make_a_project_with_some_issues_and_release_notes
-    # todo
+    query = FactoryGirl.build(:issue_query,
+                              :project => project,
+                              :group_by => 'release_notes')
+
+    assert query.grouped?
+    assert_equal({'todo' => 3, 'done' => 4, 'not_required' => 5},
+      query.issue_count_by_group)
   end
 end

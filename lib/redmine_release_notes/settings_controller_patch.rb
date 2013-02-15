@@ -24,12 +24,29 @@ module RedmineReleaseNotes
         # standard plugin settings view if the plugin we're looking at is the
         # release notes one
         def plugin_with_release_notes_patch
-          if request.get? && params[:id] == 'redmine_release_notes'
+          if params[:id] == 'redmine_release_notes'
+            plugin_redmine_release_notes
+          else
+            plugin_without_release_notes_patch
+          end
+        end
+
+        def plugin_redmine_release_notes
+          if request.get?
             @settings = Setting.plugin_redmine_release_notes
             @formats = ReleaseNotesFormat.all
             render 'plugin_release_notes'
+          elsif request.post?
+            # if params looks ok, update settings in the db
+            if (params[:settings] &&
+              params[:settings][:default_generation_format_id].to_i > 0)
+              plugin_without_release_notes_patch
+            else
+              # otherwise just GET the settings again
+              redirect_to plugin_settings_path(:id => 'redmine_release_notes')
+            end
           else
-            plugin_without_release_notes_patch
+            render_404
           end
         end
 

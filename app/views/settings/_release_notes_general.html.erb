@@ -1,13 +1,20 @@
-<div class="box tabular settings">
-<%= form_tag(:action => :plugin) do %>
-  <p>
-    <%= label_tag 'settings[default_generation_format_id]',
-      t('release_notes.default_generation_format') %>
-    <%= select_tag 'settings[default_generation_format_id]',
-      options_from_collection_for_select(@formats, 'id', 'name',
-                              @settings[:default_generation_format_id].to_i) %>
-  </p>
-</div>
+<% if @formats.any? %>
+  <%= form_tag(:action => :plugin) do %>
+    <div class="box tabular settings">
+      <p>
+      <%= label_tag 'settings[default_generation_format_id]',
+        t('release_notes.formats.default_generation_format') %>
+      <%= select_tag 'settings[default_generation_format_id]',
+        options_from_collection_for_select(@formats, 'id', 'name',
+                                @settings[:default_generation_format_id].to_i) %>
+      </p>
+    </div>
 
-<%= submit_tag t(:button_save) %>
+    <%= submit_tag t(:button_save) %>
+  <% end %>
+<% else %>
+  <div class="nodata">
+    <%= t('release_notes.formats.none') %><br>
+    <%= link_to t('release_notes.formats.define_some'), new_release_notes_format_path %>
+  </div>
 <% end %>

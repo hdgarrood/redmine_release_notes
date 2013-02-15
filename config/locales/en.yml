@@ -38,6 +38,7 @@ en:
       format: "Format"
       new: "New format"
       none: "No release notes formats are currently defined."
+      define_some: "Define some"
       default_generation_format: "Default generation format"
       attributes:
         name: 'Name'

@@ -41,3 +41,9 @@ en:
       new: "New format"
       none: "No release notes formats are currently defined."
       default_generation_format: "Default generation format"
+      attributes:
+        name: 'Name'
+        header: 'Header'
+        start: 'Start'
+        each_issue: 'Each issue'
+        end: 'End'

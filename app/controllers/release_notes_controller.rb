@@ -19,9 +19,9 @@ class ReleaseNotesController < ApplicationController
   
   before_filter :find_version, :only => [:generate, :hide_version]
   before_filter :find_project, :only => [:index]
-  
+
   helper :projects
-  
+
   def index
     @with_subprojects = params[:with_subprojects].nil? ?
       Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
@@ -36,7 +36,7 @@ class ReleaseNotesController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   # we only expect this to be called with :format => :js
   def update
     @release_notes = ReleaseNote.find(params[:id])
@@ -45,7 +45,7 @@ class ReleaseNotesController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   def destroy
     release_note = ReleaseNote.find(params[:id])
     issue = release_note.issue
@@ -54,7 +54,7 @@ class ReleaseNotesController < ApplicationController
     flash[:notice] = l(:notice_successful_delete)
     redirect_to issue
   end
-  
+
   def generate
     # for project menu
     @project = @version.project

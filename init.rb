@@ -35,7 +35,7 @@ Redmine::Plugin.register :redmine_release_notes do
   description 'A plugin for managing release notes.'
   version '1.3.0-pre'
   author_url 'https://github.com/hdgarrood'
-  requires_redmine :version_or_higher => '2.3.0' # cuz of issue_query
+  requires_redmine :version_or_higher => '2.2.3' # cuz of issue_query
 
   # the partial won't be used, but can't be blank, because Redmine needs to
   # think this plugin is configurable

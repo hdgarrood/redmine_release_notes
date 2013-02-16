@@ -31,9 +31,11 @@ Do the migrations.
 
     rake redmine:plugins:migrate
 
-Load the default data (optional, recommended).
+Load the default formats (optional, recommended). If you've been using 1.2.0,
+this will read your formats.yml and put them into the database (which is what
+you want).
 
-    rake redmine:plugins:release_notes:load_default_data
+    rake redmine:plugins:release_notes:load_default_formats
 
 Restart redmine.
 
@@ -41,7 +43,7 @@ Restart redmine.
 
 As of 1.3.0, release notes status (ie, whether the release notes for an issue
 are done, still todo, or not required) are no longer stored as an issue custom
-field, but in the `release_notes` table. This means that you need to get this
+field, but in the release notes table. This means that you need to get this
 information out of the issue custom field, and into the release notes table.
 
 The column is `release_notes.status` and the recognised values are `'todo'`,

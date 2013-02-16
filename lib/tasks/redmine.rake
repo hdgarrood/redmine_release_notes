@@ -48,12 +48,26 @@ namespace :redmine do
         assumes_migrated_test_task :all
       end
 
-      task :load_default_data => :environment do
-        fail 'you already have some formats!' unless
-          ReleaseNotesFormat.count == 0
+      task :load_default_formats => :environment do
+        fail 'you already have some formats! run with FORCE to force' unless
+          ReleaseNotesFormat.count == 0 || ENV['FORCE']
 
-        YAML.load_file("plugins/redmine_release_notes/db/seeds.yml").
+        if File.exist?("plugins/redmine_release_notes/config/formats.yml")
+          # this person was using 1.2.0
+          upgrading_from_120 = true
+          source_file = "plugins/redmine_release_notes/config/formats.yml"
+        else
+          source_file = "plugins/redmine_release_notes/db/seeds.yml"
+        end
+
+        YAML.load_file(source_file).
+          inject({}) {|h, (k,v)| h[k] = v; h[k][:name] ||= k.to_s; h }.
           values.each { |v| ReleaseNotesFormat.create!(v) }
+
+        if upgrading_from_120
+          puts "formats were successfully loaded into DB."
+          puts "you may want to delete #{source_file} now."
+        end
       end
     end
   end

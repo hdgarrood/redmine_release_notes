@@ -5,10 +5,6 @@ class DoEverythingForVersion130 < ActiveRecord::Migration
       t.change :text,     :text,    :limit => nil,  :null => true
     end
 
-    change_table :versions do |t|
-      t.boolean :hide_from_release_notes, :default => false, :null => false
-    end
-
     add_index :release_notes, :status
     add_index :release_notes, :issue_id
 
@@ -26,10 +22,7 @@ class DoEverythingForVersion130 < ActiveRecord::Migration
   def down
     # don't bother with changing the type of release_notes.text back
     remove_column :release_notes, :status
-    remove_column :versions, :hide_from_release_notes
-
     remove_index :release_notes, :name => 'index_release_notes_on_issue_id'
-
     drop_table :release_notes_formats
   end
 end

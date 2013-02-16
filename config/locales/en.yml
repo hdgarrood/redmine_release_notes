@@ -16,8 +16,7 @@ en:
 
     generate: "Generate release notes"
     generate_title: "Release notes for version %{version}"
-    hide_version: "Hide this version from this list"
-    show_hidden_versions: "Show hidden versions"
+    show_closed_versions: "Show closed versions"
 
     x_issues_in_total: "%{count} issues in total"
     x_requiring_release_notes: "%{count} requiring release notes"

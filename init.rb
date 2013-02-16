@@ -44,8 +44,7 @@ Redmine::Plugin.register :redmine_release_notes do
   
   project_module :release_notes do
     permission :release_notes,
-      { :release_notes =>
-        [:index, :new, :generate, :hide_version] },
+      { :release_notes => [:index, :new, :generate] },
       :public => true
   end
 

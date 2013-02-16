@@ -16,8 +16,8 @@
 
 class ReleaseNotesController < ApplicationController
   unloadable
-  
-  before_filter :find_version, :only => [:generate, :hide_version]
+
+  before_filter :find_version, :only => [:generate]
   before_filter :find_project, :only => [:index]
 
   helper :projects
@@ -30,9 +30,8 @@ class ReleaseNotesController < ApplicationController
     @versions += @project.rolled_up_versions.visible if @with_subprojects
     @versions = @versions.uniq.sort
 
-    # reject hidden versions unless the user has specifically asked for them
-    # todo: check for hidden versions
-    @versions.reject!(&:hide_from_release_notes) unless params[:hidden]
+    # reject closed versions unless the user has specifically asked for them
+    @versions.reject!(&:closed?) unless params[:closed]
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -74,20 +73,8 @@ class ReleaseNotesController < ApplicationController
         :filename => "release-notes-#{@project.name}-version-#{@version.name}.txt"
     end
   end
-  
-  def hide_version
-    @version.hide_from_release_notes = true
-    if @version.save
-      flash[:notice] = t(:notice_successful_update)
-    else
-      # TODO: a helpful error message would be better here
-      render_404
-    end
 
-    redirect_to release_notes_path(:project_id => @version.project.identifier)
-  end
-  
- private  
+  private
   def find_version
     @version = Version.find(params[:id])
   rescue ActiveRecord::RecordNotFound

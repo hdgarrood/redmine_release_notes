@@ -1,4 +1,6 @@
 class ReleaseNotesFormatsController < ApplicationController
+  layout 'admin'
+
   def new
     @format = ReleaseNotesFormat.new
   end

@@ -1,7 +1,6 @@
 <%= error_messages_for @format %>
 
 <%= form_for(@format) do |f| %>
-    <div class='splitcontentleft'>
     <div class='box tabular'>
         <% %w(name header start each_issue end).each do |attr| %>
             <p>
@@ -12,6 +11,6 @@
 
     </div>
     <%= f.submit(@format.new_record? ? l(:button_create) : l(:button_save)) %>
-    </div>
 
 <% end %>
+

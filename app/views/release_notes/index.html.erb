@@ -1,4 +1,4 @@
-<h2>Release notes</h2>
+<h2><%= t('release_notes.title_plural') %></h2>
 
 <% if @versions.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
@@ -15,9 +15,9 @@
   <%= form_tag({}, :method => :get) do %>
     <h3><%= t('release_notes.title_plural') %></h3>
 
-    <label for="hidden">
-      <%= check_box_tag "hidden", 1, params[:hidden] %>
-      <%= t('release_notes.show_hidden_versions') %>
+    <label for="closed">
+      <%= check_box_tag "closed", 1, params[:closed] %>
+      <%= t('release_notes.show_closed_versions') %>
     </label>
 
     <% if @project.descendants.active.any? %>

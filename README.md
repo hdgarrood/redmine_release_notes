@@ -37,6 +37,30 @@ Load the default data (optional, recommended).
 
 Restart redmine.
 
+## upgrading from 1.2.0
+
+As of 1.3.0, release notes status (ie, whether the release notes for an issue
+are done, still todo, or not required) are no longer stored as an issue custom
+field, but in the `release_notes` table. This means that you need to get this
+information out of the issue custom field, and into the release notes table.
+
+The column is `release_notes.status` and the recognised values are `'todo'`,
+`'done'`, and `'not_required'`.
+
+This is probably the easiest way to go about it:
+
+    UPDATE release_notes
+    SET status = 'todo'
+    WHERE issue_id in (
+      SELECT customized_id
+      FROM custom_values
+      WHERE customized_type = 'Issue'
+        AND value = 'Todo' -- or whatever your configured 'todo' status is
+    );
+
+You'll need to run two more similar statements for `'done'` and
+`'not_required'` release notes.
+
 ## setup
 
 Before you can use it, you need to:

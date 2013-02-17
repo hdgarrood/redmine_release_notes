@@ -56,6 +56,7 @@ module ReleaseNotesHelper
       str << " | "
     end
     3.times { str.chop! }
+    str << "</p>"
     return str.html_safe
   end
 end

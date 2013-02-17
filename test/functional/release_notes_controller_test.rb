@@ -1,15 +1,36 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class ReleaseNotesControllerPatchTest < ActionController::TestCase
+class ReleaseNotesControllerTest < ActionController::TestCase
   def setup
     @controller = ReleaseNotesController.new
 
     # run as an admin
     @user = FactoryGirl.create(:user, :admin => true)
     @request.session[:user_id] = @user.id
+
+    # create a format
+    FactoryGirl.create(:release_notes_format)
+  end
+
+  # create a project with 3 issues with release notes todo, 4 done, and 5
+  # not required, all assigned to the same version
+  def make_a_version_with_some_issues_and_release_notes
+    project = FactoryGirl.create(:project_with_release_notes)
+    version = FactoryGirl.create(:version, :project => project)
+    [[3, 'todo'], [4, 'done'], [5, 'not_required']].each do |n, status|
+      n.times do
+        issue = FactoryGirl.create(:issue, :project => project, :fixed_version => version)
+        issue.build_release_note
+        issue.release_note.status = status
+        issue.release_note.text = 'LULZ' # so that it's valid
+        issue.release_note.save!
+      end
+    end
+    version
   end
 
   test "don't try to generate without any formats" do
+    ReleaseNotesFormat.destroy_all
     assert_equal ReleaseNotesFormat.count, 0,
       "this test will only work if there are no formats in the db"
 
@@ -54,5 +75,15 @@ class ReleaseNotesControllerPatchTest < ActionController::TestCase
     get :generate, :id => version.id, :release_notes_format => format.name
     assert_template 'generate'
     assert_equal assigns(:format), format
+  end
+
+  test 'should warn if some issues still need release notes' do
+    version = make_a_version_with_some_issues_and_release_notes
+    get :generate, :id => version.id
+
+    # there should be 3 issues needing release notes
+    assert_response :success
+    assert_select 'div.flash.warning',
+      :text => /3/
   end
 end

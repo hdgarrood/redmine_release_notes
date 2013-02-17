@@ -45,3 +45,12 @@ en:
         start: 'Start'
         each_issue: 'Each issue'
         end: 'End'
+      explain:
+        header: "Appears at the start of the release notes."
+        start: "Appears once, just after the header. Use for eg. a <ul> tag."
+        each_issue: "Appears once for each issue."
+        end: "Appears once at the end. Use for eg. a </ul> tag."
+      subs:
+        intro: "You can use substitutions like %{this} to display some information in the Header and Each issue fields."
+        header: "Substitutions refer to the version. Recognised values are name, date, id, and description."
+        each_issue: "Substitutions refer to the issue. Recognised values are subject, release_notes, id, tracker, and project."

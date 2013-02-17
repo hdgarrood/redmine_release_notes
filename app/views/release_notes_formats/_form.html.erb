@@ -1,16 +1,16 @@
 <%= error_messages_for @format %>
 
 <%= form_for(@format) do |f| %>
-    <div class='box tabular'>
-        <% %w(name header start each_issue end).each do |attr| %>
-            <p>
-                <%= f.label l("release_notes.formats.attributes.#{attr}") %>
-                <%= f.text_field attr %>
-            </p>
-        <% end %>
+  <div class='box tabular'>
+    <% %w(name header start each_issue end).each do |attr| %>
+      <p>
+      <%= f.label attr, l("release_notes.formats.attributes.#{attr}") %>
+      <%= f.text_field attr %>
+      </p>
+    <% end %>
 
-    </div>
-    <%= f.submit(@format.new_record? ? l(:button_create) : l(:button_save)) %>
+  </div>
+  <%= f.submit(@format.new_record? ? l(:button_create) : l(:button_save)) %>
 
 <% end %>
 

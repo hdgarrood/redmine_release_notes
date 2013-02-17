@@ -15,6 +15,66 @@
 # along with redmine_release_notes.  If not, see <http://www.gnu.org/licenses/>.
 
 class ReleaseNotesGenerator
+  # for previewing formats
+  class MockVersion
+    class MockIssueCollection
+      class MockIssue
+        class MockReleaseNote
+          attr_reader :text
+          def initialize(text)
+            @text = text
+          end
+        end
+
+        class MockThingWithName
+          attr_reader :name
+          def initialize(name)
+            @name = name
+          end
+        end
+
+        attr_reader :subject, :tracker, :project, :id
+
+        def initialize(opts)
+          opts.each { |k, v| instance_variable_set :"@#{k}", v }
+        end
+
+        def release_note; MockReleaseNote.new(@release_note); end
+        def tracker; MockThingWithName.new(@tracker); end
+        def project; MockThingWithName.new(@project); end
+      end
+
+      def release_notes_done; self; end
+
+      # yields all the MockIssues to the passed block
+      def find_each(&blk)
+        [
+          MockIssue.new(:subject => 'Crashes on startup',
+            :tracker => 'Bug',
+            :release_note => 'Startup crashes no longer occur.',
+            :project => 'Recipes app',
+            :id => 37),
+          MockIssue.new(:subject => 'Star recipes',
+            :tracker => 'Feature',
+            :release_note => 'Favourite recipes can now be starred.',
+            :project => 'Recipes app',
+            :id => 23),
+          MockIssue.new(:subject => 'Better performance when saving recipes',
+            :tracker => 'Feature',
+            :release_note => 'Performance improved when saving recipes.',
+            :project => 'Recipes app',
+            :id => 15)
+        ].each(&blk)
+      end
+    end
+
+    def fixed_issues; MockIssueCollection.new; end
+    def name; '1.0.0'; end
+    def id; 8; end
+    def description; 'Release candidate'; end
+    def effective_date; Date.tomorrow; end
+  end
+
   include Redmine::I18n # for format_date
 
   attr_reader :format, :version

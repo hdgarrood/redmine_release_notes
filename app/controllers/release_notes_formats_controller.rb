@@ -35,4 +35,12 @@ class ReleaseNotesFormatsController < ApplicationController
     flash[:notice] = l(:notice_successful_delete)
     redirect_to release_notes_formats_tab_path
   end
+
+  # we only expect this with :format => :js
+  def preview
+    format = ReleaseNotesFormat.new(params[:release_notes_format])
+    version = ReleaseNotesGenerator::MockVersion.new
+    @text = ReleaseNotesGenerator.new(version, format).generate
+    render :text => @text
+  end
 end

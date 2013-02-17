@@ -10,8 +10,5 @@
 </p>
 
 <%= render_other_formats(@formats) %>
-  
-<div style="width: 80%; margin: 10px auto 10px auto; border: thin solid #222266;" id="relnotes">
-<pre style="padding:3em; word-wrap:break-word;"><%= @content %></pre>
-</div>
-</div>
+
+<%= render :partial => 'generated_release_notes' %>

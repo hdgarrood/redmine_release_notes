@@ -26,11 +26,14 @@ RedmineApp::Application.routes.draw do
     :to => "release_notes#generate",
     :as => :generate_release_notes
 
+  match 'release_notes_formats/preview',
+    :to => 'release_notes_formats#preview',
+    :as => :preview_release_notes_format
+
   resources :release_notes_formats,
     :except => [:index, :show]
 
   match 'settings/plugin/redmine_release_notes?tab=formats',
-    :controller => :settings,
-    :action => :plugin,
+    :to => 'settings#plugin',
     :as => :release_notes_formats_tab
 end

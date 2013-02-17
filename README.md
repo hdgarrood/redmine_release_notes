@@ -7,9 +7,12 @@ Do any of the following apply?
   for each one, and it's a real pain
 * You wish it was easier to check whether all the release notes have been done
   for a particular version
-* You are on Redmine 2.0 or higher
 
 If so, then this plugin may be just what you need.
+
+## requirements
+
+Just Redmine 2.3.0 or higher. If there's sufficient demand I'll add 2.1 and 2.2 compatibility.
 
 ## features
 

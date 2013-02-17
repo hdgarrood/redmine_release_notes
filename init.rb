@@ -39,7 +39,10 @@ Redmine::Plugin.register :redmine_release_notes do
 
   # the partial won't be used, but can't be blank, because Redmine needs to
   # think this plugin is configurable
-  settings :default => {:default_generation_format_id => 1},
+  settings :default => {
+      :default_generation_format_id => 1,
+      :enabled_tracker_ids => []
+    },
     :partial => 'not_blank' 
   
   project_module :release_notes do

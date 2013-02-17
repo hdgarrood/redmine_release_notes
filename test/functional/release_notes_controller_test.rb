@@ -15,11 +15,17 @@ class ReleaseNotesControllerTest < ActionController::TestCase
   # create a project with 3 issues with release notes todo, 4 done, and 5
   # not required, all assigned to the same version
   def make_a_version_with_some_issues_and_release_notes
-    project = FactoryGirl.create(:project_with_release_notes)
+    tracker = FactoryGirl.create(:tracker)
+    project = FactoryGirl.create(:project_with_release_notes,
+                                 :trackers => [tracker])
+    ReleaseNote.stubs(:enabled_tracker_ids).returns([tracker.id])
     version = FactoryGirl.create(:version, :project => project)
     [[3, 'todo'], [4, 'done'], [5, 'not_required']].each do |n, status|
       n.times do
-        issue = FactoryGirl.create(:issue, :project => project, :fixed_version => version)
+        issue = FactoryGirl.create(:issue,
+                                   :project => project,
+                                   :fixed_version => version,
+                                   :tracker => tracker)
         issue.build_release_note
         issue.release_note.status = status
         issue.release_note.text = 'LULZ' # so that it's valid

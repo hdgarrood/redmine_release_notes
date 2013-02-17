@@ -8,6 +8,18 @@
         options_from_collection_for_select(@formats, 'id', 'name',
                                 @settings[:default_generation_format_id].to_i) %>
       </p>
+      <p>
+      <%= label_tag 'settings[enabled_tracker_ids]',
+        t('release_notes.enabled_trackers') %>
+      <%= hidden_field_tag 'settings[enabled_tracker_ids][]' %>
+      <% Tracker.all.each do |t| %>
+        <label class=block>
+          <%= check_box_tag 'settings[enabled_tracker_ids][]', t.id,
+            (ReleaseNote.enabled_tracker_ids.include?(t.id) ? {:checked => true} : nil) %>
+          <%= t.name %>
+        </label>
+      <% end %>
+      </p>
     </div>
 
     <%= submit_tag t(:button_save) %>

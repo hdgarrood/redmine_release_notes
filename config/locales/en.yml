@@ -32,6 +32,8 @@ en:
     raw: "View raw"
     download: "Download"
 
+    enabled_trackers: "Trackers which can have release notes"
+
     formats:
       title: "Formats"
       format: "Format"

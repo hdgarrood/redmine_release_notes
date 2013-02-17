@@ -22,6 +22,20 @@ class ReleaseNote < ActiveRecord::Base
     %w(todo done not_required)
   end
 
+  # the trackers which can have release notes
+  def self.enabled_tracker_ids
+    (Setting.plugin_redmine_release_notes[:enabled_tracker_ids] || []).
+      map(&:to_i).
+      reject {|i| i == 0}
+  end
+
+  # the projects which can have release notes
+  def self.enabled_project_ids
+    (EnabledModule.where(:name => 'release_notes').select('project_id') || []).
+      map(&:project_id).
+      map(&:to_i)
+  end
+
   attr_accessible :text, :status
 
   validates_presence_of :issue

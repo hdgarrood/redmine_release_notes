@@ -34,17 +34,15 @@ class IssueHookTest < ActionController::TestCase
     assert_select '#release-notes', false
   end
 
-  test 'release notes displayed if module enabled' do
-    @project.enabled_modules << EnabledModule.new(:name => 'release_notes')
-    @project.save!
+  test 'release notes displayed if issue eligible' do
+    Issue.any_instance.stubs(:eligible_for_release_notes?).returns(true)
 
     get :show, :id => @issue.id
     assert_release_notes_displayed
   end
 
-  test 'release notes not displayed if module not enabled for the project' do
-    @project.enabled_modules.where('name = ?', 'release_notes').destroy_all
-    @project.save!
+  test 'release notes not displayed if issue not eligible' do
+    Issue.any_instance.stubs(:eligible_for_release_notes?).returns(false)
 
     get :show, :id => @issue.id
     assert_release_notes_not_displayed

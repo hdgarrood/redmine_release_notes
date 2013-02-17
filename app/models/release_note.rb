@@ -36,10 +36,6 @@ class ReleaseNote < ActiveRecord::Base
     self.status = 'todo' unless attribute_present?(:status)
   end
 
-  before_save do
-    self.text = '' if status == 'not_required'
-  end
-
   def done?
     status == 'done'
   end

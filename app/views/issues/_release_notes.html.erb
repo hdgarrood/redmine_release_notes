@@ -25,7 +25,7 @@
       :class => 'wiki-edit',
       :no_label => true %>
       <br />
-      <%= f.submit t(:button_submit), :onclick => "$('#release_notes>.flash.error').remove()" %>
+      <%= f.submit t(:button_submit), :onclick => "$('#release_notes>.flash.error').remove(); return true;" %>
       <%= link_to_function t(:button_cancel), 'toggle_release_notes()' %>
   </div>
 <% end %>

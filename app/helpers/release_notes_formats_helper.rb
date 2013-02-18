@@ -14,12 +14,12 @@
 # You should have received a copy of the GNU General Public License along with
 # redmine_release_notes. If not, see <http://www.gnu.org/licenses/>.
 
-class IncreaseReleaseNotesLengthLimit < ActiveRecord::Migration
-  def up
-    change_column :release_notes, :text, :string, :limit => 2000
-  end
-
-  def down
-    change_column :release_notes, :text, :string, :limit => 254
+module ReleaseNotesFormatsHelper
+  def release_notes_preview_link(url, form, target)
+    content_tag 'a', l('release_notes.formats.preview'), {
+        :href => "#", 
+        :onclick => %|submitPreview("#{escape_javascript url_for(url)}", "#{escape_javascript form}", "#{escape_javascript target}"); $("#release_notes_container").show(); return false;|, 
+        :accesskey => accesskey(:preview)
+      }
   end
 end

@@ -1,34 +1,59 @@
 en:
-  Release_note: "Release note"
-  release_note: "release note"
-  Release_notes: "Release notes"
-  release_notes: "release notes"
-  
-  generate_release_notes: "Generate release notes"
-  generate_title: "Release notes for version %{version}"
-  mark_version_as_generated: "Mark this version as generated"
-  edit_release_notes: "Editing release notes for"
-  mark_release_notes_complete: "Release notes complete for this issue?"
-  
-  release_notes_destroy_confirmation: "Are you sure you want to delete these release notes?"
-  failed_find_custom_value: "Failed to find the custom field value for this issue. Have you set this project up for release notes properly?"
-  failed_find_custom_field: "Failed to find the custom field: %{field}"
-  failed_update_issue_history: "Failed to save %{field} field update in issue history"
-  failed_save_field_value: "Failed to save value for field: %{field}"
-  
-  show_generated_versions: "Show generated versions"
+  release_notes:
+    title: "Release note"
+    title_plural: "Release notes"
 
-  x_issues_in_total: "%{count} issues in total"
-  x_requiring_release_notes: "%{count} requiring release notes"
-  x_done: "%{count} done"
-  x_to_go: "%{count} to go"
-  all_done: "All done!"
-  not_started: "Not started"
+    release_note: "release note"
+    release_note_plural: "release notes"
 
-  some_issues_no_release_notes_html: "There were some issues, with \"%{field}\" = \"%{value}\" but with no release notes (<a href=# onclick=\"alert(&quot;Issues with no release notes: %{list}&quot;)\">show</a>)"
-  some_issues_not_finished:
-    one: "There is 1 issue which still needs release notes"
-    other: "There are %{count} issues which still need release notes"
+    status:
+      label: "Status:"
+      todo: "Todo"
+      done: "Done"
+      not_required: "Not required"
+
+    cant_be_blank_when_done: "can't be blank if the release notes are done"
+
+    generate: "Generate release notes"
+    generate_title: "Release notes for version %{version}"
+    show_closed_versions: "Show closed versions"
+
+    x_issues_in_total: "%{count} issues in total"
+    x_requiring_release_notes: "%{count} requiring release notes"
+    x_done: "%{count} done"
+    x_to_go: "%{count} to go"
+    all_done: "All done!"
+    not_started: "Not started"
+
+    some_issues_not_finished:
+      one: "There is 1 issue which still needs release notes"
+      other: "There are %{count} issues which still need release notes"
     
-  select_all: "Select all"
-  raw: "Raw"
+    raw: "View raw"
+    download: "Download"
+
+    enabled_trackers: "Trackers which can have release notes"
+
+    formats:
+      title: "Formats"
+      format: "Format"
+      new: "New format"
+      none: "No release notes formats are currently defined."
+      define_some: "Define some"
+      default_generation_format: "Default generation format"
+      preview: "Preview with a sample version"
+      attributes:
+        name: 'Name'
+        header: 'Header'
+        start: 'Start'
+        each_issue: 'Each issue'
+        end: 'End'
+      explain:
+        header: "Appears at the start of the release notes."
+        start: "Appears once, just after the header. Use for eg. a <ul> tag."
+        each_issue: "Appears once for each issue."
+        end: "Appears once at the end. Use for eg. a </ul> tag."
+      subs:
+        intro: "You can use substitutions like %{this} to display some information in the Header and Each issue fields."
+        header: "Substitutions refer to the version. Recognised values are name, date, id, and description."
+        each_issue: "Substitutions refer to the issue. Recognised values are subject, release_notes, id, tracker, and project."

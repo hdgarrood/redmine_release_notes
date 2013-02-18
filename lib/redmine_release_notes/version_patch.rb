@@ -14,12 +14,22 @@
 # You should have received a copy of the GNU General Public License along with
 # redmine_release_notes. If not, see <http://www.gnu.org/licenses/>.
 
-class IncreaseReleaseNotesLengthLimit < ActiveRecord::Migration
-  def up
-    change_column :release_notes, :text, :string, :limit => 2000
-  end
-
-  def down
-    change_column :release_notes, :text, :string, :limit => 254
+module RedmineReleaseNotes
+  module VersionPatch
+    def self.perform
+      Version.class_eval do
+        # number, 0 <= n <= 100, the proportion of this version's issues'
+        # release notes which are done
+        def release_notes_percent_completion
+          required_count  = fixed_issues.release_notes_required.count
+          if required_count > 0
+            done_count = fixed_issues.release_notes_done.count
+            100 * done_count / required_count
+          else
+            0
+          end
+        end
+      end
+    end
   end
 end

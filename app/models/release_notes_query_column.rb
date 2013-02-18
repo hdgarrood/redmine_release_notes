@@ -14,12 +14,17 @@
 # You should have received a copy of the GNU General Public License along with
 # redmine_release_notes. If not, see <http://www.gnu.org/licenses/>.
 
-class IncreaseReleaseNotesLengthLimit < ActiveRecord::Migration
-  def up
-    change_column :release_notes, :text, :string, :limit => 2000
+class ReleaseNotesQueryColumn < QueryColumn
+  def initialize
+    super(:release_notes,
+          :sortable => 'rn.status',
+          :groupable => 'rn.status',
+          :caption => 'release_notes.title_plural')
   end
 
-  def down
-    change_column :release_notes, :text, :string, :limit => 254
+  def value(object)
+    object.release_note ?
+      I18n.t(object.release_note.status, :scope => 'release_notes.status') :
+      "-"
   end
 end

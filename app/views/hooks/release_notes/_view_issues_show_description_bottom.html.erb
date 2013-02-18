@@ -1,24 +1,19 @@
-<% if @project.module_enabled? :release_notes %>
-<% c = CustomField.find_by_name(ReleaseNotesHelper::CONFIG['issue_required_field']) %>
-<% if issue.tracker.custom_fields.include?(c) %>
-
-<% @relnotes = issue.release_note %>
+<script>
+  function toggle_release_notes() {
+    $.each(['#release-notes-display', '#release-notes-form'],
+           function(_, selector) {
+             $(selector).toggle()
+           })
+  }
+</script>
 
 <hr />
 
 <div class="contextual">
-  <% if @relnotes %>
-    <%= link_to l(:button_edit), {:controller => 'release_notes', :action => 'edit', :id => @relnotes.id} %> |
-    <%= link_to l(:button_delete), {:controller => 'release_notes', :action => 'destroy', :id => @relnotes.id.to_s}, :confirm => l(:release_notes_destroy_confirmation), :method => :delete %>
-  <% else %>
-    <%= link_to l(:button_add), {:controller => 'release_notes', :action => 'new', :issue_id => issue.id} %>
-  <% end %>
+  <%= link_to_function l(:button_edit), 'toggle_release_notes()' %>
 </div>
 
-<p><strong><%= l(:Release_notes) %></strong></p>
-<% if @relnotes %>
-  <p><%= html_escape(@relnotes.text).gsub(/\r\n/, "<br>").html_safe %></p>
-<% end %>
-
-<% end %>
-<% end %>
+<div id="release-notes">
+  <%= render :partial => 'issues/release_notes', 
+    :locals => { :release_notes => release_notes } %>
+</div>

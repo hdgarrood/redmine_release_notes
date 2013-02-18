@@ -1,0 +1,8 @@
+# EXTRA GEMS REQUIRED FOR TESTING
+#
+# Having a Gemfile in here as well as a Gemfile in Redmine's root seems to
+# cause all kind of problems. As a workaround, gems are listed here. Append the
+# contents of this file to #{Rails.root}/Gemfile.local
+#
+# If you're not planning on running the tests, don't worry about this file.
+gem 'factory_girl_rails', '~> 4.0'

@@ -1,28 +1,32 @@
-# You don't need to restart Redmine after modifying this file.
-
-# See this page:
-#   https://github.com/hdgarrood/redmine_release_notes/wiki/Setup-Guide
-# for an explanation.
+# Seed data for release notes generation formats. You shouldn't need to do
+# anything with this file yourself; it's used by the rake task:
+#
+#   redmine:plugins:release_notes:load_default_data
+#
 
 HTML:
+    name: HTML
     header: "<h2>Release notes for version %{name}</h2>\n<p><a href=\"your-redmine/versions/%{id}\">Redmine</a></p>"
     start: "<ul>"
     each_issue: "<li>%{tracker} - <a href=\"your-redmine/issues/%{id}\">%{subject}</a>: %{release_notes}</li>"
     end: "</ul>"
     
 Textile:
+    name: Textile
     header: "h2. Release notes for version %{name}"
     start: ""
     each_issue: "* *%{subject}*: %{release_notes}"
     end: ""
     
 Markdown:
+    name: Markdown
     header: "## Release notes for version %{name}"
     start: ""
     each_issue: "+ **%{subject}**: %{release_notes}"
     end: ""
 
-Plain:
+Plaintext:
+    name: Plaintext
     header: "Release notes for version %{name}\n=============================="
     start: ""
     each_issue: "> %{subject}\n    %{release_notes}"

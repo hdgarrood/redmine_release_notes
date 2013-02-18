@@ -1,0 +1,43 @@
+<%= error_messages_for @format %>
+
+<%= form_for(@format, :html => { :id => 'format-form' }) do |f| %>
+  <div class=splitcontentleft>
+  <div class='box tabular'>
+    <p>
+    <%= f.label :name, l("release_notes.formats.attributes.name") %>
+    <%= f.text_field :name %>
+    </p>
+    <% %w(header start each_issue end).each do |attr| %>
+      <p>
+      <%= f.label attr, l("release_notes.formats.attributes.#{attr}") %>
+      <%= f.text_area attr, :cols => 40, :rows => 2 %>
+      <em class='info'>
+        <%= l("release_notes.formats.explain.#{attr}") %>
+      </em>
+      </p>
+    <% end %>
+
+  </div>
+  <%= f.submit(@format.new_record? ? l(:button_create) : l(:button_save)) %>
+  <%= release_notes_preview_link preview_release_notes_format_path,
+    'format-form', 'relnotes' %>
+  </div>
+
+  <div class=splitcontentright>
+    <div class=box>
+      <p><%= l('release_notes.formats.subs.intro') %></p>
+
+      <h3><%= l('release_notes.formats.attributes.header') %></h3>
+      <p><%= l('release_notes.formats.subs.header') %></p>
+
+      <h3><%= l('release_notes.formats.attributes.each_issue') %></h3>
+      <p><%= l('release_notes.formats.subs.each_issue') %></p>
+    </div>
+  </div>
+
+  <div style=clear:both;></div>
+  <div style=display:none; id=release_notes_container>
+  <%= render :partial => 'release_notes/generated_release_notes' %>
+  </div>
+<% end %>
+

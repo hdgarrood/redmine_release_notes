@@ -1,0 +1,26 @@
+<% if @formats.any? %>
+  <table class='list'>
+    <thead>
+      <th><%= t('release_notes.formats.title') %></th>
+      <th></th>
+    </thead>
+    <tbody>
+      <% @formats.each do |format| %>
+        <tr class='<%= cycle 'odd', 'even'%>'>
+          <td class='name'>
+            <%= link_to h(format.name), edit_release_notes_format_path(format) %>
+          </td>
+          <td class='buttons'>
+            <%= delete_link format %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class='nodata'><%= l(:label_no_data) %></div>
+<% end %>
+
+<p>
+<%= link_to l('release_notes.formats.new'), new_release_notes_format_path, :class => 'icon icon-add' %>
+</p>

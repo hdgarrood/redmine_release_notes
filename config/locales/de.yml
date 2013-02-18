@@ -1,0 +1,61 @@
+﻿# encoding: utf-8
+de:
+  release_notes:
+    title: "Release Note"
+    title_plural: "Release Notes"
+
+    release_note: "Release Note"
+    release_note_plural: "Release Notes"
+
+    status:
+      label: "Status:"
+      todo: "Todo"
+      done: "Erledigt"
+      not_required: "Nicht notwendig"
+
+    cant_be_blank_when_done: "Dieses Feld darf nicht unbelegt sein wenn der Versionshinweisstatus 'erledigt' ist"
+
+    generate: "Release Notes erstellen"
+    generate_title: "Release Notes für Version %{version}"
+    show_closed_versions: "Geschlossene Versionen zeigen"
+
+    x_issues_in_total: "%{count} Tickets gesamt"
+    x_requiring_release_notes: "%{count} benötigen Release Notes"
+    x_done: "%{count} erledigt"
+    x_to_go: "%{count} offen"
+    all_done: "Alle erledigt!"
+    not_started: "Noch nicht gestartet"
+
+    some_issues_not_finished:
+      one: "Ein Ticket benötigt noch Versionshinweise."
+      other: "%{count} Tickets benötigen noch Versionshinweise."
+    
+    raw: "Quelltext anzeigen"
+    download: "Download"
+
+    enabled_trackers: "Tracker welche Release Notes verwenden"
+
+    formats:
+      title: "Formate"
+      format: "Format"
+      new: "Neues Format"
+      none: "Es sind bisher keine Release Notes Format definiert."
+      define_some: "Formate definieren"
+      default_generation_format: "Standard Erstellungsformat"
+      preview: "Voransicht mit einer Beispiel Version"
+      attributes:
+        name: 'Name'
+        header: 'Kopf'
+        start: 'Start'
+        each_issue: 'Je Ticket'
+        end: 'Ende'
+      explain:
+        header: "Erscheint zu Beginn als Kopfbereich der Release Notes."
+        start: "Erscheint einmalig, direkt nach dem Kopf. Verwenden sie z.B. das <ul> Tag zur Blockformatierung."
+        each_issue: "Erscheint einmal je Ticket."
+        end: "Erscheint einmal als Fußbereich der Release Notes. Verwenden sie z.B. das </ul> Tag zur Blockformatierung."
+      subs:
+        intro: "Verwenden sie Macros zur Textersetzungen wie beispielweise %{this} um Text in den Kopfbereich oder bei den Ticketzeilen einzufügen."
+        header: "Die Macros bei der Textersetzung werden aus dem Versionobjeckt aufgelöst. Mögliche Macros sind: Name (name), Datum (date), ID (id) und Beschreibung (description)."
+        each_issue: "Die Macros bei der Textersetzung werden aus den jeweiligen Ticket aufgelöst. Mögliche Macros sind: Thema (subject), Release Notes (release_notes), ID (id), Tracker (tracker) und Projekt (project)."
+

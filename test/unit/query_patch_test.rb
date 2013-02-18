@@ -6,6 +6,8 @@ class QueryPatchTest < ActiveSupport::TestCase
     @user = FactoryGirl.create(:user, :admin => true)
     # make them the current user
     User.stubs(:current).returns(@user)
+
+    @query_class = (Redmine::VERSION::MAJOR >= 3 ? :issue_query : :query)
   end
 
   # create a project with 3 issues with release notes todo, 4 done, and 5
@@ -29,13 +31,13 @@ class QueryPatchTest < ActiveSupport::TestCase
     project = FactoryGirl.create(:project,
                                  :enabled_module_names => %w(issue_tracking
                                                              release_notes))
-    query = FactoryGirl.build(:issue_query, :project => project)
+    query = FactoryGirl.build(@query_class, :project => project)
 
     assert query.available_filters.include?("release_notes")
   end
 
   test 'release notes filter not available when no project' do
-    query = FactoryGirl.build(:issue_query)
+    query = FactoryGirl.build(@query_class)
     assert !query.available_filters.include?('release_notes')
   end
 
@@ -43,7 +45,7 @@ class QueryPatchTest < ActiveSupport::TestCase
   'disabled' do
     project = FactoryGirl.create(:project,
                                  :enabled_module_names => %w(issue_tracking))
-    query = FactoryGirl.build(:issue_query, :project => project)
+    query = FactoryGirl.build(@query_class, :project => project)
 
     assert !query.available_filters.include?("release_notes")
   end
@@ -51,16 +53,16 @@ class QueryPatchTest < ActiveSupport::TestCase
   test 'issue_count returns correct value' do
     project = make_a_project_with_some_issues_and_release_notes
 
-    query = FactoryGirl.build(:issue_query, :project => project, :user => @user)
+    query = FactoryGirl.build(@query_class, :project => project, :user => @user)
     assert query.valid?
     assert_equal 12, query.issue_count
 
-    query = FactoryGirl.build(:issue_query, :project => project, :user => @user)
+    query = FactoryGirl.build(@query_class, :project => project, :user => @user)
     query.add_filter('release_notes', '=', %w(todo))
     assert query.valid?
     assert_equal 3, query.issue_count
 
-    query = FactoryGirl.build(:issue_query, :project => project, :user => @user)
+    query = FactoryGirl.build(@query_class, :project => project, :user => @user)
     query.add_filter('release_notes', '=', %w(todo done))
     assert query.valid?
     assert_equal 7, query.issue_count
@@ -68,7 +70,7 @@ class QueryPatchTest < ActiveSupport::TestCase
 
   test 'issues may be grouped by release notes' do
     project = make_a_project_with_some_issues_and_release_notes
-    query = FactoryGirl.build(:issue_query,
+    query = FactoryGirl.build(@query_class,
                               :project => project,
                               :group_by => 'release_notes')
 

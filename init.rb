@@ -19,11 +19,9 @@ require 'redmine_release_notes/hooks'
 
 ActionDispatch::Callbacks.to_prepare do
   # Patches to the Redmine core.
-  %w(issue
-     issues_controller
-     settings_controller
-     version
-     issue_query).each do |core_class|
+  patched_classes = %w(issue issues_controller settings_controller version)
+  patched_classes << (Redmine::VERSION::MINOR >= 3 ? 'issue_query' : 'query')
+  patched_classes.each do |core_class|
     require_dependency core_class
     "RedmineReleaseNotes::#{core_class.camelize}Patch".constantize.perform
   end
@@ -35,7 +33,7 @@ Redmine::Plugin.register :redmine_release_notes do
   description 'A plugin for managing release notes.'
   version '1.3.0'
   author_url 'https://github.com/hdgarrood'
-  requires_redmine :version_or_higher => '2.3.0' # cuz of issue_query
+  requires_redmine :version_or_higher => '2.1.0'
 
   # the partial won't be used, but can't be blank, because Redmine needs to
   # think this plugin is configurable
@@ -43,8 +41,8 @@ Redmine::Plugin.register :redmine_release_notes do
       :default_generation_format_id => 1,
       :enabled_tracker_ids => []
     },
-    :partial => 'not_blank' 
-  
+    :partial => 'not_blank'
+
   project_module :release_notes do
     permission :release_notes,
       { :release_notes => [:index, :new, :generate] },

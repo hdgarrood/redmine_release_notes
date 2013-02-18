@@ -15,10 +15,10 @@
 # redmine_release_notes. If not, see <http://www.gnu.org/licenses/>.
 
 module RedmineReleaseNotes
-  # this should only be performed on Redmine >= 2.3.0
-  module IssueQueryPatch
+  # this should only be performed on Redmine 2.2.x or earlier
+  module QueryPatch
     def self.perform
-      IssueQuery.class_eval do
+      Query.class_eval do
         # make IssueQueries aware of ReleaseNotesQueryColumns
         add_available_column(ReleaseNotesQueryColumn.new)
 
@@ -44,7 +44,7 @@ module RedmineReleaseNotes
         end
 
         alias_method_chain :available_filters, :release_notes
-        
+
         # add a method to generate the part of the WHERE clause for the
         # query's SQL statement
         def sql_for_release_notes_field(field, operator, value)
@@ -56,7 +56,7 @@ module RedmineReleaseNotes
         # chain joins_for_order_statement so that the statement also joins
         # the release_notes table
         def joins_for_release_notes
-          "LEFT OUTER JOIN #{ReleaseNote.table_name} rn on rn.issue_id = #{queried_table_name}.id"
+          "LEFT OUTER JOIN #{ReleaseNote.table_name} rn on rn.issue_id = #{Issue.table_name}.id"
         end
 
         def joins_for_order_statement_with_release_notes(order_options)
@@ -74,6 +74,25 @@ module RedmineReleaseNotes
         rescue ::ActiveRecord::StatementInvalid => e
           raise ::Query::StatementInvalid.new(e.message)
         end
+
+        # chain issue_count_by_group so that the join is included
+        def issue_count_by_group_with_release_notes
+          if grouped? && group_by == 'release_notes'
+            begin
+              # Rails3 will raise an (unexpected) RecordNotFound if there's only a nil group value
+              Issue.visible.count(:group => group_by_statement,
+                                  :include => [:status, :project],
+                                  :joins => joins_for_release_notes,
+                                  :conditions => statement)
+            rescue ActiveRecord::RecordNotFound
+              {nil => issue_count}
+            end
+          else
+            issue_count_by_group_without_release_notes
+          end
+        end
+
+        alias_method_chain :issue_count_by_group, :release_notes
       end
     end
   end

@@ -78,4 +78,8 @@ FactoryGirl.define do
   factory :issue_query do
     sequence(:name) {|n| "query-#{n}"}
   end
+
+  factory :query do
+    sequence(:name) {|n| "query-#{n}"}
+  end
 end

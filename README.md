@@ -12,7 +12,7 @@ If so, then this plugin may be just what you need.
 
 ## requirements
 
-Just Redmine 2.3.0 or higher. If there's sufficient demand I'll add 2.1 and 2.2 compatibility.
+Just Redmine 2.1.0 or higher.
 
 ## features
 

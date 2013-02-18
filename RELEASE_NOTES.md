@@ -1,4 +1,4 @@
-Release Notes
+release notes
 =============
 
 v1.3.0

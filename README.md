@@ -56,7 +56,7 @@ This is probably the easiest way to go about it:
 
     UPDATE release_notes
     SET status = 'todo'
-    WHERE issue_id in (
+    WHERE issue_id IN (
       SELECT customized_id
       FROM custom_values
       WHERE customized_type = 'Issue'

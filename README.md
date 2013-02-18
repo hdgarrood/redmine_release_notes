@@ -61,7 +61,7 @@ This is probably the easiest way to go about it:
       FROM custom_values
       WHERE customized_type = 'Issue'
         AND value = 'Todo' -- or whatever your configured 'todo' status is
-        AND custom_field_id = ? -- the ID of your release notes custom field
+        AND custom_field_id = 1 -- the ID of your release notes custom field
     );
 
 You'll need to run two more similar statements for `'done'` and

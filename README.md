@@ -1,5 +1,8 @@
 # redmine release notes
 
+**important: please read [this](https://gist.github.com/hdgarrood/4986040)
+before installing**
+
 Do any of the following apply?
 
 * You have to produce release notes for your projects

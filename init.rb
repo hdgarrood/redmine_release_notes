@@ -20,7 +20,6 @@ require 'redmine_release_notes/hooks'
 ActionDispatch::Callbacks.to_prepare do
   # Patches to the Redmine core.
   patched_classes = %w(issue issues_controller settings_controller version)
-  patched_classes << (Redmine::VERSION::MINOR >= 3 ? 'issue_query' : 'query')
   patched_classes.each do |core_class|
     require_dependency core_class
     "RedmineReleaseNotes::#{core_class.camelize}Patch".constantize.perform
@@ -31,7 +30,7 @@ Redmine::Plugin.register :redmine_release_notes do
   name 'Redmine release notes plugin'
   author 'Harry Garrood'
   description 'A plugin for managing release notes.'
-  version '1.3.0'
+  version '1.3.1-dev'
   author_url 'https://github.com/hdgarrood'
   requires_redmine :version_or_higher => '2.1.0'
 

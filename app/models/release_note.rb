@@ -19,7 +19,7 @@ class ReleaseNote < ActiveRecord::Base
   belongs_to :issue
 
   def self.statuses
-    %w(todo done not_required)
+    [:todo, :done, :not_required]
   end
 
   # the trackers which can have release notes
@@ -36,21 +36,18 @@ class ReleaseNote < ActiveRecord::Base
       map(&:to_i)
   end
 
-  attr_accessible :text, :status
+  attr_accessible :text
 
   validates_presence_of :issue
-  validates_presence_of :text,
-    :if => :done?,
-    :message => I18n.t('release_notes.cant_be_blank_when_done')
-
-  validates :status,
-    :inclusion => { :in => statuses }
-
-  before_validation(:on => :create) do
-    self.status = 'todo' unless attribute_present?(:status)
-  end
+  validates_presence_of :text
 
   def done?
-    status == 'done'
+    # todo: use custom field instead
+    status == :done
+  end
+
+  def status
+    # todo
+    :not_required
   end
 end

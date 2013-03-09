@@ -1,26 +1,20 @@
 <div id="release-notes-display">
   <p>
   <strong><%= t('release_notes.title_plural') %></strong>
-  <% if release_notes.status %>
-    (<%= t("release_notes.status.#{release_notes.status}") %>)
-  <% end %>
   </p>
-  <% if release_notes.text %>
+  <% if release_note.text %>
     <div class="wiki">
-    <p><%= h(release_notes.text).gsub(/(\r\n|\r|\n)/, "<br>").html_safe %></p>
+    <p><%= h(release_note.text).gsub(/(\r\n|\r|\n)/, "<br>").html_safe %></p>
     </div>
   <% end %>
 </div>
 
-<%= form_for(release_notes,
-             :as => :release_note, :remote => true,
-             :url => release_note_path(release_notes, :format => :js),
-             :method => :put,
+<%= form_for(release_note,
+             :remote => true,
              :html => {:id => 'release-notes-form', :style => 'display: none;'}) do |f| %>
   <strong><%= t('release_notes.title_plural') %></strong>
-  <%= f.select 'status', release_notes_status_options_for_select %>
   <div style='margin: 10px 10px 0px 10px;'>
-    <%= error_messages_for release_notes %>
+    <%= error_messages_for release_note %>
     <%= f.text_area 'text', :rows => 5,
       :class => 'wiki-edit',
       :no_label => true %>

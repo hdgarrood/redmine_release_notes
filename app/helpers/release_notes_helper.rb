@@ -40,12 +40,6 @@ module ReleaseNotesHelper
     end
   end
   
-  def release_notes_status_options_for_select
-    ReleaseNote.statuses.map do |status|
-      [t("release_notes.status.#{status}"), status]
-    end
-  end
-  
   def render_other_formats(formats)
     str = "<p>"
     str << l(:label_export_to)

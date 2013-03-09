@@ -1,5 +1,6 @@
 $('#release-notes').html('<%= escape_javascript render(:partial => 'issues/release_notes',
-                                       :locals => { :release_notes => @release_notes }) %>')
-<% if @release_notes.errors.any? %>
+                                                       :locals => { :release_note => @release_note,
+                                                                    :issue => @issue }) %>')
+<% if @release_note.errors.any? %>
   toggle_release_notes()
 <% end %>

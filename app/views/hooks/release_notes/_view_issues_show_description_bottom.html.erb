@@ -9,11 +9,8 @@
 
 <hr />
 
-<div class="contextual">
-  <%= link_to_function l(:button_edit), 'toggle_release_notes()' %>
-</div>
-
 <div id="release-notes">
   <%= render :partial => 'issues/release_notes', 
-    :locals => { :release_notes => release_notes } %>
+      :locals => { :release_note => release_note,
+                   :issue => issue } %>
 </div>

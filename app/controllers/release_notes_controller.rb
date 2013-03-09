@@ -37,13 +37,24 @@ class ReleaseNotesController < ApplicationController
   end
 
   # we only expect this to be called with :format => :js
+  def create
+    @issue = Issue.find(params[:release_note][:issue_id])
+    @release_note = @issue.build_release_note
+    @release_note.text = params[:release_note][:text]
+    @release_note.save
+    render 'update'
+  end
+
+  # we only expect this to be called with :format => :js
   def update
-    @release_notes = ReleaseNote.find(params[:id])
-    @release_notes.update_attributes(params[:release_note])
-    @release_notes.save
+    @issue = Issue.find(params[:release_note][:issue_id])
+    @release_note = @issue.release_note
+    @release_note.text = params[:release_note][:text]
+    @release_note.save
   rescue ActiveRecord::RecordNotFound
     render_404
   end
+
 
   def destroy
     release_note = ReleaseNote.find(params[:id])

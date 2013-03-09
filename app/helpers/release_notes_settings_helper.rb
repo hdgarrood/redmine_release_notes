@@ -25,4 +25,10 @@ module ReleaseNotesSettingsHelper
         :label => 'release_notes.formats.title'}
     ]
   end
+
+  def options_for_release_notes_issue_custom_field(settings)
+    custom_fields = IssueCustomField.where(:field_format => 'list')
+    selected = settings['issue_custom_field_id'].to_i
+    options_from_collection_for_select(custom_fields, 'id', 'name', selected)
+  end
 end

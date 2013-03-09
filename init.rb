@@ -38,7 +38,10 @@ Redmine::Plugin.register :redmine_release_notes do
   # think this plugin is configurable
   settings :default => {
       :default_generation_format_id => 1,
-      :enabled_tracker_ids => []
+      :issue_custom_field_id => 0,
+      :field_value_todo => 'Todo',
+      :field_value_done => 'Done',
+      :field_value_not_required => 'Not required'
     },
     :partial => 'not_blank'
 

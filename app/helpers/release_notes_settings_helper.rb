@@ -31,4 +31,12 @@ module ReleaseNotesSettingsHelper
     selected = settings['issue_custom_field_id'].to_i
     options_from_collection_for_select(custom_fields, 'id', 'name', selected)
   end
+
+  def options_for_release_notes_issue_custom_field_value(settings, selected)
+    custom_field = CustomField.find(settings['issue_custom_field_id'].to_i)
+    values = custom_field.possible_values
+    options_for_select(values, selected)
+  rescue ActiveRecord::RecordNotFound
+    []
+  end
 end

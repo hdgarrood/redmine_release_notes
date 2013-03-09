@@ -22,8 +22,9 @@
         <p>
         <%= label_tag "settings[field_value_#{x}]",
           t("release_notes.config.field_value_#{x}.name") %>
-          <%= text_field_tag "settings[field_value_#{x}]",
-            @settings["field_value_#{x}"] %>
+          <%= select_tag "settings[field_value_#{x}]",
+            options_for_release_notes_issue_custom_field_value(@settings,
+                                          @settings["field_value_#{x}"]) %>
         </p>
     <% end %>
     </div>

@@ -2,7 +2,7 @@
     <% if release_note.persisted? %>
         <%= link_to_function l(:button_edit), 'toggle_release_notes()' %> |
         <%= link_to l(:button_delete), release_note_path(release_note),
-        :method => :delete, :confirm => l(:are_you_sure) %>
+        :method => :delete, :confirm => l(:text_are_you_sure) %>
     <% else %>
         <%= link_to_function l(:button_add), 'toggle_release_notes()' %>
     <% end %>

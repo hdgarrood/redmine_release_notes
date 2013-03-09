@@ -39,11 +39,11 @@ en:
         name: "Issue custom field for release notes"
         info: "This field is used to check whether release notes for issues have been completed. It should be a list type custom field with three values; indicating that either a) the issue doesn't need release notes, b) that the issue does need release notes and doesn't have them yet, or c) that the release notes for this issue are done."
       field_value_not_required:
-        name: "Value for release notes not required"
+        name: "Issues which don't need release notes are"
       field_value_todo:
-        name: "Value for release notes to be done"
+        name: "Issues which still need release notes are"
       field_value_done:
-        name: "Value for release notes done"
+        name: "Issues with finished release notes are"
 
     formats:
       title: "Formats"

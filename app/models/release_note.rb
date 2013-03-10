@@ -18,10 +18,6 @@ class ReleaseNote < ActiveRecord::Base
   unloadable
   belongs_to :issue
 
-  def self.statuses
-    [:todo, :done, :not_required]
-  end
-
   # the trackers which can have release notes
   def self.enabled_tracker_ids
     (Setting.plugin_redmine_release_notes[:enabled_tracker_ids] || []).
@@ -40,14 +36,4 @@ class ReleaseNote < ActiveRecord::Base
 
   validates_presence_of :issue
   validates_presence_of :text
-
-  def done?
-    # todo: use custom field instead
-    status == :done
-  end
-
-  def status
-    # todo
-    :not_required
-  end
 end

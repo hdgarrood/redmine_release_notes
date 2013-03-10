@@ -19,41 +19,48 @@ module RedmineReleaseNotes
     def self.perform
       Issue.class_eval do
         has_one :release_note, :dependent => :destroy
+
+        # NB: the release_notes_* scopes will not return issues which don't
+        # have a value for the issue custom field.
         
         # all the issues which need release notes (including ones which have
         # them already)
         def self.release_notes_required
-          joins(:release_note).where('release_notes.status' => ['todo', 'done']).
-            eligible_for_release_notes
+          done_value = Setting.plugin_redmine_release_notes[:field_value_done]
+          todo_value = Setting.plugin_redmine_release_notes[:field_value_todo]
+          joins_release_notes.
+            where('custom_values.value' => [done_value, todo_value])
         end
 
         # issues which still need release notes
         def self.release_notes_todo
-          joins(:release_note).where('release_notes.status' => 'todo').
-            eligible_for_release_notes
+          todo_value = Setting.plugin_redmine_release_notes[:field_value_todo]
+          joins_release_notes.
+            where('custom_values.value' => todo_value)
         end
 
         # issues whose release notes are done
         def self.release_notes_done
-          joins(:release_note).where('release_notes.status' => 'done').
-            eligible_for_release_notes
+          done_value = Setting.plugin_redmine_release_notes[:field_value_done]
+          joins_release_notes.
+            where('custom_values.value' => done_value)
         end
 
-        # issues which may have release notes
-        def self.eligible_for_release_notes
-          where(:tracker_id => ReleaseNote.enabled_tracker_ids,
-                :project_id => ReleaseNote.enabled_project_ids)
-        end
-
-        # may this issue have release notes?
+        # can this issue have release notes?
+        # true if the issue has the configured custom field for release notes
         def eligible_for_release_notes?
-          ReleaseNote.enabled_tracker_ids.include?(tracker.id) &&
-            ReleaseNote.enabled_project_ids.include?(project.id)
+          cf_id = Setting.plugin_redmine_release_notes[:issue_custom_field_id]
+          available_custom_fields.include?(CustomField.find(cf_id))
+        rescue ActiveRecord::RecordNotFound
+          false
         end
 
-        # are the release notes for this issue done?
-        def release_notes_done?
-          release_note && release_note.done?
+        private
+        def joins_release_notes
+          custom_field_id = Setting.
+            plugin_redmine_release_notes[:issue_custom_field_id]
+          joins(:custom_values).
+            where('custom_values.custom_field_id' => custom_field_id)
         end
       end
     end

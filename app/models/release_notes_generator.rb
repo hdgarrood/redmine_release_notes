@@ -117,7 +117,7 @@ class ReleaseNotesGenerator
   def values_for_issue(issue)
     {
       "subject" => issue.subject,
-      "release_notes" => issue.release_note.text,
+      "release_notes" => issue.release_note ? issue.release_note.text : "",
       "tracker" => issue.tracker.name,
       "project" => issue.project.name,
       "id" => issue.id

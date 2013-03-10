@@ -7,7 +7,7 @@
       :count => count,
       :scope => 'release_notes.some_issues_not_finished') %>
     (<%= release_notes_overview_link(
-      t('button_show'), @version, @project, :release_notes => 'todo') %>)
+      t('button_show'), @version, @project, :release_notes => [:todo]) %>)
   </div>
 <% end %>
 

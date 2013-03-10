@@ -29,7 +29,30 @@ module ReleaseNotesHelper
       :set_filter => 1
     }.merge(opts)
 
+    opts = add_release_notes_custom_field_filters(opts)
     link_to text, project_issues_path(project, opts)
+  end
+
+  # TODO: behave better when improperly configured
+  def add_release_notes_custom_field_filters(opts)
+    if (release_notes = opts.delete(:release_notes))
+      orig_opts = opts.dup
+
+      settings = Setting.plugin_redmine_release_notes
+      custom_field_id = settings[:issue_custom_field_id].to_i
+      custom_field = CustomField.find(custom_field_id)
+
+      field = "cf_#{custom_field_id}"
+      values = release_notes.
+        map { |v| settings["field_value_#{v}"] }.
+        select { |v| custom_field.possible_values.include?(v) }.
+        join('|')
+
+      opts[field] = values
+    end
+    opts
+  rescue ActiveRecord::RecordNotFound
+    orig_opts
   end
 
   def release_notes_overview_link_if(condition, text, version, project, opts = {})
@@ -44,14 +67,11 @@ module ReleaseNotesHelper
     str = "<p>"
     str << l(:label_export_to)
     str << " "
-    formats.each do |format|
-      str << link_to(format.name, generate_release_notes_path(
+    str << formats.map { |format|
+      link_to(format.name, generate_release_notes_path(
         :release_notes_format => format.name))
-      str << " | "
-    end
-    3.times { str.chop! }
+    }.join(' | ')
     str << "</p>"
-    return str.html_safe
+    str.html_safe
   end
 end
-

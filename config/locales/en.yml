@@ -6,13 +6,7 @@ en:
     release_note: "release note"
     release_note_plural: "release notes"
 
-    status:
-      label: "Status:"
-      todo: "Todo"
-      done: "Done"
-      not_required: "Not required"
-
-    cant_be_blank_when_done: "can't be blank if the release notes are done"
+    cant_set_done_if_no_release_notes: "can't be set to %{value} unless release notes have been written"
 
     generate: "Generate release notes"
     generate_title: "Release notes for version %{version}"
@@ -25,14 +19,14 @@ en:
     all_done: "All done!"
     not_started: "Not started"
 
+    no_issues_for_this_version: "No issues need release notes for this version"
+
     some_issues_not_finished:
       one: "There is 1 issue which still needs release notes"
       other: "There are %{count} issues which still need release notes"
     
     raw: "View raw"
     download: "Download"
-
-    enabled_trackers: "Trackers which can have release notes"
 
     config:
       issue_custom_field:

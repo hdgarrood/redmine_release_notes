@@ -4,15 +4,20 @@
   <p><strong><%= due_date_distance_in_words(version.effective_date) %></strong> (<%= format_date(version.effective_date) %>)</p>
 <% end %>
 
-<p><%=h version.description %></p>
-<% if version.issues_count > 0 %>
+<% count_required = version.fixed_issues.release_notes_required.count %>
+
+<p><%= version.description %></p>
+<% if version.issues_count == 0 %>
+  <p><em><%= l(:label_roadmap_no_issues) %></em></p>
+<% elsif count_required == 0 %>
+  <p><em><%= l('release_notes.no_issues_for_this_version') %></em></p>
+<% else %>
   <%= release_notes_progress_bar(version) %>
   <p class="progress-info">
   <%= release_notes_overview_link(
     t(:label_x_issues, :count => version.issues_count),
     version, @project) %>
 
-  <% count_required = version.fixed_issues.release_notes_required.count %>
   (<%= release_notes_overview_link_if(
     count_required > 0,
     t('release_notes.x_requiring_release_notes',
@@ -45,6 +50,4 @@
   <%= link_to t('release_notes.generate'),
     generate_release_notes_path(version) %>
   </p>
-<% else %>
-  <p><em><%= l(:label_roadmap_no_issues) %></em></p>
 <% end %>

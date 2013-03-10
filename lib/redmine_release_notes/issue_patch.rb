@@ -46,6 +46,19 @@ module RedmineReleaseNotes
             where('custom_values.value' => done_value)
         end
 
+        # issues which don't have a custom value for release notes
+        def self.release_notes_nil
+          cf_id = Setting.
+            plugin_redmine_release_notes[:issue_custom_field_id].to_i
+          conditions = "NOT EXISTS ("
+          conditions << "SELECT 1 FROM custom_values"
+          conditions << " WHERE customized_type = 'Issue'"
+          conditions << " AND custom_field_id = #{cf_id}"
+          conditions << " AND customized_id = issues.id"
+          conditions << ")"
+          where(conditions)
+        end
+
         # can this issue have release notes?
         # true if the issue has the configured custom field for release notes
         def eligible_for_release_notes?
@@ -56,7 +69,7 @@ module RedmineReleaseNotes
         end
 
         private
-        def joins_release_notes
+        def self.joins_release_notes
           custom_field_id = Setting.
             plugin_redmine_release_notes[:issue_custom_field_id]
           joins(:custom_values).

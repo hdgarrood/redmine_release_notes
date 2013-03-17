@@ -1,26 +1,7 @@
 <% html_title l('release_notes.generate_title', :version => @version.name) %>
 
-<% if @version.fixed_issues.release_notes_todo.any? %>
-  <% count = @version.fixed_issues.release_notes_todo.count %>
-  <div class='flash warning'>
-    <%= t((count == 1 ? 'one' : 'other'),
-      :count => count,
-      :scope => 'release_notes.some_issues_not_finished') %>
-    (<%= release_notes_overview_link(
-      t('button_show'), @version, @project, [:todo]) %>)
-  </div>
-<% end %>
-
-<% if @version.fixed_issues.release_notes_nil.any? %>
-  <% count = @version.fixed_issues.release_notes_nil.count %>
-  <div class='flash warning'>
-    <%= t((count == 1 ? 'one' : 'other'),
-      :count => count,
-      :scope => 'release_notes.some_issues_nil_custom_field_value') %>
-    (<%= release_notes_overview_link(
-      t('button_show'), @version, @project, :none) %>)
-  </div>
-<% end %>
+<%= render :partial => 'warnings',
+  :locals => { :version => @version, :project => @project } %>
 
 <div style="width:100%;">
 <h2><%= l('release_notes.generate_title', :version => @version.name) %></h2>

@@ -1,0 +1,39 @@
+<% if version.fixed_issues.release_notes_todo.any? %>
+  <% count = version.fixed_issues.release_notes_todo.count %>
+  <div class='flash warning'>
+    <%= t((count == 1 ? 'one' : 'other'),
+      :count => count,
+      :scope => 'release_notes.some_issues_not_finished') %>
+    (<%= release_notes_overview_link(
+      t('button_show'), version, project, [:todo]) %>)
+  </div>
+<% end %>
+
+<% if version.fixed_issues.release_notes_custom_value_nil.any? %>
+  <% count = version.fixed_issues.release_notes_custom_value_nil.count %>
+  <div class='flash warning'>
+    <%= t((count == 1 ? 'one' : 'other'),
+      :count => count,
+      :scope => 'release_notes.some_issues_nil_custom_field_value') %>
+    (<%= release_notes_overview_link(
+      t('button_show'), version, project, :none) %>)
+  </div>
+<% end %>
+
+<% if version.fixed_issues.done_but_release_notes_nil.any? %>
+  <% count = version.fixed_issues.done_but_release_notes_nil.count %>
+  <div class='flash warning'>
+    <%= t((count == 1 ? 'one' : 'other'),
+      :count => count,
+      :scope => 'release_notes.some_issues_done_with_no_release_notes') %>
+    (<%= link_to_function t('button_show'),
+      '$("#issues-done-but-nil-dialog").dialog()' %>)
+  </div>
+  <div id=issues-done-but-nil-dialog style=display:none;>
+    <ul>
+      <% version.fixed_issues.done_but_release_notes_nil.each do |issue| %>
+        <li><%= link_to_issue issue %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

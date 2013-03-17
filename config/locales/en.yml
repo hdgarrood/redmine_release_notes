@@ -27,7 +27,11 @@ en:
 
     some_issues_nil_custom_field_value:
       one: "There is 1 issue which doesn't have a value for the release notes custom field"
-      other: "There are some issues which don't have a value for the release notes custom field"
+      other: "There are %{count} issues which don't have a value for the release notes custom field"
+
+    some_issues_done_with_no_release_notes:
+      one: "There is 1 issue which is marked as 'done' but doesn't have any release notes"
+      other: "There are %{count} issues which are marked as 'done' but don't have any release notes"
     
     raw: "View raw"
     download: "Download"

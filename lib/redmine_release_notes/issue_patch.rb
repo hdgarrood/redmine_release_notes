@@ -47,16 +47,31 @@ module RedmineReleaseNotes
         end
 
         # issues which don't have a custom value for release notes
-        def self.release_notes_nil
+        def self.release_notes_custom_value_nil
           cf_id = Setting.
             plugin_redmine_release_notes[:issue_custom_field_id].to_i
+
+          conditions_a = "NOT EXISTS ("
+          conditions_a << "SELECT 1 FROM custom_values"
+          conditions_a << " WHERE customized_type = 'Issue'"
+          conditions_a << " AND custom_field_id = #{cf_id}"
+          conditions_a << " AND customized_id = issues.id"
+          conditions_a << ")"
+
+          conditions_b = "(custom_values.value IS NULL"
+          conditions_b << " OR custom_values.value = '')"
+
+          includes(:custom_values).where("#{conditions_a} OR #{conditions_b}")
+        end
+
+        # issues which have the release notes custom field value set to 'done'
+        # but no release notes
+        def self.done_but_release_notes_nil
           conditions = "NOT EXISTS ("
-          conditions << "SELECT 1 FROM custom_values"
-          conditions << " WHERE customized_type = 'Issue'"
-          conditions << " AND custom_field_id = #{cf_id}"
-          conditions << " AND customized_id = issues.id"
+          conditions << "SELECT 1 FROM release_notes"
+          conditions << " WHERE issue_id = issues.id"
           conditions << ")"
-          where(conditions)
+          release_notes_done.where(conditions)
         end
 
         # can this issue have release notes?

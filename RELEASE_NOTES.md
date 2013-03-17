@@ -1,6 +1,14 @@
 release notes
 =============
 
+v1.3.1
+------
+
+* Bug fixes
+* Use issue custom fields again (to avoid breaking issue queries)
+* Improved warnings when generating release notes
+* UI improvements
+
 v1.3.0
 ------
 

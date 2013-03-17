@@ -1,8 +1,5 @@
 # redmine release notes
 
-**important: please read [this](https://gist.github.com/hdgarrood/4986040)
-before installing**
-
 Do any of the following apply?
 
 * You have to produce release notes for your projects
@@ -19,8 +16,7 @@ Just Redmine 2.1.0 or higher.
 
 ## features
 
-* Store release notes and release notes status (todo, done, not required) per
-  issue.
+* Store release notes with each issue.
 * See how close the release notes for a certain version are to being finished.
 * Generate release notes for a particular version.
 * Define templates for generated release notes.
@@ -37,59 +33,33 @@ Do the migrations.
 
     rake redmine:plugins:migrate
 
-Load the default formats (optional, recommended). If you've been using 1.2.0,
-this will read your formats.yml and put them into the database (which is what
-you want).
+Load the default formats (optional, recommended). If you've been using earlier
+versions, this will read your formats.yml and put them into the database (which
+is what you want).
 
     rake redmine:plugins:release_notes:load_default_formats
 
 Restart redmine.
 
-## upgrading from 1.2.0
-
-As of 1.3.0, release notes status (ie, whether the release notes for an issue
-are done, still todo, or not required) are no longer stored as an issue custom
-field, but in the release notes table. This means that you need to get this
-information out of the issue custom field, and into the release notes table.
-
-The column is `release_notes.status` and the recognised values are `'todo'`,
-`'done'`, and `'not_required'`.
-
-This is probably the easiest way to go about it:
-
-    UPDATE release_notes
-    SET status = 'todo'
-    WHERE issue_id IN (
-      SELECT customized_id
-      FROM custom_values
-      WHERE customized_type = 'Issue'
-        AND value = 'Todo' -- or whatever your configured 'todo' status is
-        AND custom_field_id = 1 -- the ID of your release notes custom field
-    );
-
-You'll need to run two more similar statements for `'done'` and
-`'not_required'` release notes.
-
 ## setup
 
 Before you can use it, you need to:
 
+* Do first-time configuration (See Administration > Plugins > Redmine release
+  notes > Configure)
 * Enable the release notes module for any relevant projects
 * Enable release notes for the appropriate trackers
 
 ## use
 
 Create release notes from the issue page; a section will appear under the
-description, allowing you to add release notes and also mark whether the
-release notes are done, todo, or not required.
+description, allowing you to add release notes. Use the issue custom field to
+mark whether the release notes are done, todo, or not required.
 
 Once a version is nearing completion, click on the Release notes tab on the
 project menu to see a list of versions (like the roadmap) together with a
 progress bar, showing how many release notes are done, and how many are still
 left to do.
-
-Chastise developers who haven't done their release notes by using the query
-filters on the issue list.
 
 Once a version is complete, generate release notes from the same place. You can
 also get the release notes raw:

@@ -22,34 +22,57 @@ module ReleaseNotesHelper
                  :legend => '%0.0f%' % completion)
   end
 
-  def release_notes_overview_link(text, version, project, opts = {})
+  def release_notes_overview_link(text, version, project, release_notes_value = nil)
     opts = {
-      :status_id => '*',
-      :fixed_version_id => version.id,
+      :f => [:fixed_version_id, :status_id],
+      :op => {
+        :fixed_version_id => '=',
+        :status_id => '*',
+      },
+      :v => {
+        :fixed_version_id => [version.id]
+      },
       :set_filter => 1
-    }.merge(opts)
+    }
 
-    opts = add_release_notes_custom_field_filters(opts)
+    if release_notes_value
+      opts = add_release_notes_custom_field_filters(opts, release_notes_value)
+    end
+
     link_to text, project_issues_path(project, opts)
   end
 
   # TODO: behave better when improperly configured
-  def add_release_notes_custom_field_filters(opts)
-    if (release_notes = opts.delete(:release_notes))
-      orig_opts = opts.dup
+  def add_release_notes_custom_field_filters(opts, release_notes_value)
+    orig_opts = opts.dup
 
-      settings = Setting.plugin_redmine_release_notes
-      custom_field_id = settings[:issue_custom_field_id].to_i
-      custom_field = CustomField.find(custom_field_id)
+    settings = Setting.plugin_redmine_release_notes
+    custom_field_id = settings[:issue_custom_field_id].to_i
+    custom_field = CustomField.find(custom_field_id)
 
-      field = "cf_#{custom_field_id}"
-      values = release_notes.
+    field = "cf_#{custom_field_id}"
+    opts[:f] << field
+
+    case release_notes_value
+    when Array
+      # if it's a list of values, use that
+      values = release_notes_value.
         map { |v| settings["field_value_#{v}"] }.
-        select { |v| custom_field.possible_values.include?(v) }.
-        join('|')
+        select { |v| custom_field.possible_values.include?(v) }
 
-      opts[field] = values
+      opts[:op][field] = '='
+      opts[:v][field] = values
+    when :none
+      # if it's the symbol :none, add a filter to only show issues with no
+      # release notes custom field value
+      opts[:op][field] = '!*'
+    else
+      raise <<END
+Unrecognised value for +release_notes_value+: <#{release_notes_value}>.
+This is a bug. Please report it: https://github.com/hdgarrood/redmine_release_notes
+END
     end
+
     opts
   rescue ActiveRecord::RecordNotFound
     orig_opts

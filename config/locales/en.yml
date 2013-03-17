@@ -24,6 +24,10 @@ en:
     some_issues_not_finished:
       one: "There is 1 issue which still needs release notes"
       other: "There are %{count} issues which still need release notes"
+
+    some_issues_nil_custom_field_value:
+      one: "There is 1 issue which doesn't have a value for the release notes custom field"
+      other: "There are some issues which don't have a value for the release notes custom field"
     
     raw: "View raw"
     download: "Download"

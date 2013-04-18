@@ -53,10 +53,8 @@ class ReleaseNotesController < ApplicationController
     @release_note = @issue.release_note
     @release_note.text = params[:release_note][:text]
     @release_note.save
-    update_custom_field(params[:mark_completed])
 
-    #redirect_to :controller => 'issues', :action => 'show', :id => @issue.id
-    redirect_to @issue
+    update_custom_field(params[:mark_completed])
   rescue ActiveRecord::RecordNotFound
     render_404
   end

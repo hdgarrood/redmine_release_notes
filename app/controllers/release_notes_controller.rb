@@ -107,37 +107,43 @@ class ReleaseNotesController < ApplicationController
   end
 
   def update_custom_field(completed)
+    new_value = completed ?
+      Setting.plugin_redmine_release_notes[:field_value_done] :
+      Setting.plugin_redmine_release_notes[:field_value_todo]
+
     cf_id = Setting.plugin_redmine_release_notes[:issue_custom_field_id].to_i
-    done_value = Setting.plugin_redmine_release_notes[:field_value_done]
-    todo_value = Setting.plugin_redmine_release_notes[:field_value_todo]
-    if completed 
-       to_value = done_value
-    else
-       to_value = todo_value
-    end
     custom_value = @issue.custom_values.find_by_custom_field_id(cf_id)
 
-    if !custom_value 
-       @release_note.errors.add(:base, t(:release_notes, :failed_find_custom_value) ) 
-       return 
-    end 
+    if !custom_value
+      @release_note.errors.add(
+        :base,
+        t(:release_notes, :failed_find_custom_value))
+      return
+    end
 
-    if custom_value.value != to_value
+    if custom_value.value != new_value
        old_value = custom_value.value
-       custom_value.value = to_value
-    
+       custom_value.value = new_value
+
        if custom_value.save
+         # record the change to the custom field
          journal = @issue.init_journal(User.current)
-         journal.details << JournalDetail.new(:property => 'cf',:prop_key => cf_id,
-                                             :old_value => old_value, :value => to_value)
-         if journal.save == false
-           @release_note.errors.add(:base,format_release_note_errors(journal, l(:label_history)) )
-         end 
+         journal.details << JournalDetail.new(:property => 'cf',
+                                              :prop_key => cf_id,
+                                              :old_value => old_value,
+                                              :value => new_value)
+         if !journal.save
+           @release_note.errors.add(
+             :base,
+             format_release_note_errors(journal, l(:label_history)))
+         end
        else
-        @release_note.errors.add(:base,format_release_note_errors(custom_value, l(:label_custom_field)) )
+        @release_note.errors.add(
+          :base,
+          format_release_note_errors(custom_value, l(:label_custom_field)))
        end
-    end 
-  end 
+    end
+  end
 
   def release_notes_format_from_params
     if (format_name = params[:release_notes_format])

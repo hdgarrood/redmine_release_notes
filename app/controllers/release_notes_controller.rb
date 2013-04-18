@@ -51,10 +51,40 @@ class ReleaseNotesController < ApplicationController
     @release_note = @issue.release_note
     @release_note.text = params[:release_note][:text]
     @release_note.save
+    update_custom_field(params[:mark_completed])
+
+    #redirect_to :controller => 'issues', :action => 'show', :id => @issue.id
   rescue ActiveRecord::RecordNotFound
     render_404
   end
 
+  def update_custom_field(completed)
+    cf_id = Setting.plugin_redmine_release_notes[:issue_custom_field_id].to_i
+    done_value = Setting.plugin_redmine_release_notes[:field_value_done]
+    todo_value = Setting.plugin_redmine_release_notes[:field_value_todo]
+    if completed == '1'
+       to_value = done_value
+    else
+       to_value = todo_value
+    end
+    custom_value = @issue.custom_values.find_by_custom_field_id(cf_id)
+
+    if custom_value.value != to_value
+       old_value = custom_value.value
+       custom_value.value = to_value
+    
+       if custom_value.save
+         journal = @issue.init_journal(User.current)
+         journal.details << JournalDetail.new(:property => 'cf',:prop_key => cf_id,
+                                             :old_value => old_value, :value => to_value)
+         if journal.save == false
+           flash[:error] = format_release_note_errors(journal, l(:label_history))
+         end 
+       else
+        flash[:error] = format_release_note_errors(custom_value, l(:label_custom_field))
+       end
+    end 
+  end 
 
   def destroy
     release_note = ReleaseNote.find(params[:id])

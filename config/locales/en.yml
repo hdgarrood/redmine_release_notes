@@ -1,4 +1,5 @@
 en:
+  mark_release_notes_complete: "Mark as Release notes done"
   release_notes:
     title: "Release note"
     title_plural: "Release notes"

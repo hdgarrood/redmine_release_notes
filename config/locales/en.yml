@@ -6,7 +6,7 @@ en:
     release_note: "release note"
     release_note_plural: "release notes"
 
-    mark_release_notes_complete: "Mark as Release notes done"
+    mark_complete: "Release notes complete for this issue?"
     cant_set_done_if_no_release_notes: "can't be set to %{value} unless release notes have been written"
 
     generate: "Generate release notes"

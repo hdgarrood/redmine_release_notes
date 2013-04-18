@@ -1,5 +1,4 @@
 en:
-  mark_release_notes_complete: "Mark as Release notes done"
   release_notes:
     title: "Release note"
     title_plural: "Release notes"
@@ -7,6 +6,7 @@ en:
     release_note: "release note"
     release_note_plural: "release notes"
 
+    mark_release_notes_complete: "Mark as Release notes done"
     cant_set_done_if_no_release_notes: "can't be set to %{value} unless release notes have been written"
 
     generate: "Generate release notes"
@@ -71,3 +71,6 @@ en:
         intro: "You can use substitutions like %{this} to display some information in the Header and Each issue fields."
         header: "Substitutions refer to the version. Recognised values are name, date, id, and description."
         each_issue: "Substitutions refer to the issue. Recognised values are subject, release_notes, id, tracker, and project."
+
+    errors:
+       failed_find_custom_field: "Unable to find custom field"  

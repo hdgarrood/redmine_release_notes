@@ -37,9 +37,8 @@
       <% cf_id = Setting.plugin_redmine_release_notes[:issue_custom_field_id].to_i %>
       <% done_value = Setting.plugin_redmine_release_notes[:field_value_done] %>
       <% rel_note_status = true if (issue.custom_values.find_by_custom_field_id(cf_id).value == done_value) %>
-      <br />
       <%= check_box_tag 'mark_completed', 1, rel_note_status %>
-      <%= label(:mark, :complete, l(:mark_release_notes_complete)) %>
+      <%= label(:mark, :complete, t('release_notes.mark_release_notes_complete')) %>
       <br />
       <%= f.submit t(:button_submit), :onclick => "$('#release_notes>.flash.error').remove(); return true;" %>
       <%= link_to_function t(:button_cancel), 'toggle_release_notes()' %>

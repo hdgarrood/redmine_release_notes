@@ -34,10 +34,7 @@
       :class => 'wiki-edit',
       :no_label => true %>
       <br />
-      <% cf_id = Setting.plugin_redmine_release_notes[:issue_custom_field_id].to_i %>
-      <% done_value = Setting.plugin_redmine_release_notes[:field_value_done] %>
-      <% rel_note_status = true if (issue.custom_values.find_by_custom_field_id(cf_id).value == done_value) %>
-      <%= check_box_tag 'mark_completed', 1, rel_note_status %>
+      <%= check_box_tag 'mark_completed', 1, issue.releses_note_status_done? %>
       <%= label_tag 'mark_completed', t('release_notes.mark_complete') %>
       <br />
       <%= f.submit t(:button_submit), :onclick => "$('#release_notes>.flash.error').remove(); return true;" %>

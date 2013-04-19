@@ -83,6 +83,15 @@ module RedmineReleaseNotes
           false
         end
 
+        def releses_note_status_done?
+           cf_id = Setting.plugin_redmine_release_notes[:issue_custom_field_id].to_i
+           done_value = Setting.plugin_redmine_release_notes[:field_value_done]
+           cf_value = custom_values.find_by_custom_field_id(cf_id).value 
+           (cf_value == done_value) ? true : false 
+        rescue ActiveRecord::RecordNotFound
+           false
+        end
+
         private
         def self.joins_release_notes
           custom_field_id = Setting.

@@ -8,6 +8,9 @@ ru:
     release_note: "Примечание к версии"
     release_note_plural: "примечание к версии"
 
+    mark_complete: "Замечания к выпуску для завершения этого вопроса?"
+    cant_set_done_if_no_release_notes: "не может быть установлен в %{value} если выпуске не было написано"
+
     status:
       label: "Статус:"
       todo: "Нужно создать"
@@ -59,3 +62,7 @@ ru:
         intro: "Вы можете использовать подстановки, такие как %{name}, чтобы выводить информацию в Заголовке и строках задач."
         header: "Подстановки ссылающиеся на версию. Можно использовать значения: name, date, id и description."
         each_issue: "Подстановки ссылающиеся на задачу. Можно использовать значения: subject, release_notes, id, tracker и project."
+    errors:
+       failed_find_custom_field: "Не удается найти пользовательское поле"  
+       failed_save_custom_value: "Не удается сохранить таможенной стоимости"  
+       failed_save_journal_entry: "Невозможно svae запись в журнале" 

@@ -3,4 +3,6 @@ $('#release-notes').html('<%= escape_javascript render(:partial => 'issues/relea
                                                                     :issue => @issue }) %>')
 <% if @release_note.errors.any? %>
   toggle_release_notes()
+<% else %>
+  window.location.reload()  
 <% end %>

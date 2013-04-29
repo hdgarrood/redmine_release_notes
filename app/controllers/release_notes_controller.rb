@@ -115,7 +115,7 @@ class ReleaseNotesController < ApplicationController
     if !custom_value
       @release_note.errors.add(
         :base,
-        t(:release_notes, :failed_find_custom_value))
+        t('release_notes.errors.failed_find_custom_value'))
       return
     end
 
@@ -133,12 +133,12 @@ class ReleaseNotesController < ApplicationController
          if !journal.save
            @release_note.errors.add(
              :base,
-             format_release_note_errors(journal, l(:label_history)))
+             t('release_notes.errors.failed_save_journal_entry') )
          end
        else
         @release_note.errors.add(
           :base,
-          format_release_note_errors(custom_value, l(:label_custom_field)))
+          t('release_notes.errors.failed_save_custom_value') )
        end
     end
   end
@@ -160,18 +160,6 @@ class ReleaseNotesController < ApplicationController
     end
 
     format
-  end
-
-  def format_release_note_errors(model, localised_name)
-    error_str = ""
-    count = model.errors.count
-    model.errors.each do |attr, msg|
-      error_str << "<br>#{attr}: #{msg}, "
-    end
-    return_str = l('activerecord.errors.template.header.other',
-                        :model => localised_name,
-                        :count => count) + ': ' + error_str
-    return return_str.chop!.chop!.html_safe
   end
 
 end

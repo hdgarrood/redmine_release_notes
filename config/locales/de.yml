@@ -6,6 +6,9 @@ de:
     release_note: "Release Note"
     release_note_plural: "Release Notes"
 
+    mark_complete: "Release notes te voltooien voor dit probleem?" 
+    cant_set_done_if_no_release_notes: "kan niet worden ingesteld op% {value} tenzij release notes zijn geschreven" 
+
     status:
       label: "Status:"
       todo: "Todo"
@@ -57,4 +60,7 @@ de:
         intro: "Verwenden sie Macros zur Textersetzungen wie beispielweise %{this} um Text in den Kopfbereich oder bei den Ticketzeilen einzufügen."
         header: "Die Macros bei der Textersetzung werden aus dem Versionobjeckt aufgelöst. Mögliche Macros sind: Name (name), Datum (date), ID (id) und Beschreibung (description)."
         each_issue: "Die Macros bei der Textersetzung werden aus den jeweiligen Ticket aufgelöst. Mögliche Macros sind: Thema (subject), Release Notes (release_notes), ID (id), Tracker (tracker) und Projekt (project)."
-
+    errors:
+       failed_find_custom_field: "Kan aangepast veld te vinden"  
+       failed_save_custom_value: "Niet in staat om aangepaste waarde svae"  
+       failed_save_journal_entry: "Niet in staat om journaalpost svae" 

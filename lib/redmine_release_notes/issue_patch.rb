@@ -77,19 +77,27 @@ module RedmineReleaseNotes
         # can this issue have release notes?
         # true if the issue has the configured custom field for release notes
         def eligible_for_release_notes?
-          cf_id = Setting.plugin_redmine_release_notes[:issue_custom_field_id]
+          cf_id = Setting.
+            plugin_redmine_release_notes[:issue_custom_field_id].to_i
           available_custom_fields.include?(CustomField.find(cf_id))
         rescue ActiveRecord::RecordNotFound
           false
         end
 
-        def releses_note_status_done?
-           cf_id = Setting.plugin_redmine_release_notes[:issue_custom_field_id].to_i
+        def release_notes_done?
+           cf = release_notes_custom_value
            done_value = Setting.plugin_redmine_release_notes[:field_value_done]
-           cf  = custom_values.find_by_custom_field_id(cf_id)
-           cf.value == done_value unless cf == nil
+           cf.value == done_value unless cf.nil?
         rescue ActiveRecord::RecordNotFound
            false
+        end
+
+        # returns the CustomValue which describes the release notes status for
+        # this issue
+        def release_notes_custom_value
+          cf_id = Setting.
+            plugin_redmine_release_notes[:issue_custom_field_id].to_i
+          custom_values.find_by_custom_field_id(cf_id)
         end
 
         private

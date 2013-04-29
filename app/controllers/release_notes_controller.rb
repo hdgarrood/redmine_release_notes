@@ -109,8 +109,7 @@ class ReleaseNotesController < ApplicationController
       Setting.plugin_redmine_release_notes[:field_value_done] :
       Setting.plugin_redmine_release_notes[:field_value_todo]
 
-    cf_id = Setting.plugin_redmine_release_notes[:issue_custom_field_id].to_i
-    custom_value = @issue.custom_values.find_by_custom_field_id(cf_id)
+    custom_value = @issue.release_notes_custom_value
 
     if !custom_value
       @release_note.errors.add(

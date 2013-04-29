@@ -41,9 +41,11 @@ class ReleaseNotesController < ApplicationController
     @issue = Issue.find(params[:release_note][:issue_id])
     @release_note = @issue.build_release_note
     @release_note.text = params[:release_note][:text]
-    @release_note.save
 
-    update_custom_field(params[:mark_completed])
+    if @release_note.save
+      update_custom_field(params[:mark_completed])
+    end
+
     render 'update'
   end
 
@@ -52,9 +54,11 @@ class ReleaseNotesController < ApplicationController
     @issue = Issue.find(params[:release_note][:issue_id])
     @release_note = @issue.release_note
     @release_note.text = params[:release_note][:text]
-    @release_note.save
 
-    update_custom_field(params[:mark_completed])
+    if @release_note.save
+      update_custom_field(params[:mark_completed])
+    end
+
   rescue ActiveRecord::RecordNotFound
     render_404
   end

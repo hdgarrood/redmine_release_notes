@@ -33,7 +33,7 @@ en:
     some_issues_done_with_no_release_notes:
       one: "There is 1 issue which is marked as 'done' but doesn't have any release notes"
       other: "There are %{count} issues which are marked as 'done' but don't have any release notes"
-    
+
     raw: "View raw"
     download: "Download"
 
@@ -73,6 +73,6 @@ en:
         each_issue: "Substitutions refer to the issue. Recognised values are subject, release_notes, id, tracker, and project."
 
     errors:
-       failed_find_custom_field: "Unable to find custom field"  
-       failed_save_custom_value: "Unable to save custom value"  
-       failed_save_journal_entry: "Unable to svae journal entry" 
+       failed_find_custom_value: "Unable to find the release notes custom value for this issue. Try setting the release notes status manually."
+       failed_save_custom_value_html: "Unable to save release notes custom value for this issue. This is probably a bug. Please <a href=https://github.com/hdgarrood/redmine_release_notes/issues/new>report</a> it."
+       failed_save_journal_entry_html: "Unable to save change in issue history. This is probably a bug. Please <a href=https://github.com/hdgarrood/redmine_release_notes/issues/new>report</a> it."

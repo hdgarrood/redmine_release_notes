@@ -105,15 +105,13 @@ class ReleaseNotesController < ApplicationController
   end
 
   def update_custom_field(completed)
-    new_value = completed ?
-      Setting.plugin_redmine_release_notes[:field_value_done] :
-      Setting.plugin_redmine_release_notes[:field_value_todo]
+    new_value = Setting.plugin_redmine_release_notes.
+      fetch(completed ? :field_value_done : :field_value_todo)
 
     custom_value = @issue.release_notes_custom_value
 
     if !custom_value
-      @release_note.errors.add(
-        :base,
+      @release_note.errors.add(:base,
         t('release_notes.errors.failed_find_custom_value'))
       return
     end
@@ -131,14 +129,12 @@ class ReleaseNotesController < ApplicationController
            :old_value => old_value,
            :value => new_value)
          if !journal.save
-           @release_note.errors.add(
-             :base,
-             t('release_notes.errors.failed_save_journal_entry') )
+           @release_note.errors.add(:base,
+             t('release_notes.errors.failed_save_journal_entry_html').html_safe)
          end
        else
-        @release_note.errors.add(
-          :base,
-          t('release_notes.errors.failed_save_custom_value') )
+        @release_note.errors.add(:base,
+          t('release_notes.errors.failed_save_custom_value_html').html_safe)
        end
     end
   end

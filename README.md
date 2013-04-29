@@ -20,7 +20,8 @@ Just Redmine 2.1.0 or higher.
 * See how close the release notes for a certain version are to being finished.
 * Generate release notes for a particular version.
 * Define templates for generated release notes.
-* Localizable; currently available in English, German, Russian, and French.\*
+* Localizable; currently available in English, German, Russian, French, and
+  Brazilian Portuguese.\*
 
 \* Actually all of the languages other than English are a bit out of date now.
 Pull requests welcome!

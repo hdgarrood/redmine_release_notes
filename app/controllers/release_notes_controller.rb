@@ -61,7 +61,7 @@ class ReleaseNotesController < ApplicationController
 
   def destroy
     release_note = ReleaseNote.find(params[:id])
-    issue = Issue.find(release_note.issue_id)
+    issue = release_note.issue
 
     update_custom_field(false)
 

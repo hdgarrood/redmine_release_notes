@@ -125,10 +125,11 @@ class ReleaseNotesController < ApplicationController
        if custom_value.save
          # record the change to the custom field
          journal = @issue.init_journal(User.current)
-         journal.details << JournalDetail.new(:property => 'cf',
-                                              :prop_key => cf_id,
-                                              :old_value => old_value,
-                                              :value => new_value)
+         journal.details << JournalDetail.new(
+           :property => 'cf',
+           :prop_key => custom_value.custom_field_id,
+           :old_value => old_value,
+           :value => new_value)
          if !journal.save
            @release_note.errors.add(
              :base,

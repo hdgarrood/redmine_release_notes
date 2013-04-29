@@ -74,3 +74,5 @@ en:
 
     errors:
        failed_find_custom_field: "Unable to find custom field"  
+       failed_save_custom_value: "Unable to save custom value"  
+       failed_save_journal_entry: "Unable to svae journal entry" 

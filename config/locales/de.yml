@@ -62,3 +62,5 @@ de:
         each_issue: "Die Macros bei der Textersetzung werden aus den jeweiligen Ticket aufgelöst. Mögliche Macros sind: Thema (subject), Release Notes (release_notes), ID (id), Tracker (tracker) und Projekt (project)."
     errors:
        failed_find_custom_field: "Kan aangepast veld te vinden"  
+       failed_save_custom_value: "Niet in staat om aangepaste waarde svae"  
+       failed_save_journal_entry: "Niet in staat om journaalpost svae" 

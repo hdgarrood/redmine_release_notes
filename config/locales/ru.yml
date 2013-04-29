@@ -64,3 +64,5 @@ ru:
         each_issue: "Подстановки ссылающиеся на задачу. Можно использовать значения: subject, release_notes, id, tracker и project."
     errors:
        failed_find_custom_field: "Не удается найти пользовательское поле"  
+       failed_save_custom_value: "Не удается сохранить таможенной стоимости"  
+       failed_save_journal_entry: "Невозможно svae запись в журнале" 

@@ -34,6 +34,9 @@
       :class => 'wiki-edit',
       :no_label => true %>
       <br />
+      <%= check_box_tag 'mark_completed', 1, issue.releses_note_status_done? %>
+      <%= label_tag 'mark_completed', t('release_notes.mark_complete') %>
+      <br />
       <%= f.submit t(:button_submit), :onclick => "$('#release_notes>.flash.error').remove(); return true;" %>
       <%= link_to_function t(:button_cancel), 'toggle_release_notes()' %>
   </div>

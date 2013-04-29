@@ -42,6 +42,8 @@ class ReleaseNotesController < ApplicationController
     @release_note = @issue.build_release_note
     @release_note.text = params[:release_note][:text]
     @release_note.save
+
+    update_custom_field(params[:mark_completed])
     render 'update'
   end
 
@@ -51,18 +53,22 @@ class ReleaseNotesController < ApplicationController
     @release_note = @issue.release_note
     @release_note.text = params[:release_note][:text]
     @release_note.save
+
+    update_custom_field(params[:mark_completed])
   rescue ActiveRecord::RecordNotFound
     render_404
   end
 
-
   def destroy
-    release_note = ReleaseNote.find(params[:id])
-    issue = release_note.issue
-    release_note.destroy
+    @release_note = ReleaseNote.find(params[:id])
+    @issue = Issue.find(@release_note.issue_id)
+
+    update_custom_field(false)
+
+    @release_note.destroy
 
     flash[:notice] = l(:notice_successful_delete)
-    redirect_to issue
+    redirect_to @issue
   end
 
   def generate
@@ -98,6 +104,45 @@ class ReleaseNotesController < ApplicationController
     render_404
   end
 
+  def update_custom_field(completed)
+    new_value = completed ?
+      Setting.plugin_redmine_release_notes[:field_value_done] :
+      Setting.plugin_redmine_release_notes[:field_value_todo]
+
+    cf_id = Setting.plugin_redmine_release_notes[:issue_custom_field_id].to_i
+    custom_value = @issue.custom_values.find_by_custom_field_id(cf_id)
+
+    if !custom_value
+      @release_note.errors.add(
+        :base,
+        t('release_notes.errors.failed_find_custom_value'))
+      return
+    end
+
+    if custom_value.value != new_value
+       old_value = custom_value.value
+       custom_value.value = new_value
+
+       if custom_value.save
+         # record the change to the custom field
+         journal = @issue.init_journal(User.current)
+         journal.details << JournalDetail.new(:property => 'cf',
+                                              :prop_key => cf_id,
+                                              :old_value => old_value,
+                                              :value => new_value)
+         if !journal.save
+           @release_note.errors.add(
+             :base,
+             t('release_notes.errors.failed_save_journal_entry') )
+         end
+       else
+        @release_note.errors.add(
+          :base,
+          t('release_notes.errors.failed_save_custom_value') )
+       end
+    end
+  end
+
   def release_notes_format_from_params
     if (format_name = params[:release_notes_format])
       format = ReleaseNotesFormat.find_by_name(format_name)
@@ -116,4 +161,5 @@ class ReleaseNotesController < ApplicationController
 
     format
   end
+
 end

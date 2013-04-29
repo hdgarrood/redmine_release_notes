@@ -114,6 +114,8 @@ class ReleaseNotesController < ApplicationController
 
     custom_value = @issue.release_notes_custom_value
 
+    # TODO: Maybe it would be better to just go ahead and create one, instead
+    # of telling the user to do it manually
     if !custom_value
       @release_note.errors.add(:base,
         t('release_notes.errors.failed_find_custom_value'))

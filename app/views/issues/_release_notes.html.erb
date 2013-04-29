@@ -26,7 +26,7 @@
                release_notes_path,
              :method => release_note.persisted? ? :put : :post,
              :html => {:id => 'release-notes-form', :style => 'display: none;'}) do |f| %>
-  <strong><%= t('release_notes.title_plural') %></strong>
+  <p><strong><%= t('release_notes.title_plural') %></strong></p>
   <div style='margin: 10px 10px 0px 10px;'>
     <%= error_messages_for release_note %>
     <%= f.hidden_field 'issue_id', :value => issue.id %>

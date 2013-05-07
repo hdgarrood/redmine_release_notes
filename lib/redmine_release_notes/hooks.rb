@@ -31,5 +31,15 @@ module RedmineReleaseNotes
         ""
       end
     end
+
+    def view_versions_show_bottom(context)
+      issue, controller = context[:issue], context[:controller]
+
+      controller.render_to_string(
+        { :partial =>
+            'hooks/release_notes/version_show_bottom',
+          :locals => context }
+      )
+    end 
   end
 end

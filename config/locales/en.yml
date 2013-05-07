@@ -13,10 +13,14 @@ en:
     generate_title: "Release notes for version %{version}"
     show_closed_versions: "Show closed versions"
 
+    progress: "Release notes progress"	
     x_issues_in_total: "%{count} issues in total"
     x_requiring_release_notes: "%{count} requiring release notes"
     x_done: "%{count} done"
     x_to_go: "%{count} to go"
+    x_not_required: "%{count} not required"
+    x_not_required_cf_none:  "%{count} : having '%{cf_name}' as %{cf_value}" 
+    x_not_required_blank:  "%{count} : having '%{cf_name}' as blank or invalid" 
     all_done: "All done!"
     not_started: "Not started"
 

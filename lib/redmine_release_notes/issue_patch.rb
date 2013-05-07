@@ -58,8 +58,9 @@ module RedmineReleaseNotes
           conditions_a << " AND customized_id = issues.id"
           conditions_a << ")"
 
-          conditions_b = "(custom_values.value IS NULL"
+          conditions_b = "( (custom_values.value IS NULL"
           conditions_b << " OR custom_values.value = '')"
+          conditions_b << " AND (custom_values.custom_field_id = #{cf_id}) )"
 
           includes(:custom_values).where("#{conditions_a} OR #{conditions_b}")
         end

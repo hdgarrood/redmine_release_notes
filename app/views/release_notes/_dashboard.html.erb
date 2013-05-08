@@ -1,0 +1,103 @@
+<div id='release_note_dashboard'>
+<p><%= version.description %></p>
+<% if version.completed? %>
+  <p><%= format_date(version.effective_date) %></p>
+<% elsif version.effective_date %>
+  <p>
+    <strong><%= due_date_distance_in_words(version.effective_date) %></strong>
+    (<%= format_date(version.effective_date) %>)
+  </p>
+<% end %>
+
+<% count_required = version.fixed_issues.release_notes_required.count %>
+<% count_done = version.fixed_issues.release_notes_done.count %>
+<% count_todo = version.fixed_issues.release_notes_todo.count %>
+<% count_none = version.fixed_issues.release_notes_not_required.count %>
+<% count_nil  = version.fixed_issues.release_notes_custom_value_nil.count %>
+<% count_total = version.issues_count %> 
+<% count_not_required = count_total - count_required %>
+<% completion = version.release_notes_percent_completion %>
+<% cf_none_value =  Setting.plugin_redmine_release_notes[:field_value_not_required] %>
+<% cf_name = CustomField.find_by_id(Setting.plugin_redmine_release_notes[:issue_custom_field_id]).name %> 
+
+<% # Overview %>
+
+<% if version.issues_count == 0 %>
+  <p><em><%= l(:label_roadmap_no_issues) %></em></p>
+<% elsif count_required == 0 %>
+  <p><em><%= l('release_notes.no_issues_for_this_version') %></em></p>
+<% else %>
+  <p><em><%= l('release_notes.progress') %></em></p>
+  <p class="progress-info">
+  <%=  progress_bar([completion, completion],:width => '40em',:legend => '%0.0f%' % completion)  %>
+
+  </p>
+
+  <table class="list related-issues" >
+    <tr>
+      <td colspan=2 ><strong> <%= t('release_notes.x_requiring_release_notes', :count => count_required) %> </strong></td> 
+      <td><strong>
+         <% if count_done > 0 && count_todo == 0 %>
+             <%= t('release_notes.all_done') %>
+         <% elsif count_done > 0 %>
+             <%= t('release_notes.percent_done', :count => completion) %>
+         <% else %>
+             <%= t('release_notes.not_started') %>
+         <% end %></strong>
+    </tr>
+    <tr>
+      <td> &nbsp </td>
+      <td><strong> <%= t('release_notes.x_done', :count => count_done) %> </strong></td> 
+      <td> 
+	<% version.fixed_issues.release_notes_done.each do |issue|  %>
+	<%= link_to_issue(issue,:subject => false, :tracker => false) + ", " %>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <td> &nbsp </td>
+      <td><strong> <%= t('release_notes.x_to_go', :count => count_todo) %> </strong></td> 
+      <td> 
+	<% version.fixed_issues.release_notes_todo.each do |issue|  %>
+	<%= link_to_issue(issue,:subject => false, :tracker => false) + ", " %>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+    <tr>
+      <td colspan=3 ><strong> <%= t('release_notes.x_not_required', :count => count_not_required) %> </strong></td> 
+    </tr>
+    <tr>
+      <td> &nbsp </td>
+      <td><strong> <%= t('release_notes.x_not_required_cf_none', :count => count_none, :cf_name => cf_name) %> </strong></td> 
+      <td> 
+	<% version.fixed_issues.release_notes_not_required.each do |issue|  %>
+	<%= link_to_issue(issue,:subject => false, :tracker => false) + ", " %>
+        <% end %>
+      </td>
+    </tr>
+      <td> &nbsp </td>
+      <td ><strong> 
+	<% if (count_nil > 0)  %>
+	 <p style="color :red;"> <%= t('release_notes.x_not_required_blank', :count => count_nil, :cf_name => cf_name ) %>  </p>
+	<% else %>
+	 <p> <%= t('release_notes.none_blank', :cf_name => cf_name ) %>  </p>
+	<% end %>
+       </strong></td> 
+      <td> 
+	<% version.fixed_issues.release_notes_custom_value_nil.each do |issue|  %>
+	<%= link_to_issue(issue,:subject => false, :tracker => false) + ", " %>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <td colspan=3 ><strong> <%= t('release_notes.x_issues_in_total', :count => count_total) %> </strong></td> 
+     </td>
+    </tr>
+  </table>
+  
+  <p>
+  <%= link_to t('release_notes.generate'), generate_release_notes_path(version) %>
+  </p>
+<% end %>
+</div>

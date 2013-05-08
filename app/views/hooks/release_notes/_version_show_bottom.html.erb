@@ -1,0 +1,8 @@
+<hr />
+<h2><%= l('release_notes.generate_title', :version => @version.name) %></h2>
+
+<div id="roadmap">
+<%= render :partial => 'release_notes/dashboard', :locals => {:version => version}  %>
+</div> 
+
+<hr />

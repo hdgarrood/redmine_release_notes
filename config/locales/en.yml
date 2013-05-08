@@ -19,9 +19,11 @@ en:
     x_done: "%{count} done"
     x_to_go: "%{count} to go"
     x_not_required: "%{count} not required"
-    x_not_required_cf_none:  "%{count} : having '%{cf_name}' as %{cf_value}" 
+    x_not_required_cf_none:  "%{count} : having '%{cf_name}' as not required" 
     x_not_required_blank:  "%{count} : having '%{cf_name}' as blank or invalid" 
+    none_blank:  "No issues having '%{cf_name}' as blank or invalid" 
     all_done: "All done!"
+    percent_done: "%{count}% done"
     not_started: "Not started"
 
     no_issues_for_this_version: "No issues need release notes for this version"

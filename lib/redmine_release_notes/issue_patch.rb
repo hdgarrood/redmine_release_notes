@@ -46,6 +46,13 @@ module RedmineReleaseNotes
             where('custom_values.value' => done_value)
         end
 
+        # issues whose release notes are none
+        def self.release_notes_not_required
+          none_value = Setting.plugin_redmine_release_notes[:field_value_not_required]
+          joins_release_notes.
+            where('custom_values.value' => none_value)
+        end
+
         # issues which don't have a custom value for release notes
         def self.release_notes_custom_value_nil
           cf_id = Setting.

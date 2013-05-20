@@ -29,6 +29,23 @@ module RedmineReleaseNotes
             0
           end
         end
+
+	def release_notes_stats 
+	  stats = Hash.new 
+          stats[:required]     = fixed_issues.release_notes_required.count 
+          stats[:done]         = fixed_issues.release_notes_done.count 
+          stats[:done_empty]   = fixed_issues.done_but_release_notes_nil.count 
+          stats[:todo]         = fixed_issues.release_notes_todo.count 
+          stats[:not_required] = fixed_issues.release_notes_not_required.count 
+          stats[:none]         = fixed_issues.release_notes_none.count 
+          stats[:no_cf]        = fixed_issues.release_notes_no_cf_defined.count 
+          stats[:invalid]      = fixed_issues.release_notes_invalid.count 
+          stats[:nil]          = fixed_issues.release_notes_custom_value_nil.count 
+          stats[:total]        = issues_count 
+          stats[:completion]   = release_notes_percent_completion 
+
+	  stats
+        end 
       end
     end
   end

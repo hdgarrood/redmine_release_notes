@@ -46,30 +46,46 @@ module RedmineReleaseNotes
             where('custom_values.value' => done_value)
         end
 
-        # issues whose release notes are none
-        def self.release_notes_not_required
+        # issues whose release notes are done
+        def self.release_notes_none
           none_value = Setting.plugin_redmine_release_notes[:field_value_not_required]
           joins_release_notes.
             where('custom_values.value' => none_value)
         end
 
+        # issues whose release notes are invalid
+        def self.release_notes_invalid
+          todo_value = Setting.plugin_redmine_release_notes[:field_value_todo]
+          done_value = Setting.plugin_redmine_release_notes[:field_value_done]
+          none_value = Setting.plugin_redmine_release_notes[:field_value_not_required] 
+
+          joins_release_notes.
+            where('custom_values.value not in (?)', [done_value, todo_value,none_value])
+        end
+
+        def self.release_notes_no_cf_defined
+          includes(:custom_values).where(no_cf_defined_condition) 
+        end
+
+        # issues where CF is set to 'none' OR for which custom field is not defined
+        def self.release_notes_not_required
+          cf_id = Setting.plugin_redmine_release_notes[:issue_custom_field_id].to_i
+          none_value = Setting.plugin_redmine_release_notes[:field_value_not_required]
+ 
+	  conditions = "( custom_values.custom_field_id = #{cf_id}"
+	  conditions << " AND custom_values.value = '#{none_value}' )"
+
+          includes(:custom_values).where( conditions + " OR " + no_cf_defined_condition ) 
+        end
+
         # issues which don't have a custom value for release notes
+	# now it doesn't contain issues where cf is not defined
+	# - those issues are qualified under release_notes_not_required
         def self.release_notes_custom_value_nil
-          cf_id = Setting.
-            plugin_redmine_release_notes[:issue_custom_field_id].to_i
+          conditions = "( (custom_values.value IS NULL"
+          conditions << " OR custom_values.value = '') )"
 
-          conditions_a = "NOT EXISTS ("
-          conditions_a << "SELECT 1 FROM custom_values"
-          conditions_a << " WHERE customized_type = 'Issue'"
-          conditions_a << " AND custom_field_id = #{cf_id}"
-          conditions_a << " AND customized_id = issues.id"
-          conditions_a << ")"
-
-          conditions_b = "( (custom_values.value IS NULL"
-          conditions_b << " OR custom_values.value = '')"
-          conditions_b << " AND (custom_values.custom_field_id = #{cf_id}) )"
-
-          includes(:custom_values).where("(#{conditions_a} OR #{conditions_b})")
+          joins_release_notes.where(conditions)
         end
 
         # issues which have the release notes custom field value set to 'done'
@@ -115,6 +131,20 @@ module RedmineReleaseNotes
           joins(:custom_values).
             where('custom_values.custom_field_id' => custom_field_id)
         end
+
+	def self.no_cf_defined_condition
+          cf_id = Setting.
+            plugin_redmine_release_notes[:issue_custom_field_id].to_i
+
+          conditions_b = "NOT EXISTS ("
+          conditions_b << "SELECT 1 FROM custom_values"
+          conditions_b << " WHERE custom_values.customized_type = 'Issue'"
+          conditions_b << " AND custom_values.custom_field_id = #{cf_id}"
+          conditions_b << " AND custom_values.customized_id = issues.id"
+          conditions_b << ") "
+       	
+	  conditions_b
+	end 
       end
     end
   end

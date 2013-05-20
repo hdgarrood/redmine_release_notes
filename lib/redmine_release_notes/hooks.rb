@@ -33,7 +33,7 @@ module RedmineReleaseNotes
     end
 
     def view_versions_show_bottom(context)
-      issue, controller = context[:issue], context[:controller]
+      controller = context[:controller]
 
       controller.render_to_string(
         { :partial =>

@@ -30,94 +30,107 @@
   <%=  progress_bar([stats[:completion], stats[:completion]],:width => '40em',:legend => '%0.0f%' % stats[:completion])  %>
   </p>
 
-  <table class="list related-issues" >
+  <table class="dash-board" >
     <% #Release Notes Required %>
-    <tr> 
-      <td colspan=2 ><strong> <%= t('release_notes.x_requiring_release_notes', :count => stats[:required]) %> </strong></td> 
-      <td><strong>
+    <tr class="summary"> 
+      <td><%= link_to_function t('release_notes.x_requiring_release_notes', :count => stats[:required]), 
+		'toggle_release_notes_details_required()' %></td> 
+      <td>
          <% if stats[:done] > 0 && stats[:todo] == 0 %>
              <%= t('release_notes.all_done') %>
          <% elsif stats[:done] > 0 %>
              <%= t('release_notes.percent_done', :count => stats[:completion] ) %>
          <% else %>
              <%= t('release_notes.not_started') %>
-         <% end %></strong>
+         <% end %>
+       </td>
     </tr>
     <%# > Done %> 
-    <tr>
-      <td> &nbsp </td>
-      <td>
-        <% if stats[:done] < stats[:required] %>
-	<strong> <%= t('release_notes.x_done', :count => stats[:done]) %> </strong>
-	<% else %>
-	<strong> <%= t('release_notes.all_done') %> </strong>
-	<% end %>
-        <% # > Any one blank? %> 
-        <% if (stats[:done_empty] > 0)  %>
-         <span class="error-text"><em><%= " (#{t('release_notes.x_done_empty', :count => stats[:done_empty])}) " %></em></span> 
-        <% end %>
-      </td>
-      <td> 
-	<% version.fixed_issues.release_notes_done.each do |issue|  %>
-	<%= link_to_issue(issue,:subject => false, :tracker => false) + ", " %>
-        <% end %>
-      </td>
-    </tr>
-    <% # > Todo %>
-    <% if stats[:todo] > 0 %>
-    <tr>
-      <td> &nbsp </td>
-      <td><strong> <%= t('release_notes.x_to_go', :count =>stats[:todo]) %> </strong></td> 
-      <td> 
-	<% version.fixed_issues.release_notes_todo.each do |issue|  %>
-	<%= link_to_issue(issue,:subject => false, :tracker => false) + ", " %>
-        <% end %>
-      </td>
-    </tr>
-    <% end %> 
+    <tr class="details" ><td colspan=2> 
+      <div id="release-notes-details-required" class="hidden-details">
+       <table class="dash-board" > 
+         <tr class="items" >
+          <td>
+            <% if stats[:done] < stats[:required] %>
+	      <%= t('release_notes.x_done', :count => stats[:done]) %> 
+	    <% else %>
+	      <%= t('release_notes.all_done') %> 
+	    <% end %>
+            <% # > Any one blank? %> 
+            <% if (stats[:done_empty] > 0)  %>
+              <span class="error-text"><%= " (#{t('release_notes.x_done_empty', :count => stats[:done_empty])}) " %></span> 
+            <% end %>
+          </td>
+          <td> 
+            <% version.fixed_issues.release_notes_done.each do |issue|  %>
+            <%= link_to_issue(issue,:subject => false, :tracker => false) + ", " %>
+            <% end %>
+          </td>
+        </tr>
+        <% # > Todo %>
+        <% if stats[:todo] > 0 %>
+         <tr class="items" >
+           <td><%= t('release_notes.x_to_go', :count =>stats[:todo]) %></td> 
+           <td> 
+             <% version.fixed_issues.release_notes_todo.each do |issue|  %>
+             <%= link_to_issue(issue,:subject => false, :tracker => false) + ", " %>
+             <% end %>
+           </td>
+         </tr>
+        <% end %> 
+       </table> 
+      </div>
+    </td></tr>
     <% #Release Notes Not Required %>
-    <tr>
-     <td colspan=3 ><strong> <%= t('release_notes.x_not_required', :count => stats[:not_required]) %> </strong></td> 
+    <tr class="summary">
+     <td colspan=2><%= link_to_function t('release_notes.x_not_required', :count => stats[:not_required]),
+		'toggle_release_notes_details_not_required()' %> </td> 
     </tr>
-    <tr>
-      <td> &nbsp </td>
-      <td><strong> <%= t('release_notes.x_not_required_cf_none', :count => stats[:none], :cf_name => cf_name) %> </strong></td> 
-      <td> 
-	<% version.fixed_issues.release_notes_none.each do |issue|  %>
-	<%= link_to_issue(issue,:subject => false, :tracker => false) + ", " %>
-        <% end %>
-      </td>
-    </tr>
-    <tr>
-      <td> &nbsp </td>
-      <td><strong> <%= t('release_notes.x_not_required_cf_not_defined', :count => stats[:no_cf] ) %> </strong></td> 
-      <td> 
-	<% version.fixed_issues.release_notes_no_cf_defined.each do |issue|  %>
-	<%= link_to_issue(issue,:subject => false, :tracker => false) + ", " %>
-        <% end %>
-      </td>
+    <tr class="details" ><td colspan=2> 
+      <div id="release-notes-details-not-required" class="hidden-details">
+       <table class="dash-board" > 
+        <tr class="items" >
+          <td><%= t('release_notes.x_not_required_cf_none', :count => stats[:none], :cf_name => cf_name) %></td> 
+          <td> 
+            <% version.fixed_issues.release_notes_none.each do |issue|  %>
+            <%= link_to_issue(issue,:subject => false, :tracker => false) + ", " %>
+            <% end %>
+          </td>
+        </tr>
+        <tr class="items" >
+          <td><%= t('release_notes.x_not_required_cf_not_defined', :count => stats[:no_cf] ) %></td> 
+          <td> 
+            <% version.fixed_issues.release_notes_no_cf_defined.each do |issue|  %>
+            <%= link_to_issue(issue,:subject => false, :tracker => false) + ", " %>
+            <% end %>
+          </td>
+        </tr>
+       </table> 
+      </div>
+    </td></tr>
     <% #Release Notes Invalid %>
     <% if (stats[:invalid] > 0)  %>
-    <tr> 
-      <td colspan=2 class="error-text">
-	 <strong> <%= t('release_notes.x_invalid', :count => stats[:invalid], :cf_name => cf_name)  %></strong>
-         <% if(stats[:invalid] == stats[:nil]) %>
-	   <em><%= "( #{t('release_notes.x_invalid_nil_all')} )" %></em>
-	 <% else %>
-	   <em><%= " (#{t('release_notes.x_invalid_nil', :count => stats[:nil])})" %></em>
-	 <% end %>
+    <tr class="summary"> 
+      <td class="error-text">
+	<strong><%= t('release_notes.x_invalid', :count => stats[:invalid], :cf_name => cf_name)  %></strong>
+        <% if(stats[:invalid] == stats[:nil]) %>
+	  <%= "( #{t('release_notes.x_invalid_nil_all')} )" %>
+	<% else %>
+	  <%= " (#{t('release_notes.x_invalid_nil', :count => stats[:nil])})" %>
+	<% end %>
       </td> 
       <td> 
 	<% version.fixed_issues.release_notes_invalid.each do |issue|  %>
 	<%= link_to_issue(issue,:subject => false, :tracker => false) + ", " %>
         <% end %>
       </td>
+    </tr>
     <% end %>
+    <%# total %>
+    <tr class="summary">
+      <td colspan=2 ><strong> <%= t('release_notes.x_issues_in_total', :count => stats[:total]) %> </strong></td> 
     </tr>
-    <tr>
-      <td colspan=3 ><strong> <%= t('release_notes.x_issues_in_total', :count => stats[:total]) %> </strong></td> 
-     </td>
-    </tr>
+
   </table>
 
   <p>

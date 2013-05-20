@@ -1,3 +1,14 @@
+<script>
+  function toggle_release_notes_details_required() {
+	var el = document.getElementById("release-notes-details-required" );
+	el.style.display = (el.style.display != 'none' ? 'none' : 'block' );
+  }
+  function toggle_release_notes_details_not_required() {
+	var el = document.getElementById("release-notes-details-not-required" );
+	el.style.display = (el.style.display != 'none' ? 'none' : 'block' );
+  }
+</script>
+
 <hr />
 <h2><%= l('release_notes.generate_title', :version => @version.name) %></h2>
 

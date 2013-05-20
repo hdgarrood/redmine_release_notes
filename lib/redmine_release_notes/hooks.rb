@@ -41,5 +41,9 @@ module RedmineReleaseNotes
           :locals => context }
       )
     end 
+    def view_layouts_base_html_head(context)
+        styles = stylesheet_link_tag('release_notes.css', :plugin => 'redmine_release_notes')
+        styles
+    end
   end
 end

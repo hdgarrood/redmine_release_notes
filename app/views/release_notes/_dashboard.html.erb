@@ -50,7 +50,7 @@
 	<strong> <%= t('release_notes.x_done', :count => stats[:done]) %> </strong>
         <% # > Any one blank? %> 
         <% if (stats[:done_empty] > 0)  %>
-         <span style="color :red;"><em><%= " (#{t('release_notes.x_done_empty', :count => stats[:done_empty])}) " %></em></span> 
+         <span class="error-text"><em><%= " (#{t('release_notes.x_done_empty', :count => stats[:done_empty])}) " %></em></span> 
         <% end %>
       </td> 
       <td> 
@@ -93,7 +93,7 @@
     <% #Release Notes Invalid %>
     <% if (stats[:invalid] > 0)  %>
     <tr> 
-      <td colspan=2 style="color :red;">
+      <td colspan=2 style="error-text">
 	 <strong> <%= t('release_notes.x_invalid', :count => stats[:invalid], :cf_name => cf_name)  %></strong>
          <% if(stats[:invalid] == stats[:nil]) %>
 	   <em><%= "( #{t('release_notes.x_invalid_nil_all')} )" %></em>

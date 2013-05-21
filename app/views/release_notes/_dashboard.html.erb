@@ -34,7 +34,7 @@
     <% #Release Notes Required %>
     <tr class="summary"> 
       <td><%= link_to_function t('release_notes.x_requiring_release_notes', :count => stats[:required]), 
-		'toggle_release_notes_details_required()' %></td> 
+		'toggle_release_notes_div("release-notes-details-required")' %></td> 
       <td>
          <% if stats[:done] > 0 && stats[:todo] == 0 %>
              <%= t('release_notes.all_done') %>
@@ -47,7 +47,7 @@
     </tr>
     <%# > Done %> 
     <tr class="details" ><td colspan=2> 
-      <div id="release-notes-details-required" class="hidden-details">
+      <div id="release-notes-details-required" style="display: none;">
        <table class="dash-board" > 
          <tr class="items" >
           <td>
@@ -84,10 +84,10 @@
     <% #Release Notes Not Required %>
     <tr class="summary">
      <td colspan=2><%= link_to_function t('release_notes.x_not_required', :count => stats[:not_required]),
-		'toggle_release_notes_details_not_required()' %> </td> 
+		'toggle_release_notes_div("release-notes-details-not-required")' %> </td> 
     </tr>
     <tr class="details" ><td colspan=2> 
-      <div id="release-notes-details-not-required" class="hidden-details">
+      <div id="release-notes-details-not-required" style="display: none;">
        <table class="dash-board" > 
         <tr class="items" >
           <td><%= t('release_notes.x_not_required_cf_none', :count => stats[:none], :cf_name => cf_name) %></td> 

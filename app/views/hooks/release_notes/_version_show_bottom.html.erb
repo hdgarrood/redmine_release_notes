@@ -1,11 +1,7 @@
 <script>
-  function toggle_release_notes_details_required() {
-	var el = document.getElementById("release-notes-details-required" );
-	el.style.display = (el.style.display != 'none' ? 'none' : 'block' );
-  }
-  function toggle_release_notes_details_not_required() {
-	var el = document.getElementById("release-notes-details-not-required" );
-	el.style.display = (el.style.display != 'none' ? 'none' : 'block' );
+  function toggle_release_notes_div(id) {
+	var el = document.getElementById(id);
+	el.style.display = (el.style.display == 'none' ? 'block': 'none' );
   }
 </script>
 

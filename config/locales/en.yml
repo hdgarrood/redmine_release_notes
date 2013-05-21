@@ -10,7 +10,7 @@ en:
     cant_set_done_if_no_release_notes: "can't be set to %{value} unless release notes have been written"
 
     generate: "Generate release notes"
-    generate_title: "Release notes for version %{version}"
+    generate_title: "Manage release notes for version %{version}"
     show_closed_versions: "Show closed versions"
 
     progress: "Release notes progress"	

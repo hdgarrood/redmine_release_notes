@@ -38,6 +38,7 @@ module ReleaseNotesHelper
     if release_notes_value
       opts = add_release_notes_custom_field_filters(opts, release_notes_value)
     end
+    opts = add_non_eligible_tracker_filters(opts) 
 
     link_to text, project_issues_path(project, opts)
   end
@@ -54,13 +55,12 @@ module ReleaseNotesHelper
     opts[:f] << field
 
     case release_notes_value
-    when Array
-      # if it's a list of values, use that
-      values = release_notes_value.
+    when Hash
+      values = release_notes_value[:values].
         map { |v| settings["field_value_#{v}"] }.
         select { |v| custom_field.possible_values.include?(v) }
 
-      opts[:op][field] = '='
+      opts[:op][field] = release_notes_value[:operator]
       opts[:v][field] = values
     when :none
       # if it's the symbol :none, add a filter to only show issues with no
@@ -77,6 +77,26 @@ END
   rescue ActiveRecord::RecordNotFound
     orig_opts
   end
+
+  def add_non_eligible_tracker_filters(opts)
+    orig_opts = opts.dup
+
+    settings = Setting.plugin_redmine_release_notes
+    custom_field_id = settings[:issue_custom_field_id].to_i
+    custom_field = CustomField.find(custom_field_id)
+
+    field = "tracker_id"
+    opts[:f] << field
+    opts[:op][field] = "!"  
+
+    non_eligible_trackers = Tracker.where("id NOT IN (SELECT tracker_id FROM custom_fields_trackers WHERE custom_field_id=#{custom_field_id})")
+    
+    opts[:v][field] = non_eligible_trackers.collect { |tracker|  tracker.id } 
+
+    opts 
+  rescue ActiveRecord::RecordNotFound
+    orig_opts
+  end 
 
   def release_notes_overview_link_if(condition, text, version, project, opts = {})
     if condition

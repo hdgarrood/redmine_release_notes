@@ -5,18 +5,18 @@
       :count => count,
       :scope => 'release_notes.some_issues_not_finished') %>
     (<%= release_notes_overview_link(
-      t('button_show'), version, project, [:todo]) %>)
+      t('button_show'), version, project, { :operator => "=", :values => [:todo] }) %>)
   </div>
 <% end %>
 
-<% if version.fixed_issues.release_notes_custom_value_nil.any? %>
-  <% count = version.fixed_issues.release_notes_custom_value_nil.count %>
+<% if version.fixed_issues.release_notes_invalid.any? %>
+  <% count = version.fixed_issues.release_notes_invalid.count %>
   <div class='flash warning'>
     <%= t((count == 1 ? 'one' : 'other'),
       :count => count,
-      :scope => 'release_notes.some_issues_nil_custom_field_value') %>
+      :scope => 'release_notes.some_issues_invalid_custom_field_value') %>
     (<%= release_notes_overview_link(
-      t('button_show'), version, project, :none) %>)
+      t('button_show'), version, project, { :operator => "!", :values => [:todo, :done, :not_required] } ) %>)
   </div>
 <% end %>
 

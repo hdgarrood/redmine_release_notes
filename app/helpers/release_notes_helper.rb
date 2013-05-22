@@ -89,9 +89,12 @@ END
     opts[:f] << field
     opts[:op][field] = "!"  
 
-    non_eligible_trackers = Tracker.where("id NOT IN (SELECT tracker_id FROM custom_fields_trackers WHERE custom_field_id=#{custom_field_id})")
+    tracker_query =  " SELECT tracker_id FROM custom_fields_trackers" 
+    tracker_query << " WHERE custom_field_id= ?"
+
+    non_eligible_trackers = Tracker.where("id NOT IN (#{tracker_query})",custom_field_id)
     
-    opts[:v][field] = non_eligible_trackers.collect { |tracker|  tracker.id } 
+    opts[:v][field] = non_eligible_trackers.collect(&:id) 
 
     opts 
   rescue ActiveRecord::RecordNotFound

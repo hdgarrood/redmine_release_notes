@@ -6,44 +6,65 @@ de:
     release_note: "Release Note"
     release_note_plural: "Release Notes"
 
-    mark_complete: "Release notes te voltooien voor dit probleem?" 
-    cant_set_done_if_no_release_notes: "kan niet worden ingesteld op% {value} tenzij release notes zijn geschreven" 
-
-    status:
-      label: "Status:"
-      todo: "Todo"
-      done: "Erledigt"
-      not_required: "Nicht notwendig"
-
-    cant_be_blank_when_done: "Dieses Feld darf nicht unbelegt sein wenn der Versionshinweisstatus 'erledigt' ist"
+    mark_complete: "Sind die Release Notes vollständig angegeben?" 
+    cant_set_done_if_no_release_notes: "Der Status kann nicht auf %{value} gesetzt werden, wenn die Release Notes nicht angegeben sind" 
 
     generate: "Release Notes erstellen"
-    generate_title: "Release Notes für Version %{version}"
-    show_closed_versions: "Geschlossene Versionen zeigen"
+    generate_title: "Verwalten Release Notes für Version %{version}"
+    show_closed_versions: "Geschlossene Versionen anzeigen"
 
+    progress: "Release Notes Fortschritt"  
     x_issues_in_total: "%{count} Tickets gesamt"
     x_requiring_release_notes: "%{count} benötigen Release Notes"
     x_done: "%{count} erledigt"
-    x_to_go: "%{count} offen"
+    x_done_empty: "%{count} ohne Release Notes"
+    x_to_go: "%{count} noch offen"
+    x_not_required: "%{count} nicht erforderlich"
+    x_not_required_cf_none:  "%{count} : mit dem Wert '%{cf_name}' - nicht erforderlich" 
+    x_not_required_cf_not_defined:  "%{count} : mit einem Tracker der keine Release Notes verwendet" 
+    x_invalid: "%{count} : ungültig '%{cf_name}'"
+    x_invalid_nil:  "%{count} : leer oder nicht gesetzt" 
+    x_invalid_nil_all:  "alle leer oder nicht gesetzt" 
+    none_blank:  "Keine Probleme haben '%{cf_name}' als leere oder ungültige"
     all_done: "Alle erledigt!"
-    not_started: "Noch nicht gestartet"
+    percent_done: "%{count}% erledigt"
+    not_started: "Noch nicht begonnen"
+
+    no_issues_for_this_version: "Diese Version hat vollständige Release Notes"
 
     some_issues_not_finished:
-      one: "Ein Ticket benötigt noch Versionshinweise."
-      other: "%{count} Tickets benötigen noch Versionshinweise."
+      one: "Ein Ticket benötigt noch Release Notes."
+      other: "%{count} Tickets benötigen noch Release Notes."
     
+    some_issues_invalid_custom_field_value:
+      one: "Ein Ticket hat einen ungültigen Wert für ein benutzerdefiniertes Release Notes Feld"      
+      other: "%{count} Tickets haben einen ungültigen Wert für benutzerdefinierte Release Notes Felder"
+
+    some_issues_done_with_no_release_notes:
+      one: "Ein abgeschlossenes Ticket hat keine Release Notes"
+      other: "%{count} abgeschlossene Tickets haben keine Release Notes"
+
     raw: "Quelltext anzeigen"
     download: "Download"
 
-    enabled_trackers: "Tracker welche Release Notes verwenden"
+    config:
+      issue_custom_field:
+        name: "Benutzerdefiniertes Ticketfeld für die Release Notes"
+        info: "Dieses Feld wird im Ticket verwendet um den Fertigstellungsstatus der Release Notes abzubilden. Für die Tickets muss ein benutzerdefiniertes  Feld vom Typ Liste konfigruiert werden, welches drei Werte hat. [nicht notwendig,nicht erstellt,vollständig]"
+      field_value_not_required:
+        name: "Folgende Tickets benötigen keine Release Notes"
+      field_value_todo:
+        name: "Folgende Tickets haben noch keine Release Notes"
+      field_value_done:
+        name: "Folgende Tickets haben gefüllte Release Notes"
 
     formats:
       title: "Formate"
       format: "Format"
       new: "Neues Format"
-      none: "Es sind bisher keine Release Notes Format definiert."
+      none: "Es sind bisher keine Release Notes Formate definiert."
       define_some: "Formate definieren"
-      default_generation_format: "Standard Erstellungsformat"
+      default_generation_format: "Standarderstellungsformat"
       preview: "Voransicht mit einer Beispiel Version"
       attributes:
         name: 'Name'
@@ -60,7 +81,8 @@ de:
         intro: "Verwenden sie Macros zur Textersetzungen wie beispielweise %{this} um Text in den Kopfbereich oder bei den Ticketzeilen einzufügen."
         header: "Die Macros bei der Textersetzung werden aus dem Versionobjeckt aufgelöst. Mögliche Macros sind: Name (name), Datum (date), ID (id) und Beschreibung (description)."
         each_issue: "Die Macros bei der Textersetzung werden aus den jeweiligen Ticket aufgelöst. Mögliche Macros sind: Thema (subject), Release Notes (release_notes), ID (id), Tracker (tracker) und Projekt (project)."
+
     errors:
-       failed_find_custom_field: "Kan aangepast veld te vinden"  
-       failed_save_custom_value: "Niet in staat om aangepaste waarde svae"  
-       failed_save_journal_entry: "Niet in staat om journaalpost svae" 
+       failed_find_custom_field: "Das System kann den benutzerdefinierten Wert für den Release Notes Status nicht finden. Bitte konfigruieren sie den Status bzw. setzten sie diesen erneut. "
+       failed_save_custom_value: "Das Speichern der benutzerdefinierten Werte für die Release Notes ist fehlgeschlagen. Dies ist wahrscheinlich ein Programmfehler. Bitte <a href=https://github.com/hdgarrood/redmine_release_notes/issues/new>melden</a> Sie den Fehler."
+       failed_save_journal_entry: "Das Speichern der  Änderungshistorie ist fehlgeschlagen. Dies ist wahrscheinlich ein Programmfehler. Bitte <a href=https://github.com/hdgarrood/redmine_release_notes/issues/new>melden</a> Sie den Fehler."

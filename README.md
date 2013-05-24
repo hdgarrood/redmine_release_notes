@@ -52,7 +52,7 @@ Before you can use it, you need to:
 * Do first-time configuration (See Administration > Plugins > Redmine release
   notes > Configure)
 * Enable the release notes module for any relevant projects
-* Enable release notes for the appropriate trackers
+* Enable the release notes custom field for the appropriate trackers
 
 ## use
 

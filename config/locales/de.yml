@@ -10,10 +10,10 @@ de:
     cant_set_done_if_no_release_notes: "Der Status kann nicht auf %{value} gesetzt werden, wenn die Release Notes nicht angegeben sind" 
 
     generate: "Release Notes erstellen"
-    generate_title: "Verwalten Release Notes für Version %{version}"
-    show_closed_versions: "Geschlossene Versionen anzeigen"
+    generate_title: "Release Notes für die Version %{version} verwalten"
+    show_closed_versions: "Abgeeschlossene Versionen anzeigen"
 
-    progress: "Release Notes Fortschritt"  
+    progress: "Release Notes Fortschritt"
     x_issues_in_total: "%{count} Tickets gesamt"
     x_requiring_release_notes: "%{count} benötigen Release Notes"
     x_done: "%{count} erledigt"

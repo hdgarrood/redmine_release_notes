@@ -33,17 +33,22 @@ module RedmineReleaseNotes
     end
 
     def view_versions_show_bottom(context)
-      controller = context[:controller]
+      project, controller = context[:project], context[:controller]
 
-      controller.render_to_string(
-        { :partial =>
+      if project.module_enabled? :release_notes
+        controller.render_to_string(
+          { :partial =>
             'hooks/release_notes/version_show_bottom',
-          :locals => context }
-      )
+              :locals => context }
+        )
+      else
+        ""
+      end
     end 
+
     def view_layouts_base_html_head(context)
-        styles = stylesheet_link_tag('release_notes.css', :plugin => 'redmine_release_notes')
-        styles
+      stylesheet_link_tag('release_notes.css',
+                          :plugin => 'redmine_release_notes')
     end
   end
 end

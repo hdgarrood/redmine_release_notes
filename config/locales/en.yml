@@ -79,8 +79,8 @@ en:
         end: "Appears once at the end. Use for eg. a </ul> tag."
       subs:
         intro: "You can use substitutions like %{this} to display some information in the Header and Each issue fields."
-        header: "Substitutions refer to the version. Recognised values are name, date, id, and description."
-        each_issue: "Substitutions refer to the issue. Recognised values are subject, release_notes, id, tracker, and project."
+        header: "Substitutions refer to the version. Recognised values are name, date, id, and description. You can also insert the version's custom values by doing %{cf:custom_field_id}."
+        each_issue: "Substitutions refer to the issue. Recognised values are subject, release_notes, id, tracker, and project. You can also insert the issue's custom values by doing %{cf:custom_field_id}."
 
     errors:
        failed_find_custom_value: "Unable to find the release notes custom value for this issue. Try setting the release notes status manually."

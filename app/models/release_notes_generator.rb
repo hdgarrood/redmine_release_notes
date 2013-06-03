@@ -103,25 +103,40 @@ class ReleaseNotesGenerator
     str << format.end
   end
 
+  # TODO: Performance low-hanging fruit here: lazy load these values.
   # hash of values for the release notes header
   def values_for_header(version)
-    {
+    values = {
       "name" => version.name,
       "date" => format_date(version.effective_date),
       "description" => version.description,
       "id" => version.id
     }
+    add_custom_values(version, values)
+    values
   end
 
   # hash of values for the release notes for a single issue
   def values_for_issue(issue)
-    {
+    values = {
       "subject" => issue.subject,
       "release_notes" => issue.release_note ? issue.release_note.text : "",
       "tracker" => issue.tracker.name,
       "project" => issue.project.name,
       "id" => issue.id
     }
+    add_custom_values(issue, values)
+    values
+  end
+
+  def add_custom_values(object, values)
+    object.custom_values.each do |cv|
+      values[key_for_custom_value(cv)] = cv.value
+    end
+  end
+
+  def key_for_custom_value(cv)
+    "cf:#{cv.custom_field_id}"
   end
 
   # given a string containing placeholders like %{this} and a hash mapping

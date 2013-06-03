@@ -13,18 +13,18 @@ ru:
     generate_title: "Управление о выпуске версии %{version}"
     show_closed_versions: "Показать закрытые версии"
 
-    progress: "Прогресс Заметки о выпуске"	
+    progress: "Прогресс Заметки о выпуске"
     x_issues_in_total: "%{count} задач всего"
     x_requiring_release_notes: "%{count} требуют примечаний"
     x_done: "%{count} готово"
     x_done_empty: "%{count} с пустыми примечания к выпуску"
     x_to_go: "%{count} осталось"
     x_not_required: "%{count} не требуется"
-    x_not_required_cf_none:  "%{count} : имеющие '%{cf_name}', как не требуется" 
-    x_not_required_cf_not_defined:  "%{count} : с трекера, который не нуждается в выпуске" 
+    x_not_required_cf_none:  "%{count} : имеющие '%{cf_name}', как не требуется"
+    x_not_required_cf_not_defined:  "%{count} : с трекера, который не нуждается в выпуске"
     x_invalid: "%{count} : недействительный '%{cf_name}'"
-    x_invalid_nil:  "%{count} : пустым или NULL" 
-    x_invalid_nil_all:  "все пустые или NULL" 
+    x_invalid_nil:  "%{count} : пустым или NULL"
+    x_invalid_nil_all:  "все пустые или NULL"
     none_blank:  "Нет вопросов, имеющих '%{cf_name}' как пустые или недействительным"
     all_done: "Все готово!"
     percent_done: "%{count}% сделанный"
@@ -35,7 +35,7 @@ ru:
     some_issues_not_finished:
       one: "Есть 1 задача, требующая заполнения примечания к версии"
       other: "%{count} задач(и) требуют заполнения примечаний к версии"
-    
+
     some_issues_invalid_custom_field_value:
       one: "Существует 1 выпуск, который не имеет действительного значения заметки о выпуске настраиваемого поля"
       other: "Есть %{count} вопросов, которые не имеют действительного значения заметки о выпуске настраиваемого поля"

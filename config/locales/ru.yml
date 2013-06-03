@@ -85,4 +85,4 @@ ru:
     errors:
       failed_find_custom_field: "Не удается найти замечания по выпуску специальное значение для этого вопроса. Попробуйте установить статус выпуске вручную."
       failed_save_custom_value: "Не удается сохранить выпуске специальное значение для этого вопроса. Это, наверное, ошибка.Пожалуйста <a href=https://github.com/hdgarrood/redmine_release_notes/issues/new>отчета.</a>"
-      failed_save_journal_entry: "Не удалось сохранить изменения в вопросе истории.Это, наверное, ошибка.Пожалуйста <a href=https://github.com/hdgarrood/redmine_release_notes/issues/new>отчета</a>".
+      failed_save_journal_entry: "Не удалось сохранить изменения в вопросе истории.Это, наверное, ошибка.Пожалуйста <a href=https://github.com/hdgarrood/redmine_release_notes/issues/new>отчета</a>."

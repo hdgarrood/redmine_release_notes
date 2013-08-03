@@ -6,11 +6,13 @@
 </script>
 
 <hr />
-<h2><%= link_to_function l('release_notes.generate_title', :version => @version.name), 
-          'toggle_release_notes_div("release_note_dashboard")' 	%></h2>
 
-<div id="roadmap">
+<h3>
+<%= link_to_function l('release_notes.generate_title', :version => @version.name), 
+          'toggle_release_notes_div("release_note_dashboard")' 	%></h3>
+
+<div id="release_notes_roadmap">
 <%= render :partial => 'release_notes/dashboard', :locals => {:version => version}  %>
-</div> 
+</div>
 
 <hr />

@@ -3,16 +3,8 @@
 	var el = document.getElementById(id);
 	el.style.display = (el.style.display == 'none' ? 'block': 'none' );
   }
+
+$( "<%= escape_javascript render :partial => 'release_notes/dashboard', :locals => {:version => version}  %> ")
+  .appendTo('#version-summary')
 </script>
 
-<hr />
-
-<h3>
-<%= link_to_function l('release_notes.generate_title', :version => @version.name), 
-          'toggle_release_notes_div("release_note_dashboard")' 	%></h3>
-
-<div id="release_notes_roadmap">
-<%= render :partial => 'release_notes/dashboard', :locals => {:version => version}  %>
-</div>
-
-<hr />

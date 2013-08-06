@@ -8,26 +8,3 @@
 	font-weight: bold; 
 }
 
-.emphasis {
-	font-style: italic;
-} 
-
-.border td {
-        border: 1px solid #169 !important;
-} 
-
-#release_note_dashboard {
-	width: 80%;
-}
-
-#release_note_issue_listing { 
-	width: 40%;
-	float: left;
-}  
-
-#release_notes_overview {
-	float: left;
-	padding-left: 1em;
-}
-
-

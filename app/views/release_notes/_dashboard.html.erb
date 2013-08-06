@@ -6,28 +6,29 @@
 
 <% if stats[:required] > 0 %>
   <div id='release_note_issue_listing'> 
-  <table class="dash-board" >
+  <table class="list related-issues">
     <% #Release Notes Required %>
-    <tr class="summary"> 
+    <tr> 
       <td><%= link_to_function t('release_notes.x_requiring_release_notes', :count => stats[:required]), 
-		'toggle_release_notes_div("release-notes-details-required")' %>
-       </td>
+		'toggle_release_notes_div("release-notes-details-required")', :class => "summary" %></td>
     </tr>
     <%# > Done %> 
-    <tr class="details" ><td> 
-      <div id="release-notes-details-required" style="display: none;" width='350px' >
-       <table class="dash-board" > 
-         <tr class="items" >
-          <td><strong>
+    <tr><td> 
+      <div id="release-notes-details-required" style="display: none;" >
+       <table class="list related-issues border"> 
+         <tr>
+          <td>
+	    <span class="emphasis">
             <% if stats[:done] < stats[:required] %>
 	      <%= t('release_notes.x_done', :count => stats[:done]) %> 
 	    <% else %>
 	      <%= t('release_notes.all_done') %> 
 	    <% end %>
+	    </span>
             <% # > Any one blank? %> 
             <% if (stats[:done_empty] > 0)  %>
               <span class="error-text"><%= " (#{t('release_notes.x_done_empty', :count => stats[:done_empty])}) " %></span> 
-            <% end %></strong>
+            <% end %>
 	    <br> 
             <% version.fixed_issues.release_notes_done.each do |issue|  %>
             <%= link_to_issue(issue,:subject => false, :tracker => false) + ", " %>
@@ -36,8 +37,8 @@
         </tr>
         <% # > Todo %>
         <% if stats[:todo] > 0 %>
-         <tr class="items" >
-           <td><strong><%= t('release_notes.x_to_go', :count =>stats[:todo]) %></strong>
+         <tr>
+           <td><span class="emphasis"><%= t('release_notes.x_to_go', :count =>stats[:todo]) %></span>
 	     <br>
              <% version.fixed_issues.release_notes_todo.each do |issue|  %>
              <%= link_to_issue(issue,:subject => false, :tracker => false) + ", " %>
@@ -49,25 +50,25 @@
       </div>
     </td></tr>
     <% #Release Notes Not Required %>
-    <tr class="summary">
+    <tr>
      <td><%= link_to_function t('release_notes.x_not_required', :count => stats[:not_required]),
-		'toggle_release_notes_div("release-notes-details-not-required")' %> </td> 
+		'toggle_release_notes_div("release-notes-details-not-required")', :class => "summary" %> </td>
     </tr>
-    <tr class="details" ><td> 
+    <tr><td> 
       <div id="release-notes-details-not-required" style="display: none;">
-       <table class="dash-board" > 
-        <tr class="items" >
+       <table class="list related-issues border"> 
+        <tr>
           <td>
-	    <strong><%= t('release_notes.x_not_required_cf_none', :count => stats[:none], :cf_name => cf_name) %></strong>
+	   <span class="emphasis"><%= t('release_notes.x_not_required_cf_none', :count => stats[:none], :cf_name => cf_name) %></span>
 	    <br>
             <% version.fixed_issues.release_notes_none.each do |issue|  %>
             <%= link_to_issue(issue,:subject => false, :tracker => false) + ", " %>
             <% end %>
           </td>
         </tr>
-        <tr class="items" >
+        <tr>
           <td>
-	    <strong><%= t('release_notes.x_not_required_cf_not_defined', :count => stats[:no_cf] ) %></strong> 
+	    <span class="emphasis"><%= t('release_notes.x_not_required_cf_not_defined', :count => stats[:no_cf] ) %></span> 
             <br> 
             <% version.fixed_issues.release_notes_no_cf_defined.each do |issue|  %>
             <%= link_to_issue(issue,:subject => false, :tracker => false) + ", " %>
@@ -79,16 +80,16 @@
     </td></tr>
     <% #Release Notes Invalid %>
     <% if (stats[:invalid] > 0)  %>
-    <tr class="summary"> 
-      <td class="error-text">
-	<strong><%= link_to_function t('release_notes.x_invalid', :count => stats[:invalid], :cf_name => cf_name),
-		'toggle_release_notes_div("release-notes-details-error")'  %></strong>
+    <tr> 
+      <td class="summary">
+	<%= link_to_function t('release_notes.x_invalid', :count => stats[:invalid], :cf_name => cf_name),
+		'toggle_release_notes_div("release-notes-details-error")', :class => "error-text"  %>
       </td>
     </tr>
     <tr>
       <td>
          <div id="release-notes-details-error" style="display: none;">
-          <table>
+          <table class="list related-issues border">
              <% if (stats[:nil] > 0) %>
 	      <tr><td>
                <%= " (#{t('release_notes.x_invalid_nil', :count => stats[:nil])})" %>
@@ -106,7 +107,7 @@
     <% end %>
     <%# total %>
     <tr class="summary">
-      <td><strong> <%= t('release_notes.x_issues_in_total', :count => stats[:total]) %> </strong></td> 
+      <td><%= t('release_notes.x_issues_in_total', :count => stats[:total]) %></td> 
     </tr>
 
   </table>
@@ -117,10 +118,10 @@
 
 <div id="release_notes_overview"> 
 <% if  stats[:total] == 0 %>
-  <p><em><%= l(:label_roadmap_no_issues) %></em></p>
+  <span class="emphasis"><%= l(:label_roadmap_no_issues) %></span>
 
 <% elsif stats[:required] == 0 %>
-  <p><em><%= l('release_notes.no_issues_for_this_version') %></em></p>
+  <span class="emphasis"><%= l('release_notes.no_issues_for_this_version') %></span>
 
 <% else %>
   <% if stats[:done] > 0 && stats[:todo] == 0 %>
@@ -131,9 +132,7 @@
       <% legend = t('release_notes.not_started') %>
   <% end %>
   <%= l('release_notes.progress') %>
-  <p class="progress-info">
-  <%=  progress_bar([stats[:completion], stats[:completion]],:width => '25em',:legend => legend)  %>
-  </p>
+  <p class="progress-info"><%= progress_bar([stats[:completion], stats[:completion]],:width => '25em',:legend => legend) %></p>
   <p><h3><%= link_to t('release_notes.generate'), generate_release_notes_path(version) %></h3></p>
 <% end %>
 </div>

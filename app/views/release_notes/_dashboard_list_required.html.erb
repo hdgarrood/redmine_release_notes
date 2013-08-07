@@ -1,0 +1,39 @@
+<div id="release-notes-details-required" style="display: none;" >
+ <table class="list"> 
+   <%# % done %>
+   <tr>
+     <td> <span class="summary">
+      <% if stats[:done] < stats[:required] %>
+        <%= t('release_notes.x_done', :count => stats[:done]) %> 
+      <% else %>
+        <%= t('release_notes.all_done') %> 
+      <% end %></span>
+      <% # > Any one blank? %> 
+      <% if (stats[:done_empty] > 0)  %>
+        <span class="error-text"><%= " (#{t('release_notes.x_done_empty', :count => stats[:done_empty])}) " %></span> 
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <% version.fixed_issues.release_notes_done.each do |issue|  %>
+      <%= link_to_issue(issue,:subject => false, :tracker => false) + ", " %>
+      <% end %>
+    </td>
+  </tr>
+  <% # > Todo %>
+  <% if stats[:todo] > 0 %>
+   <tr>
+     <td class="summary"><%= t('release_notes.x_to_go', :count =>stats[:todo]) %></td>
+   </tr>
+   <tr>
+     <td>
+       <% version.fixed_issues.release_notes_todo.each do |issue|  %>
+         <%= link_to_issue(issue,:subject => false, :tracker => false) + ", " %>
+       <% end %>
+     </td>
+   </tr>
+  <% end %> 
+ </table> 
+</div>
+

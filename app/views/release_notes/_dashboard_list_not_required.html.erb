@@ -1,0 +1,25 @@
+<div id="release-notes-details-not-required" style="display: none;">
+ <table class="list"> 
+  <tr>
+    <td class="summary"><%= t('release_notes.x_not_required_cf_none', :count => stats[:none]) %></td>
+  </tr>
+  <tr>
+     <td>
+      <% version.fixed_issues.release_notes_none.each do |issue|  %>
+      <%= link_to_issue(issue,:subject => false, :tracker => false) + ", " %>
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td class="summary"><%= t('release_notes.x_not_required_cf_not_defined', :count => stats[:no_cf] ) %></td> 
+  </tr>
+  <tr> 
+    <td>
+     <% version.fixed_issues.release_notes_no_cf_defined.each do |issue|  %>
+      <%= link_to_issue(issue,:subject => false, :tracker => false) + ", " %>
+     <% end %>
+    </td>
+  </tr>
+ </table> 
+</div>
+

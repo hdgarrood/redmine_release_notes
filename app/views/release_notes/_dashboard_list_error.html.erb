@@ -1,0 +1,15 @@
+<div id="release-notes-details-error" style="display: none;">
+ <table class="list">
+    <% if (stats[:nil] > 0) %>
+     <tr>
+       <td><%= " #{t('release_notes.x_invalid_nil', :count => stats[:nil])}" %></td>
+     </tr>
+    <% end %>
+     <tr><td> 
+       <% version.fixed_issues.release_notes_invalid.each do |issue|  %>
+         <%= link_to_issue(issue,:subject => false, :tracker => false) + ", " %>
+       <% end %>
+     </td></tr>
+ </table>
+</div>
+

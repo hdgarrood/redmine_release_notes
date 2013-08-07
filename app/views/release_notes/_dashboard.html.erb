@@ -1,0 +1,50 @@
+<% stats = version.release_notes_stats %>
+<% cf_none_value =  Setting.plugin_redmine_release_notes[:field_value_not_required] %>
+<% cf_name = CustomField.find_by_id(Setting.plugin_redmine_release_notes[:issue_custom_field_id]).name %> 
+
+<fieldset id="release-notes-completion">
+  <legend><%= l('release_notes.progress') %></legend>
+  <table width='100%'>
+  <tbody>
+    <%# #1 Progress bar %>
+    <tr><td>
+      <% if  stats[:total] == 0 %>
+        <em><%= l(:label_roadmap_no_issues) %></em>
+      <% elsif stats[:required] == 0 %>
+        <em><%= l('release_notes.no_issues_for_this_version') %></em>
+      <% else %>
+        <%= progress_bar([stats[:completion], stats[:completion]],:width => '20em',:legend => " #{stats[:completion]}%") %>
+      <% end %>
+     </td></tr>
+     
+    <%# #2 Requiring release notes %>
+    <tr><td>
+      <%= link_to_function t('release_notes.x_requiring_release_notes', :count => stats[:required]), 
+		'toggle_release_notes_div("release-notes-details-required")', :class => "summary" %></td></tr>
+    <tr><td>
+      <%= render :partial => 'release_notes/dashboard_list_required',
+	:locals => {:version => version, :stats => stats} %></td></tr>
+
+    <%# #3 Not requiring release notes %>
+    <tr><td>
+      <%= link_to_function t('release_notes.x_not_required', :count => stats[:not_required]),
+		'toggle_release_notes_div("release-notes-details-not-required")', :class => "summary" %></td></tr>
+    <tr><td>
+      <%= render :partial => 'release_notes/dashboard_list_not_required',
+	:locals =>{:version => version, :stats => stats} %></td></tr>
+	
+    <%# #4 error %>
+    <tr><td>
+	<%= link_to_function t('release_notes.x_invalid', :count => stats[:invalid], :cf_name => cf_name),
+		'toggle_release_notes_div("release-notes-details-error")', :class => "summary error-text"  %></td></tr>
+    <tr><td>
+      <%= render :partial => 'release_notes/dashboard_list_error',
+	:locals =>{:version => version, :stats => stats} %></td></tr>
+
+    <%# #5 Generate Release notes %>
+    <tr><th class="summary"><%= link_to t('release_notes.generate'), generate_release_notes_path(version) %></td></tr>
+ </tbody>
+</table>
+</fieldset>
+
+

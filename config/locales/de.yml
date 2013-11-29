@@ -80,7 +80,7 @@ de:
       subs:
         intro: "Verwenden sie Macros zur Textersetzungen wie beispielweise %{this} um Text in den Kopfbereich oder bei den Ticketzeilen einzufügen."
         header: "Die Macros bei der Textersetzung werden aus dem Versionobjeckt aufgelöst. Mögliche Macros sind: Name (name), Datum (date), ID (id) und Beschreibung (description)."
-        each_issue: "Die Macros bei der Textersetzung werden aus den jeweiligen Ticket aufgelöst. Mögliche Macros sind: Thema (subject), Release Notes (release_notes), ID (id), Tracker (tracker) und Projekt (project)."
+        each_issue: "Die Macros bei der Textersetzung werden aus den jeweiligen Ticket aufgelöst. Mögliche Macros sind: Thema (subject), Release Notes (release_notes), ID (id), Tracker (tracker), Projekt (project) und Kategorie (category)."
 
     errors:
       failed_find_custom_field: "Unfähig zu finden die Release Notes benutzerdefinierten Wert für dieses Problem. Versuchen Sie, die Release Notes Status manuell."

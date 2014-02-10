@@ -49,8 +49,8 @@ Restart redmine.
 
 Before you can use it, you need to:
 
-* Do first-time configuration (See Administration > Plugins > Redmine release
-  notes > Configure)
+* Do first-time configuration (Inside Redmine, go to Administration > Plugins
+  > Redmine release notes > Configure)
 * Enable the release notes module for any relevant projects
 * Enable the release notes custom field for the appropriate trackers
 

@@ -123,7 +123,7 @@ class ReleaseNotesGenerator
       "release_notes" => issue.release_note ? issue.release_note.text : "",
       "tracker" => issue.tracker.name,
       "project" => issue.project.name,
-      "category" => issue.category.name,
+      "category" => issue.category ? issue.category.name : "",
       "id" => issue.id
     }
     add_custom_values(issue, values)

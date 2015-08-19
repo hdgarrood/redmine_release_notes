@@ -75,7 +75,7 @@ module RedmineReleaseNotes
 	  conditions = "( custom_values.custom_field_id = #{cf_id}"
 	  conditions << " AND custom_values.value = '#{none_value}' )"
 
-          includes(:custom_values).where( conditions + " OR " + no_cf_defined_condition ) 
+          includes(:custom_values).joins_release_notes.where( conditions + " OR " + no_cf_defined_condition ) 
         end
 
         # issues which don't have a custom value for release notes

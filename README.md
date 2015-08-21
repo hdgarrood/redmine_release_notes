@@ -2,6 +2,8 @@
 
 **Notice**: This project is unmaintained. The last time I personally used it was a few years ago, and I haven't been in contact with any Redmine instances since then either. If it works for you, great! If not, you're on your own, sorry.
 
+---
+
 Do any of the following apply?
 
 * You have to produce release notes for your projects

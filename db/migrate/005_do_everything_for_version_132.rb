@@ -14,26 +14,11 @@
 # You should have received a copy of the GNU General Public License along with
 # redmine_release_notes. If not, see <http://www.gnu.org/licenses/>.
 
-RedmineApp::Application.routes.draw do
-  get '/projects/:project_id/release_notes',
-    :to => 'release_notes#index',
-    :as => :release_notes_overview
-
-  resources :release_notes,
-    :only => [:create, :update, :destroy]
-
-  get "/versions/:id/generate_release_notes",
-    :to => "release_notes#generate",
-    :as => :generate_release_notes
-
-  patch 'release_notes_formats/preview',
-    :to => 'release_notes_formats#preview',
-    :as => :preview_release_notes_format
-
-  resources :release_notes_formats,
-    :except => [:index, :show]
-
-  get 'settings/plugin/redmine_release_notes?tab=formats',
-    :to => 'settings#plugin',
-    :as => :release_notes_formats_tab
+class DoEverythingForVersion132 < ActiveRecord::Migration
+  def up
+    change_column :release_notes_formats, :header, :text, limit: 16.megabytes - 1
+    change_column :release_notes_formats, :each_issue, :text, limit: 16.megabytes - 1
+    change_column :release_notes_formats, :start, :text, limit: 16.megabytes - 1
+    change_column :release_notes_formats, :end, :text, limit: 16.megabytes - 1
+  end
 end

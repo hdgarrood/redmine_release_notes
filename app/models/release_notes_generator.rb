@@ -17,6 +17,12 @@
 class ReleaseNotesGenerator
   # for previewing formats
   class MockVersion
+    class MockThingWithName
+      attr_reader :name
+      def initialize(name)
+        @name = name
+      end
+    end
     class MockIssueCollection
       class MockIssue
         class MockReleaseNote
@@ -26,14 +32,7 @@ class ReleaseNotesGenerator
           end
         end
 
-        class MockThingWithName
-          attr_reader :name
-          def initialize(name)
-            @name = name
-          end
-        end
-
-        attr_reader :subject, :tracker, :project, :id
+        attr_reader :subject, :tracker, :project, :id, :category
 
         def initialize(opts)
           opts.each { |k, v| instance_variable_set :"@#{k}", v }
@@ -42,6 +41,8 @@ class ReleaseNotesGenerator
         def release_note; MockReleaseNote.new(@release_note); end
         def tracker; MockThingWithName.new(@tracker); end
         def project; MockThingWithName.new(@project); end
+        def category; MockThingWithName.new(@category) end
+        def custom_values; Array.new; end
       end
 
       def release_notes_done; self; end
@@ -73,6 +74,9 @@ class ReleaseNotesGenerator
     def id; 8; end
     def description; 'Release candidate'; end
     def effective_date; Date.tomorrow; end
+    def project; MockThingWithName.new('Recipes app'); end
+    def custom_values; Array.new; end
+
   end
 
   include Redmine::I18n # for format_date
@@ -110,7 +114,8 @@ class ReleaseNotesGenerator
       "name" => version.name,
       "date" => format_date(version.effective_date),
       "description" => version.description,
-      "id" => version.id
+      "id" => version.id,
+      "project_name" => version.project.name
     }
     add_custom_values(version, values)
     values

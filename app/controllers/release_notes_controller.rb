@@ -65,14 +65,14 @@ class ReleaseNotesController < ApplicationController
 
   def destroy
     release_note = ReleaseNote.find(params[:id])
-    issue = release_note.issue
+    @issue = release_note.issue
 
     update_custom_field(false)
 
     release_note.destroy
 
     flash[:notice] = l(:notice_successful_delete)
-    redirect_to issue
+    redirect_to @issue
   end
 
   def generate
@@ -111,7 +111,7 @@ class ReleaseNotesController < ApplicationController
   def update_custom_field(completed)
     new_value = Setting.plugin_redmine_release_notes.
       fetch(completed ? :field_value_done : :field_value_todo)
-
+     
     custom_value = @issue.release_notes_custom_value
 
     # TODO: Maybe it would be better to just go ahead and create one, instead

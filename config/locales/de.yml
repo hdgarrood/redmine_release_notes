@@ -11,7 +11,7 @@ de:
 
     generate: "Release Notes erstellen"
     generate_title: "Release Notes für die Version %{version} verwalten"
-    show_closed_versions: "Abgeeschlossene Versionen anzeigen"
+    show_closed_versions: "Abgeschlossene Versionen anzeigen"
 
     progress: "Release Notes Fortschritt"
     x_issues_in_total: "%{count} Tickets gesamt"
@@ -20,8 +20,8 @@ de:
     x_done_empty: "%{count} ohne Release Notes"
     x_to_go: "%{count} noch offen"
     x_not_required: "%{count} nicht erforderlich"
-    x_not_required_cf_none:  "%{count} : eingestellt, wie nicht erforderlich"
-    x_not_required_cf_not_defined:  "%{count} : Tracker  nicht verwenden Release Notes"
+    x_not_required_cf_none:  "%{count} : auf nicht erforderlich eingestellt"
+    x_not_required_cf_not_defined:  "%{count} : Tracker benötigen keine Release Notes"
     x_invalid: "%{count} : ungültig '%{cf_name}'"
     x_invalid_nil:  "%{count} : leer oder nicht gesetzt"
     x_invalid_nil_all:  "alle leer oder nicht gesetzt"
@@ -30,27 +30,27 @@ de:
     percent_done: "%{count}% erledigt"
     not_started: "Noch nicht begonnen"
 
-    no_issues_for_this_version: "Keine Probleme haben Versionshinweisen für diese Version"
+    no_issues_for_this_version: "Für diese Version benötigen keine Tickets Versionshinweise"
 
     some_issues_not_finished:
       one: "Ein Ticket benötigt noch Release Notes."
       other: "%{count} Tickets benötigen noch Release Notes."
 
     some_issues_invalid_custom_field_value:
-      one: "Es gibt 1 Frage, die nicht über einen gültigen Wert für die Release Notes benutzerdefiniertes Feld"
-      other: "Es gibt %{count} Fragen, die nicht über einen gültigen Wert für die Release Notes benutzerdefiniertes Feld"
+      one: "Es gibt ein Ticket, das einen ungültigen Wert für das benutzerdefinierte Feld der Release Notes enthält"
+      other: "Es gibt %{count} Tickets, das einen ungültigen Wert für das benutzerdefinierte Feld der Release Notes enthält"
 
     some_issues_done_with_no_release_notes:
-      one: "Es gibt 1 Ausgabe, die als 'erledigt' gekennzeichnet wird, aber noch keine Release Notes"
-      other: "Es gibt %{count} Fragen, die als 'erledigt' gekennzeichnet sind, aber haben noch keine Release Notes"
+      one: "Es gibt ein Ticket, das als 'erledigt' gekennzeichnet wurde, aber noch keine Release Notes enthält"
+      other: "Es gibt %{count} Ticket, das als 'erledigt' gekennzeichnet wurde, aber noch keine Release Notes enthält"
 
     raw: "Quelltext anzeigen"
-    download: "Download"
+    download: "Herunterladen"
 
     config:
       issue_custom_field:
         name: "Benutzerdefiniertes Ticketfeld für die Release Notes"
-        info: "Dieses Feld wird im Ticket verwendet um den Fertigstellungsstatus der Release Notes abzubilden. Für die Tickets muss ein benutzerdefiniertes  Feld vom Typ Liste konfigruiert werden, welches drei Werte hat. [nicht notwendig,nicht erstellt,vollständig]"
+        info: "Dieses Feld wird im Ticket verwendet um den Fertigstellungsstatus der Release Notes abzubilden. Für die Tickets muss ein benutzerdefiniertes Feld vom Typ Liste konfiguriert werden, welches drei Werte hat. [nicht notwendig,nicht erstellt,vollständig]"
       field_value_not_required:
         name: "Folgende Tickets benötigen keine Release Notes"
       field_value_todo:
@@ -65,7 +65,7 @@ de:
       none: "Es sind bisher keine Release Notes Formate definiert."
       define_some: "Formate definieren"
       default_generation_format: "Standarderstellungsformat"
-      preview: "Voransicht mit einer Beispiel Version"
+      preview: "Voransicht mit einer Beispielversion"
       attributes:
         name: 'Name'
         header: 'Kopf'

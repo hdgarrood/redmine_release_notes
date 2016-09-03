@@ -17,7 +17,6 @@
 class CreateReleaseNotes < ActiveRecord::Migration
   def up
     create_table :release_notes do |t|
-      t.column :id, :integer
       t.column :issue_id, :integer
       t.column :text, :string
     end

@@ -23,6 +23,7 @@ class ReleaseNotesFormatsController < ApplicationController
   end
 
   def create
+    params.permit!
     @format = ReleaseNotesFormat.new(params[:release_notes_format])
     if @format.save
       flash[:notice] = l(:notice_successful_create)
@@ -33,10 +34,12 @@ class ReleaseNotesFormatsController < ApplicationController
   end
 
   def edit
+    params.permit!
     @format = ReleaseNotesFormat.find(params[:id])
   end
 
   def update
+    params.permit!
     @format = ReleaseNotesFormat.find(params[:id])
     if @format.update_attributes(params[:release_notes_format])
       flash[:notice] = l(:notice_successful_update)
@@ -47,6 +50,7 @@ class ReleaseNotesFormatsController < ApplicationController
   end
 
   def destroy
+    params.permit!
     @format = ReleaseNotesFormat.find(params[:id])
     @format.destroy
     flash[:notice] = l(:notice_successful_delete)
@@ -55,6 +59,7 @@ class ReleaseNotesFormatsController < ApplicationController
 
   # we only expect this with :format => :js
   def preview
+    params.permit!
     format = ReleaseNotesFormat.new(params[:release_notes_format])
     version = ReleaseNotesGenerator::MockVersion.new
     @text = ReleaseNotesGenerator.new(version, format).generate

@@ -14,7 +14,7 @@
   </p>
   <% if release_note.text %>
     <div class="wiki">
-    <p><%= h(release_note.text).gsub(/(\r\n|\r|\n)/, "<br>").html_safe %></p>
+    <p><%= textilizable release_note, :text %></p>
     </div>
   <% end %>
 </div>

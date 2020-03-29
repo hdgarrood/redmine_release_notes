@@ -50,7 +50,7 @@ module RedmineReleaseNotes
           end
         end
         alias_method :plugin_without_release_notes_patch, :plugin
-        alias_method :plugin, :plugin_with_release_notes_patch
+        alias_method :plugin, :plugin_redmine_release_notes
       end
     end
   end

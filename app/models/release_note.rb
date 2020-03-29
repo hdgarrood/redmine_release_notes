@@ -32,7 +32,7 @@ class ReleaseNote < ActiveRecord::Base
       map(&:to_i)
   end
 
-  attr_accessible :text
+  params.permit(:text)
 
   validates_presence_of :issue
   validates_presence_of :text

@@ -32,7 +32,12 @@ class ReleaseNote < ActiveRecord::Base
       map(&:to_i)
   end
 
-  params.permit(:text)
+
+  private
+
+  def release_notes_params
+    params.require(:text).permit(:id, :issue_id, :text)
+  end
 
   validates_presence_of :issue
   validates_presence_of :text

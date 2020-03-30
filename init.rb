@@ -36,14 +36,14 @@ Redmine::Plugin.register :redmine_release_notes do
 
   # the partial won't be used, but can't be blank, because Redmine needs to
   # think this plugin is configurable
- # settings :default => {
- #     :default_generation_format_id => 1,
- #     :issue_custom_field_id => 0,
- #     :field_value_todo => 'Todo',
- #     :field_value_done => 'Done',
- #     :field_value_not_required => 'Not required'
- #   },
- #   :partial => 'settings/release_notes_settings'
+  settings :default => {
+      :default_generation_format_id => 1,
+      :issue_custom_field_id => 0,
+      :field_value_todo => 'Todo',
+      :field_value_done => 'Done',
+      :field_value_not_required => 'Not required'
+    },
+    :partial => 'about_blank'
 
   project_module :release_notes do
     permission :release_notes,

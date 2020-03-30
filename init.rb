@@ -51,4 +51,4 @@ Redmine::Plugin.register :redmine_release_notes do
       :public => true
   end
 
-end a
+end

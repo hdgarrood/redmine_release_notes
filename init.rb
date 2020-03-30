@@ -43,7 +43,7 @@ Redmine::Plugin.register :redmine_release_notes do
       :field_value_done => 'Done',
       :field_value_not_required => 'Not required'
     },
-    :partial => 'settings/release_notes'
+    :partial => 'settings/redmine_release_notes'
 
   project_module :release_notes do
     permission :release_notes,
@@ -51,4 +51,4 @@ Redmine::Plugin.register :redmine_release_notes do
       :public => true
   end
 
-end
+end a

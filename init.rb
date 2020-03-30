@@ -17,7 +17,7 @@
 require 'redmine'
 require 'redmine_release_notes/hooks'
 
-ActionDispatch::Callbacks.to_prepare do
+ActiveSupport::Reloader.to_prepare do
   # Patches to the Redmine core.
   patched_classes = %w(issue issues_controller settings_controller version)
   patched_classes.each do |core_class|
@@ -43,7 +43,7 @@ Redmine::Plugin.register :redmine_release_notes do
       :field_value_done => 'Done',
       :field_value_not_required => 'Not required'
     },
-    :partial => 'not_blank'
+    :partial => 'about_blank'
 
   project_module :release_notes do
     permission :release_notes,

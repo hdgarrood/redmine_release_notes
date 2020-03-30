@@ -49,8 +49,8 @@ module RedmineReleaseNotes
             render_404
           end
         end
-
-        alias_method_chain :plugin, :release_notes_patch
+        alias_method :plugin_without_release_notes_patch, :plugin_redmine_release_notes
+        alias_method :plugin_redmine_release_notes, :plugin_with_release_notes_patch
       end
     end
   end

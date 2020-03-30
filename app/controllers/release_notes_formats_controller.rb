@@ -16,7 +16,7 @@
 
 class ReleaseNotesFormatsController < ApplicationController
   layout 'admin'
-  before_filter :require_admin
+  before_action :require_admin
 
   def new
     @format = ReleaseNotesFormat.new

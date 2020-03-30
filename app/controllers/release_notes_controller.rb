@@ -17,8 +17,8 @@
 class ReleaseNotesController < ApplicationController
   unloadable
 
-  before_filter :find_version, :only => [:generate]
-  before_filter :find_project, :only => [:index]
+  before_action :find_version, :only => [:generate]
+  before_action :find_project, :only => [:index]
 
   helper :projects
 

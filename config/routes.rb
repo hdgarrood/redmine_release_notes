@@ -26,7 +26,7 @@ RedmineApp::Application.routes.draw do
     :to => "release_notes#generate",
     :as => :generate_release_notes
 
-  get "/issues/:issue_id/release_notes",
+  get "/issues/:issue_id/release_note",
     :to => 'release_notes#view',
     :as => :release_note_view,
     defaults: { format: 'json' }

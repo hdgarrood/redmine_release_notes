@@ -63,6 +63,21 @@ class ReleaseNotesController < ApplicationController
     render_404
   end
 
+  def view
+    @issue = Issue.find(params[:issue_id])
+    @release_note = @issue.release_note
+    @format = release_notes_format_from_params
+    if @release_note
+      @content = ReleaseNotesGenerator.new(nil, @format).generate_single(@release_note)
+
+      respond_to do |format|
+        format.api {}
+      end
+    else
+      render_404
+    end
+  end
+
   def destroy
     release_note = ReleaseNote.find(params[:id])
     @issue = release_note.issue

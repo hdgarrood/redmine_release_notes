@@ -92,6 +92,14 @@ class ReleaseNotesGenerator
     generate_header << "\n" << generate_release_notes
   end
 
+  def generate_single(release_note)
+    str = format.start
+    str << "\n"
+    str << make_substitutions(format.each_issue, values_for_issue(release_note.issue))
+    str << "\n"
+    str << format.end
+  end
+
   private
   def generate_header
     make_substitutions(format.header, values_for_header(version))

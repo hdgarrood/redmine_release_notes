@@ -1,0 +1,7 @@
+api.release_note do
+  api.id @release_note.id
+  api.issue_id @release_note.issue_id
+  api.status @issue.release_notes_custom_value.value
+  api.text @release_note.text
+  api.formatted @content
+end
